@@ -35,10 +35,10 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.php">Home(Conferir lista)</a>
+                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="add_rmv.php">Adicionar/remover compras</a>
+                                <a class="nav-link active" href="add_rmv.php">Adicionar/remover compras</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -68,10 +68,10 @@
     <main class="container pt-5">
         <div class="container">
             <h3 class="display-4 mb-2"> Adicionar produto </h3>
-            <form action="./services/produto.service.php" method="post">
+            <form action="controller.php?acao=adicionar" method="post">
                 <div class="form-group">
-                    <label for="Nome do produto" class="lead fw-normal">Produto nome:</label>
-                    <input class="form-control" type="text" placeholder="Digite o nome do produto">
+                    <label for="nome_produto" class="lead fw-normal">Produto nome:</label>
+                    <input class="form-control" name="nome_produto" type="text" placeholder="Digite o nome do produto">
                     <button class="btn btn-success mt-2">adicionar</button>
                 </div>
             </form>

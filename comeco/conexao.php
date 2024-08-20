@@ -1,11 +1,11 @@
 <?php
 class Conexao{
     private $user='root';
-    private $host='localhost';
-    private $dbname='ajuda_nota';
+    private $host='db';
+    private $dbname='compras';
     private $senha='root';
 
-    public function conectart(){
+    public function conectar(){
         try{
             $conexao = new PDO(
                 "mysql:host=$this->host;dbname=$this->dbname",

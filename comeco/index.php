@@ -79,6 +79,7 @@
             </div>
             <table class="table table-striped mt-5">
                 <tbody>
+                    
                     <tr>
                         <td class="lead fw-normal">Compra 1</td>
                     </tr>
