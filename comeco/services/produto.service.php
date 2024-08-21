@@ -20,10 +20,10 @@ class ProdutoService{
         $smtm->execute();
         return $smtm->fetchAll();
     }
-    public function pegarRes(){
+    public function todosVal(){
         $query='select * from tb_produtos';
         $smtm=$this->conn->prepare($query);
         $smtm->execute();
-        return $smtm->fetchAll();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
 }

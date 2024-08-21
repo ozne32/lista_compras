@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+require_once 'controller.php';
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,12 +45,9 @@
                                     Compras
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Compra 1</a></li>
-                                    <li><a class="dropdown-item" href="#">Compra 2</a></li>
-                                    <!-- <li>
-                                        <hr class="dropdown-divider">
-                                    </li> -->
-                                    <li><a class="dropdown-item" href="#">Compra 3</a></li>
+                                    <?php foreach($_SESSION['valores'] as $val) {?>
+                                        <li><a class="dropdown-item" href="#"><?php echo $val->nome_produto?></a></li>
+                                    <?php }?>
                                 </ul>
                             </li>
                         </ul>
@@ -79,16 +78,11 @@
             </div>
             <table class="table table-striped mt-5">
                 <tbody>
-                    
+                    <?php foreach($_SESSION['valores'] as $val) {?>
                     <tr>
-                        <td class="lead fw-normal">Compra 1</td>
+                        <td class="lead fw-normal"><?php echo $val->nome_produto?></td>
                     </tr>
-                    <tr>
-                        <td class="lead fw-normal">Compra 2</td>
-                    </tr>
-                    <tr>
-                        <td class="lead fw-normal">Compra 3</td>
-                    </tr>
+                    <?php }?>
                 </tbody>
             </table>
         </div>
