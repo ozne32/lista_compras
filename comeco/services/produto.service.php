@@ -21,7 +21,7 @@ class ProdutoService{
         return $smtm->fetchAll();
     }
     public function todosVal(){
-        $query='select * from tb_produtos';
+        $query='SELECT * from tb_produtos order by nome_produto asc';
         $smtm=$this->conn->prepare($query);
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);

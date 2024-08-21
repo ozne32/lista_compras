@@ -3,6 +3,7 @@
 <?php
 require_once 'controller.php';
 ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,9 +46,9 @@ require_once 'controller.php';
                                     Compras
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <?php foreach($_SESSION['valores'] as $val) {?>
-                                        <li><a class="dropdown-item" href="#"><?php echo $val->nome_produto?></a></li>
-                                    <?php }?>
+                                    <?php foreach ($_SESSION['valores'] as $val) { ?>
+                                        <li><a class="dropdown-item" href="#"><?php echo $val->nome_produto ?></a></li>
+                                    <?php } ?>
                                 </ul>
                             </li>
                         </ul>
@@ -76,15 +77,18 @@ require_once 'controller.php';
                     <button class="btn btn-lg btn-danger"> Deletar </button>
                 </div>
             </div>
-            <table class="table table-striped mt-5">
-                <tbody>
-                    <?php foreach($_SESSION['valores'] as $val) {?>
-                    <tr>
-                        <td class="lead fw-normal"><?php echo $val->nome_produto?></td>
-                    </tr>
-                    <?php }?>
-                </tbody>
-            </table>
+            <div class=" mt-3">
+                <?php foreach ($_SESSION['valores'] as $val) { ?>
+                    <div class="input-group mb-3">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value=""
+                                aria-label="Checkbox for following text input" >
+                        </div>
+                        <input type="text" class="form-control" placeholder="<?php echo $val->nome_produto?>" readonly="true">
+                    </div>
+                <?php } ?>
+            </div>
+
         </div>
     </main>
     <footer></footer>
