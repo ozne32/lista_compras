@@ -26,4 +26,11 @@ class ProdutoService{
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
+    public function deletar(){
+        $query='delete from tb_produtos where id_produto in ('. $this->produto->produto_id .');';
+        $smtm = $this->conn->prepare($query);
+        // $smtm->bindValue(1, $this->produto->produto_id);
+        // echo $this->produto->produto_id;
+        return $smtm->execute();
+    }
 }

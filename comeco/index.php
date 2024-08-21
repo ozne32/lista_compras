@@ -11,10 +11,15 @@ require_once 'controller.php';
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title>Inicio</title>
 </head>
 
 <body>
+    <script>
+        let lista_coisas = []
+
+    </script>
     <header class="container mb-5">
         <nav class="navbar bg-warning fixed-top">
             <div class="container-fluid">
@@ -65,28 +70,61 @@ require_once 'controller.php';
     <main class="container pt-5">
         <div class="container">
             <h3 class="display-4 mb-2"> Lista de produtos </h3>
-            <div class="row justify-content-around mt-2">
-                <!-- colocar um active para cada um desses botões -->
-                <div class="col-md-3">
-                    <button class="btn btn-lg btn-success">Adicionar</button>
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-lg btn-warning"> Alterar </button>
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-lg btn-danger"> Deletar </button>
-                </div>
-            </div>
+
+            <div id="div-inputs"></div>
             <div class=" mt-3">
                 <?php foreach ($_SESSION['valores'] as $val) { ?>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value=""
-                                aria-label="Checkbox for following text input" >
+                            <input class="form-check-input mt-0" type="checkbox" value="<?php echo $val->id_produto ?>"
+                                onclick="adiciona(<?php echo $val->id_produto ?>)">
+                            <script>
+                                function adiciona(valor) {
+                                    let indexValor = lista_coisas.indexOf(valor)
+                                    if (indexValor == -1) {
+                                        lista_coisas.push(valor)
+                                    } else {
+                                        lista_coisas.splice(indexValor, 1)
+                                    }
+                                } 
+                            </script>
                         </div>
-                        <input type="text" class="form-control" placeholder="<?php echo $val->nome_produto?>" readonly="true">
+                        <input type="text" class="form-control" placeholder="<?php echo $val->nome_produto ?>"
+                            readonly="true">
+                        <button class="btn" style="border: 0.1px solid black; border-radius: 0px 10px 10px 0px ;">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
                     </div>
                 <?php } ?>
+            </div>
+            <div class="row mt-2">
+                <!-- colocar um active para cada um desses botões -->
+                <div class="col-md-1">
+                    <script>
+                        <?php $_SESSION['remover'] ?> = lista_coisas
+                    </script>
+                    <button class="btn  btn-danger" id="click-delete" >
+                        Deletar </button>
+                    <script>
+                        $('#click-delete').on("click", function(){
+                            $.ajax({
+                                type: 'POST',
+                                url: 'controller.php?acao=deletar',
+                                data: { lista: lista_coisas },
+                                success: function (response) {
+                                    window.location.href = 'index.php?status=sucesso'
+                                    // console.log(response)
+                                },
+                                error: function (error) {
+                                    console.log('Erro:', error);
+                                }
+                            });
+                        })
+                    </script>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn  btn-primary" onclick="concluida()"> Marcar como concluída </button>
+                </div>
             </div>
 
         </div>
