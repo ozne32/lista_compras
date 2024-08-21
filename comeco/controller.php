@@ -4,6 +4,7 @@ require_once './models/produtos.php';
 require_once './services/produto.service.php';
 session_start();
 $acao = $_GET['acao'];
+$coisa;
 if($acao == 'adicionar'){
     $produto = new Produtos;
     $produto->__set('nome_produto', $_POST['nome_produto']);
@@ -21,7 +22,7 @@ if($acao == 'adicionar'){
         }
     }
 }
-if(empty($acao)){
+if(empty($coisa)){
     $produto = new Produtos;
     $conexao = new Conexao;
     $produtoService = new ProdutoService($produto, $conexao);

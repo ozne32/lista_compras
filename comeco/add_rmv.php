@@ -1,5 +1,8 @@
 <!doctype html>
 <html lang="en">
+<?php
+require_once 'controller.php';
+?>
 
 <head>
     <title></title>
@@ -10,12 +13,12 @@
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-        <link rel="stylesheet" href="style.css">
-        <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<header class="container mb-5">
+    <header class="container mb-5">
         <nav class="navbar bg-warning fixed-top">
             <div class="container-fluid">
                 <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas"
@@ -46,12 +49,9 @@
                                     Compras
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Compra 1</a></li>
-                                    <li><a class="dropdown-item" href="#">Compra 2</a></li>
-                                    <!-- <li>
-                                        <hr class="dropdown-divider">
-                                    </li> -->
-                                    <li><a class="dropdown-item" href="#">Compra 3</a></li>
+                                    <?php foreach ($_SESSION['valores'] as $val) { ?>
+                                        <li><a class="dropdown-item" href="#"><?php echo $val->nome_produto ?></a></li>
+                                    <?php } ?>
                                 </ul>
                             </li>
                         </ul>
@@ -75,6 +75,17 @@
                     <button class="btn btn-success mt-2">adicionar</button>
                 </div>
             </form>
+        </div>
+        <div class="container">
+            <table class="table table-striped mt-5">
+                <tbody>
+                    <?php foreach ($_SESSION['valores'] as $val) { ?>
+                        <tr>
+                            <td class="lead fw-normal"><?php echo $val->nome_produto ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </main>
     <footer>
