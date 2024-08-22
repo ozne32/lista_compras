@@ -41,19 +41,19 @@ require_once 'controller.php';
                                 <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="add_rmv.php">Adicionar/remover compras</a>
+                                <a class="nav-link active" href="add_rmv.php">Adicionar compras</a>
                             </li>
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     Compras
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <?php foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php echo $val->nome_produto ?></a></li>
-                                    <?php } ?>
+                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
+                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
+                                    <?php //} ?>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                         <!-- form de pesquisa que pode ser incrementado dps -->
                         <!-- <form class="d-flex mt-3" role="search">

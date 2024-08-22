@@ -11,13 +11,27 @@ require_once 'controller.php';
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title>Inicio</title>
 </head>
 
 <body>
     <script>
         let lista_coisas = []
+        function edita(id) {
+            let input = $(`#input${id}`)
+            let novo_valor='';
+            input.prop('readonly', false)
+            input.attr('placeholder', 'digite o novo valor')
+            $(`#input${id}`).on('keypress', ()=>{
+                if(e.keyCode==13){
+                    window.location.href
+                }else{
+                    novo_valor=$(e.target).val()
+                }
+            })
+        }
 
     </script>
     <header class="container mb-5">
@@ -43,19 +57,19 @@ require_once 'controller.php';
                                 <a class="nav-link active" aria-current="page" href="index.php">Home(Conferir lista)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="add_rmv.php">Adicionar/remover compras</a>
+                                <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
                             </li>
-                            <li class="nav-item dropdown">
+                            <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     Compras
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <?php foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php echo $val->nome_produto ?></a></li>
-                                    <?php } ?>
+                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
+                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
+                                    <?php //} ?>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                         <!-- form de pesquisa que pode ser incrementado dps -->
                         <!-- <form class="d-flex mt-3" role="search">
@@ -89,9 +103,10 @@ require_once 'controller.php';
                                 } 
                             </script>
                         </div>
-                        <input type="text" class="form-control" placeholder="<?php echo $val->nome_produto ?>"
-                            readonly="true">
-                        <button class="btn" style="border: 0.1px solid black; border-radius: 0px 10px 10px 0px ;">
+                        <input type="text" class="form-control" id="input<?php echo $val->id_produto ?>"
+                            placeholder="<?php echo $val->nome_produto ?>" readonly="true">
+                        <button class="btn" onclick="edita(<?php echo $val->id_produto ?>)"
+                            style="border: 0.1px solid black; border-radius: 0px 10px 10px 0px ;">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>
@@ -103,10 +118,10 @@ require_once 'controller.php';
                     <script>
                         <?php $_SESSION['remover'] ?> = lista_coisas
                     </script>
-                    <button class="btn  btn-danger" id="click-delete" >
+                    <button class="btn  btn-danger" id="click-delete">
                         Deletar </button>
                     <script>
-                        $('#click-delete').on("click", function(){
+                        $('#click-delete').on("click", function () {
                             $.ajax({
                                 type: 'POST',
                                 url: 'controller.php?acao=deletar',
@@ -123,7 +138,7 @@ require_once 'controller.php';
                     </script>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn  btn-primary" onclick="concluida()"> Marcar como concluída </button>
+                    <button class="btn  btn-primary" onclick="concluida()"> Comprada </button>
                 </div>
             </div>
 
