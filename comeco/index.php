@@ -21,6 +21,7 @@ require_once 'controller.php';
         let lista_coisas = []
         function edita(id) {
             let input = $(`#input${id}`)
+            input.trigger('focus')
             let novo_valor='';
             input.prop('readonly', false)
             input.attr('placeholder', 'digite o novo valor')
