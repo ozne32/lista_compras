@@ -34,15 +34,6 @@ CREATE TABLE `tb_produtos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Despejando dados para a tabela `tb_produtos`
---
-
-INSERT INTO `tb_produtos` (`produto_id`, `nome_produto`, `comprado`) VALUES
-(1, 'alface', 0),
-(2, 'tomate', 0),
-(3, 'cebola', 0);
-
---
 -- Índices para tabelas despejadas
 --
 
