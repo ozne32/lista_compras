@@ -24,11 +24,12 @@ require_once 'controller.php';
             let novo_valor='';
             input.prop('readonly', false)
             input.attr('placeholder', 'digite o novo valor')
-            $(`#input${id}`).on('keypress', ()=>{
+            $(`#input${id}`).on('keypress', e=>{
                 if(e.keyCode==13){
-                    window.location.href
+                    window.location.href = `controller.php?acao=atualizar&valor=${$(e.target).val()}&produto_id=${id}`
                 }else{
                     novo_valor=$(e.target).val()
+                    console.log(novo_valor)
                 }
             })
         }
@@ -90,25 +91,24 @@ require_once 'controller.php';
                 <?php foreach ($_SESSION['valores'] as $val) { ?>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value="<?php echo $val->id_produto ?>"
+                            <input class="form-check-input mt-0" type="checkbox" value="<?php echo $val->produto_id ?>"
                                 onclick="adiciona(<?php echo $val->produto_id ?>)">
                             <script>
                                 function adiciona(valor) {
                                     let indexValor = lista_coisas.indexOf(valor)
                                     if (indexValor == -1) {
                                         lista_coisas.push(valor)
-                                        console.log(lista_coisas)
-                                        console.log(valor)
                                     } else {
                                         lista_coisas.splice(indexValor, 1)
                                     }
                                 } 
                             </script>
                         </div>
-                        <input type="text" class="form-control" id="input<?php echo $val->id_produto ?>"
+                        <input type="text" class="form-control" id="input<?php echo $val->produto_id ?>"
                             placeholder="<?php echo $val->nome_produto ?>" readonly="true">
-                        <button class="btn" onclick="edita(<?php echo $val->id_produto ?>)"
+                        <button class="btn" onclick="edita(<?php echo $val->produto_id ?>)"
                             style="border: 0.1px solid black; border-radius: 0px 10px 10px 0px ;">
+                            <?php //print_r($val)?>
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>
@@ -124,19 +124,18 @@ require_once 'controller.php';
                         Deletar </button>
                     <script>
                          $('#click-delete').on("click", function () {
-                            console.log(lista_coisas)
-                            // $.ajax({
-                            //     type: 'POST',
-                            //     url: 'controller.php?acao=deletar',
-                            //     data: { lista: lista_coisas },
-                            //     success: function (response) {
-                            //         // window.location.href = 'index.php?status=sucesso'
-                            //         console.log(response)
-                            //     },
-                            //     error: function (error) {
-                            //         console.log('Erro:', error);
-                            //     }
-                            // });
+                            $.ajax({
+                                type: 'POST',
+                                url: 'controller.php?acao=deletar',
+                                data: { lista: lista_coisas },
+                                success: function (response) {
+                                    window.location.href = 'index.php?status=sucesso'
+                                    // console.log(response)
+                                },
+                                error: function (error) {
+                                    console.log('Erro:', error);
+                                }
+                            });
                         })
                     </script>
                 </div>
