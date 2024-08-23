@@ -23,15 +23,18 @@ if($acao == 'adicionar'){
     }
 }
 if($acao == 'deletar'){
-    foreach($_POST['lista'] as $nmr){
-        $ids_produtos .=$nmr .',';
-    }
-    $ids_produtos = substr($ids_produtos, 0, -1);
-    $produto = new Produtos;
-    $produto->__set('produto_id', $ids_produtos);
-    $conexao = new Conexao;
-    $produtoService = new ProdutoService($produto, $conexao);
-    $produtoService->deletar();
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+    // foreach($_POST['lista'] as $nmr){
+    //     $ids_produtos .=$nmr .',';
+    // }
+    // $ids_produtos = substr($ids_produtos, 0, -1);
+    // $produto = new Produtos;
+    // $produto->__set('produto_id', $ids_produtos);
+    // $conexao = new Conexao;
+    // $produtoService = new ProdutoService($produto, $conexao);
+    // $produtoService->deletar();
 }
 if(empty($coisa)){
     $produto = new Produtos;

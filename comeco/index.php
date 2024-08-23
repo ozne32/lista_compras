@@ -91,12 +91,14 @@ require_once 'controller.php';
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="checkbox" value="<?php echo $val->id_produto ?>"
-                                onclick="adiciona(<?php echo $val->id_produto ?>)">
+                                onclick="adiciona(<?php echo $val->produto_id ?>)">
                             <script>
                                 function adiciona(valor) {
                                     let indexValor = lista_coisas.indexOf(valor)
                                     if (indexValor == -1) {
                                         lista_coisas.push(valor)
+                                        console.log(lista_coisas)
+                                        console.log(valor)
                                     } else {
                                         lista_coisas.splice(indexValor, 1)
                                     }
@@ -121,19 +123,20 @@ require_once 'controller.php';
                     <button class="btn  btn-danger" id="click-delete">
                         Deletar </button>
                     <script>
-                        $('#click-delete').on("click", function () {
-                            $.ajax({
-                                type: 'POST',
-                                url: 'controller.php?acao=deletar',
-                                data: { lista: lista_coisas },
-                                success: function (response) {
-                                    window.location.href = 'index.php?status=sucesso'
-                                    // console.log(response)
-                                },
-                                error: function (error) {
-                                    console.log('Erro:', error);
-                                }
-                            });
+                         $('#click-delete').on("click", function () {
+                            console.log(lista_coisas)
+                            // $.ajax({
+                            //     type: 'POST',
+                            //     url: 'controller.php?acao=deletar',
+                            //     data: { lista: lista_coisas },
+                            //     success: function (response) {
+                            //         // window.location.href = 'index.php?status=sucesso'
+                            //         console.log(response)
+                            //     },
+                            //     error: function (error) {
+                            //         console.log('Erro:', error);
+                            //     }
+                            // });
                         })
                     </script>
                 </div>
