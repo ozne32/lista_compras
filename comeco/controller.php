@@ -2,6 +2,8 @@
 require_once 'conexao.php';
 require_once './models/produtos.php';
 require_once './services/produto.service.php';
+require_once './models/usuarios.php';
+require_once './services/usuarios.service.php';
 session_start();
 $acao = $_GET['acao'];
 $coisa;
@@ -49,6 +51,29 @@ if($acao =='atualizar'){
             header('location:index.php?status=falha');
         }
 
+    }
+}
+if($acao=='signup'){
+    if($_POST['senha-signin'] == $_POST['confirma-senha']){
+        // caso dê tudo certo --> registrar
+        $usuario = new Usuarios;
+        $usuario->__set('email', $_POST['email']);
+        $usuario->__set('nome', $_POST['nome']);
+        $usuario->__set('senha', $_POST['senha']);
+        $conexao = new Conexao;
+        $usuarioService = new UsuarioService($usuario, $conexao);
+        if($usuarioService->verficarExistencia()){
+            header('location:sign-up.php?erro=cadastroExistente');
+        }else{
+            if($usuarioService->cadastro()){
+                header('location:index.php');
+            }else{
+                echo 'deu erro';
+            }
+        }
+    }else if($_POST['senha-signin'] != $_POST['confirma-senha']){
+        //caso o confirma for diferente da senha --> volta com msg de erro
+        header('location:sign-in.php?erro=conf-senha');
     }
 }
 if(empty($coisa)){

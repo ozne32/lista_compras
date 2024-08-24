@@ -140,9 +140,9 @@ require_once 'controller.php';
                         })
                     </script>
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <button class="btn  btn-primary" onclick="concluida()"> Comprada </button>
-                </div>
+                </div> -->
             </div>
 
         </div>

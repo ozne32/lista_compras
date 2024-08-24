@@ -9,41 +9,36 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <title>Inicio</title>
+    <title>Sign-up</title>
 </head>
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Ajuda Notas</a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a href="#" class="nav-link active">Sign-in</a></li>
-            <li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>
-        </ul>
-    </nav>
-</header>
-<main class="container">
-    <div class="corpo-registro">
-        <div class="card"><!-- começo do card -->
+<header class="container mb-5">
+        <nav class="navbar bg-warning fixed-top">
+            <div class="container">
+                <div class="container">
+                    <h2 class="display-4 fw-normal text-center titulo">Compras</h2>
+                </div>
+                <!-- parte do canvas -->
+            </div>
+        </nav>
+    </header>
+<main class="container mt-5  d-flex justify-content-center">
+    <div style="margin-top:120px; width: 100%; max-width: 500px">
+        <div class="card mx-auto" ><!-- começo do card -->
             <div class="card-header">Sign-in:</div>
             <div class="card-body"> <!--começo do card-body-->
-                <form action="tarefa_controller.php?acao=inserir" method="post">
+                <form action="controller.php?acao=signup" method="post">
                     <label for="email">Email:</label>
-                    <input name='email-signin' class="form-control" type="email" placeholder="exemplo:nome@gmail.com">
+                    <input name='email' class="form-control" type="email" placeholder="exemplo:nome@gmail.com">
                     <label for="nome">Nome:</label>
                     <input type="text" class="form-control" plaholder="usuario:" name='nome'>
                     <label for="senha">Senha:</label>
-                    <input type="password" name='senha-signin' class="form-control">
+                    <input type="password" name='senha' class="form-control">
                     <label for="senha">Confirmar senha:</label>
-                    <input type="password" name='confirma-senha' class="form-control">
+                    <input type="password" name='conf-senha' class="form-control">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-dark mt-3">Criar conta</button>
+                            <button type="submit" class="btn btn-warning mt-3">Criar conta</button>
                         </div>
-                        <? if (isset($_GET['erro']) && $_GET['erro'] == 'incompleto') { ?>
-                            <p class="text-danger ml-3">Por favor preencher todos os campos</p>
-                        <? } ?>
-                        <? if (isset($_GET['erro']) && $_GET['erro'] == 'acesso') { ?>
-                            <p class="text-danger">Faça a sua conta primeiro</p>
-                        <? } ?>
                         <div class="col-md-6" style="margin-top:25px">
                             <p><a href="login.php" style="text-decoration: none;">Já tem conta? Clique aqui</a></p>
                         </div>
@@ -52,6 +47,11 @@
             </div><!--final do card-body-->
         </div><!--final do card-->
     </div>
-</main>
+</main>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
 </html>
