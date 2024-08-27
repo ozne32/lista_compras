@@ -9,12 +9,51 @@ require_once './services/user_prods.service.php';
 session_start();
 $acao = $_GET['acao'];
 $coisa;
+/*
+SELECT * from tb_user_prods as tup 
+inner join tb_produtos as tp
+on tp.produto_id = tup.id_prods
+where tup.id_user=?
+*/
+
+
+if (empty($coisa)) {
+    $produto = new Produtos;
+    $produto->__set('usuario_id', $_SESSION['id']);
+    $conexao = new Conexao;
+    $produtoService = new ProdutoService($produto, $conexao);
+    $valores = $produtoService->todosVal();
+    $_SESSION['valores'] = $valores;
+}
+if ($acao == 'login') {
+    $usuario = new Usuarios;
+    $conexao = new Conexao;
+    $usuario->__set('email', $_POST['email']);
+    $usuario->__set('senha', $_POST['senha']);
+    $usuariosService = new UsuarioService($usuario, $conexao);
+    $pessoa = $usuariosService->verificar();
+    if (empty($pessoa)){
+        header('location:login.php?erro=user-senhaErrada');
+    } else{
+        session_start();
+        $_SESSION['verificar']='verificado';
+        $_SESSION['id'] = $pessoa->usuario_id;
+        header('location:index.php');
+    }
+}
+if($acao =='logout'){
+    session_start();
+    session_destroy();
+    header('location: login.php');
+}
+
 if ($acao == 'adicionar') {
     $produto = new Produtos;
     $produto->__set('nome_produto', $_POST['nome_produto']);
     $conexao = new Conexao;
     $produtoService = new ProdutoService($produto, $conexao);
-    $verificacao = $produtoService->verificar1();
+    // $verificacao = 'coisa';
+    // $verificacao = $produtoService->verificar1();
     if ($verificacao) {
         header('location:add_rmv.php?erro=duplicada');
     } else {
@@ -91,42 +130,3 @@ if ($acao == 'signup') {
         header('location:sign-up.php?erro=conf-senha');
     }
 }
-
-/*
-SELECT * from tb_user_prods as tup 
-inner join tb_produtos as tp
-on tp.produto_id = tup.id_prods
-where tup.id_user=?
- */
-if (empty($coisa)) {
-    $produto = new Produtos;
-    $produto->__set('usuario_id', $_SESSION['id']);
-    $conexao = new Conexao;
-    $produtoService = new ProdutoService($produto, $conexao);
-    $valores = $produtoService->todosVal();
-    $_SESSION['valores'] = $valores;
-}
-if ($acao == 'login') {
-    $usuario = new Usuarios;
-    $conexao = new Conexao;
-    $usuario->__set('email', $_POST['email']);
-    $usuario->__set('senha', $_POST['senha']);
-    $usuariosService = new UsuarioService($usuario, $conexao);
-    $pessoa = $usuariosService->verificar();
-    if (empty($pessoa)){
-        header('location:login.php?erro=user-senhaErrada');
-    } else{
-        session_start();
-        $_SESSION['verificar']='verificado';
-        $_SESSION['id'] = $pessoa->usuario_id;
-        header('location:index.php');
-    }
-}
-if($acao =='logout'){
-    session_start();
-    session_destroy();
-    header('location: login.php');
-}
-// echo '<pre>';
-// print_r($_GET);
-// echo '</pre>';
