@@ -13,24 +13,26 @@ class ProdutoService{
         $smtm->bindValue(1,$this->produto->__get('nome_produto'));
         return $smtm->execute();
     }
-    public function verificar1(){
-        print_r($_SESSION);
-        // $query='SELECT * from tb_user_prods as tup 
-        //     inner join tb_produtos as tp
-        //     on tp.produto_id = tup.id_prods
-        //     where tup.id_user=?
-        //     order by nome_produto asc';
-        // $smtm=$this->conn->prepare($query);
-        // $smtm->bindValue(1, $_SESSION['id']);
-        // $smtm->execute();
-        // return $smtm->fetchAll();
-    }
-    public function verificar(){
-        $query='SELECT * from tb_produtos where nome_produto=?';
-        $smtm=$this->conn->prepare($query);
+    public function verId(){
+        $query = 'SELECT produto_id from tb_produtos where nome_produto = ?';
+        $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1, $this->produto->__get('nome_produto'));
         $smtm->execute();
         return $smtm->fetchAll();
+    }
+    public function verificar(){
+        $query = '
+        SELECT * from tb_user_prods as tup
+            inner join tb_produtos as tp
+            on tp.produto_id = tup.id_prods
+            where tup.id_user=? and
+            tp.nome_produto = ?
+            order by nome_produto asc';
+        $smtm=$this->conn->prepare($query);
+        $smtm->bindValue(1, $_SESSION['id']);
+        $smtm->bindValue(2, $this->produto->__get('nome_produto'));
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
     public function todosVal(){
         $query='

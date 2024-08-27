@@ -52,17 +52,15 @@ if ($acao == 'adicionar') {
     $produto->__set('nome_produto', $_POST['nome_produto']);
     $conexao = new Conexao;
     $produtoService = new ProdutoService($produto, $conexao);
-    // $verificacao = 'coisa';
-    // $verificacao = $produtoService->verificar1();
-    if ($verificacao) {
+    $verificacao = $produtoService->verificar();
+    if (!empty($verificacao)) {
         header('location:add_rmv.php?erro=duplicada');
-    } else {
-        //não está vazio --> não coloque na lista
+    } else if(empty($verificacao)){
+        //está vazio, adicione 
         if ($produtoService->inserir()) {
-            $ids_produtos = $produtoService->verificar();
-            $ids_produtos = $ids_produtos[0]['produto_id']; // aqui eu estou pegando o id do produto que eu acabei de fazer
+            $ids_produtos = $produtoService->verId(); //pegando o id
             $userProd = new UserProd;
-            $userProd->__set('id_prods', $ids_produtos);
+            $userProd->__set('id_prods', $ids_produtos[0]['produto_id']);
             $userProd->__set('id_user', $_SESSION['id']);
             $userProdService = new UserProdService($userProd, $conexao);
             $userProdService->adicionar();
