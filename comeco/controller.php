@@ -56,17 +56,29 @@ if ($acao == 'adicionar') {
     if (!empty($verificacao)) {
         header('location:add_rmv.php?erro=duplicada');
     } else if(empty($verificacao)){
-        //está vazio, adicione 
-        if ($produtoService->inserir()) {
-            $ids_produtos = $produtoService->verId(); //pegando o id
-            $userProd = new UserProd;
-            $userProd->__set('id_prods', $ids_produtos[0]['produto_id']);
+        $idProduto = $produtoService->verificarExistencia()->produto_id;
+        if(!empty($idProduto)){ //produto já existe, então eu vou pegar e só atribuir ele na tabela user_prods
+            $userProd= new UserProd;
+            $userProd->__set('id_prods', $idProduto);
             $userProd->__set('id_user', $_SESSION['id']);
             $userProdService = new UserProdService($userProd, $conexao);
-            $userProdService->adicionar();
-            header('location:add_rmv.php?status=sucesso');
-        } else {
-            header('location:add_rmv.php?status=falha');
+            if($userProdService->adicionar()){
+                header('location:add_rmv.php?status=sucesso');
+            }else{
+                header('location:add_rmv.php?status=erro');
+            }
+        }else if(empty($idProduto)){
+            if ($produtoService->inserir()) {
+                $ids_produtos = $produtoService->verId(); //pegando o id
+                $userProd = new UserProd;
+                $userProd->__set('id_prods', $ids_produtos[0]['produto_id']);
+                $userProd->__set('id_user', $_SESSION['id']);
+                $userProdService = new UserProdService($userProd, $conexao);
+                $userProdService->adicionar();
+                header('location:add_rmv.php?status=sucesso');
+            } else {
+                header('location:add_rmv.php?status=falha');
+            }
         }
     }
 }
