@@ -143,6 +143,7 @@ if ($acao == 'signup') {
             header('location:sign-up.php?erro=cadastroExistente');
         } else {
             if ($usuarioService->cadastro()) {
+                $pessoa = $usuarioService->verificar();
                 session_start();
                 $_SESSION['verificar'] = 'verificado';
                 $_SESSION['id'] = $pessoa->usuario_id;
