@@ -75,11 +75,11 @@ if ($acao == 'deletar') {
         $ids_produtos .= $nmr . ',';
     }
     $ids_produtos = substr($ids_produtos, 0, -1);
-    $produto = new Produtos;
-    $produto->__set('produto_id', $ids_produtos);
+    $userProd= new UserProd;
+    $userProd->__set('id_prods', $ids_produtos);
+    $userProd->__set('id_user', $_SESSION['id']);
     $conexao = new Conexao;
-    $produtoService = new ProdutoService($produto, $conexao);
-    print_r($produtoService);
+    $produtoService = new UserProdService($userProd, $conexao);
     $produtoService->deletar();
 }
 if ($acao == 'atualizar') {

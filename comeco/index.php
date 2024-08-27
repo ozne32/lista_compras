@@ -9,8 +9,6 @@ require_once 'controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +24,19 @@ require_once 'controller.php';
 <body>
     <script>
         let lista_coisas = []
+        let lista_inputs = []
+        let lista_nomes = []
         function edita(id) {
+            lista_inputs.push(id)
             let input = $(`#input${id}`)
+            lista_nomes.push(input.prop('placeholder'))
+            if(lista_inputs.length == 2){
+                let input1=$(`#input${lista_inputs[0]}`)
+                input1.prop('readonly', true)
+                input1.attr('placeholder', lista_nomes[0])
+                lista_inputs.splice(0,1)
+                lista_nomes.splice(0,1)
+            }
             input.trigger('focus')
             let novo_valor='';
             input.prop('readonly', false)
@@ -41,7 +50,6 @@ require_once 'controller.php';
                 }
             })
         }
-
     </script>
     <header class="container mb-5">
         <nav class="navbar bg-warning fixed-top">
@@ -97,7 +105,7 @@ require_once 'controller.php';
         <div class="container">
             <h3 class="display-4 mb-2"> Lista de produtos </h3>
 
-            <div id="div-inputs"></div>
+            
             <div class=" mt-3">
                 <?php foreach ($_SESSION['valores'] as $val) { ?>
                     <div class="input-group mb-3">
@@ -119,11 +127,15 @@ require_once 'controller.php';
                             placeholder="<?php echo $val->nome_produto ?>" readonly="true">
                         <button class="btn" onclick="edita(<?php echo $val->produto_id ?>)"
                             style="border: 0.1px solid black; border-radius: 0px 10px 10px 0px ;">
-                            <?php //print_r($val)?>
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>
                 <?php } ?>
+                <!-- <div class='inputs-group mb-3'>
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox">
+                    </div>
+                </div> -->
             </div>
             <div class="row mt-2">
                 <!-- colocar um active para cada um desses botões -->
@@ -141,7 +153,6 @@ require_once 'controller.php';
                                 data: { lista: lista_coisas },
                                 success: function (response) {
                                     window.location.href = 'index.php?status=sucesso'
-                                    // console.log(response)
                                 },
                                 error: function (error) {
                                     console.log('Erro:', error);
@@ -157,7 +168,7 @@ require_once 'controller.php';
 
         </div>
     </main>
-    <footer></footer>
+
 
 
 

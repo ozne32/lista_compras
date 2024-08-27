@@ -13,5 +13,11 @@ class UserProdService{
         $smtm->bindValue(2, $this->userProd->id_user);
         return $smtm->execute();
     }
+    public function deletar(){
+        $query = 'DELETE FROM tb_user_prods WHERE id_user = ? AND id_prods IN ('.$this->userProd->id_prods.');';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->userProd->id_user);
+        return $smtm->execute();
+    }
 }
 ?>
