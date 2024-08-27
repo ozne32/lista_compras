@@ -47,6 +47,8 @@ class ProdutoService{
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
+
+    //agr ao invés de tirar daqui, eu vou só tirar o tb_user_produto, para esse produto já ficar salvo se mais alguém dps quiser
     public function deletar(){
         $query='delete from tb_produtos where produto_id in ('. $this->produto->produto_id .');';
         $smtm = $this->conn->prepare($query);

@@ -15,10 +15,11 @@
 <header class="container mb-5">
     <nav class="navbar bg-warning fixed-top">
         <div class="container">
-            <div class="container">
-                <h2 class="display-4 fw-normal text-center titulo">Compras</h2>
+            <h2 class="display-4 fw-normal text-center titulo">Compras</h2>
+            <div class="ml-auto">
+                <button class="btn btn-danger" onclick="window.location.href='login.php'">Login</button>
+                <button class="btn btn-danger" onclick="window.location.href='sign-up.php'">Sign-up</button>
             </div>
-            <!-- parte do canvas -->
         </div>
     </nav>
 </header>
