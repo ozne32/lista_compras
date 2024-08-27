@@ -1,5 +1,6 @@
 <html>
 <!-- vai ficar um pouco de standby, eu já arrumo isso # -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,21 +13,21 @@
     <title>Login</title>
 </head>
 <header class="container mb-5">
-        <nav class="navbar bg-warning fixed-top">
+    <nav class="navbar bg-warning fixed-top">
+        <div class="container">
             <div class="container">
-                <div class="container">
-                    <h2 class="display-4 fw-normal text-center titulo">Compras</h2>
-                </div>
-                <!-- parte do canvas -->
+                <h2 class="display-4 fw-normal text-center titulo">Compras</h2>
             </div>
-        </nav>
-    </header>
+            <!-- parte do canvas -->
+        </div>
+    </nav>
+</header>
 <main class="container mt-5  d-flex justify-content-center">
     <div style="margin-top:120px; width: 100%; max-width: 500px">
-        <div class="card mx-auto" ><!-- começo do card -->
+        <div class="card mx-auto"><!-- começo do card -->
             <div class="card-header">Login:</div>
             <div class="card-body"> <!--começo do card-body-->
-                <form action="controller.php?acao=signup" method="post">
+                <form action="controller.php?acao=login" method="post">
                     <label for="email">Email:</label>
                     <input name='email' class="form-control" type="email" placeholder="exemplo:nome@gmail.com">
                     <label for="senha">Senha:</label>
@@ -43,11 +44,14 @@
             </div><!--final do card-body-->
         </div><!--final do card-->
     </div>
-</main>  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+   
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+
 </html>

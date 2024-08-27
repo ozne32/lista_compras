@@ -11,13 +11,15 @@ class UsuarioService{
         $query='SELECT * from tb_usuarios where email = ?';
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1,$this->usuario->email);
-        return $smtm->fetchAll();
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
     public function verificar(){
         $query='SELECT * from tb_usuarios where email = ? and senha = ?';
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1,$this->usuario->email);
         $smtm->bindValue(2,$this->usuario->senha);
+        $smtm->execute();
         return $smtm->fetch(PDO::FETCH_OBJ);
     }
     public function cadastro(){

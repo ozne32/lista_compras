@@ -1,8 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
+    header('Location: sign-up.php?erro=acessoRestrito');
+    // exit();
+}
+require_once 'controller.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-<?php
-require_once 'controller.php';
-?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -60,6 +67,9 @@ require_once 'controller.php';
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
+                            </li>
+                            <li class="nav-item">
+                                <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=logout'"><i class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
                             <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

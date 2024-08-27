@@ -7,22 +7,40 @@ class ProdutoService{
         $this->conn = $conexao->conectar();
     }
     public function inserir(){
-        $query='insert into tb_produtos(nome_produto)';
+        $query='INSERT into tb_produtos(nome_produto)';
         $query .='values(?)';
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1,$this->produto->__get('nome_produto'));
         return $smtm->execute();
     }
+    public function verificar1(){
+        $query='SELECT * from tb_user_prods as tup 
+            inner join tb_produtos as tp
+            on tp.produto_id = tup.id_prods
+            where tup.id_user=?
+            order by nome_produto asc';
+        $smtm=$this->conn->prepare($query);
+        $smtm->bindValue(1, $this->produto->__get('usuario_id'));
+        $smtm->execute();
+        return $smtm->fetchAll();
+    }
     public function verificar(){
-        $query='select * from tb_produtos where nome_produto=?';
+        $query='SELECT * from tb_produtos where nome_produto=?';
         $smtm=$this->conn->prepare($query);
         $smtm->bindValue(1, $this->produto->__get('nome_produto'));
         $smtm->execute();
         return $smtm->fetchAll();
     }
     public function todosVal(){
-        $query='SELECT * from tb_produtos where comprado=0 order by nome_produto asc';
+        $query='
+         SELECT * from tb_user_prods as tup 
+            inner join tb_produtos as tp
+            on tp.produto_id = tup.id_prods
+            where tup.id_user=?
+            order by nome_produto asc
+        ';
         $smtm=$this->conn->prepare($query);
+        $smtm->bindValue(1, $this->produto->usuario);
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
