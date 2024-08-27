@@ -88,14 +88,44 @@ if ($acao == 'atualizar') {
     $produto->__set('produto_id', $_GET['produto_id']);
     $conexao = new Conexao;
     $produtoService = new ProdutoService($produto, $conexao);
-    if ($produtoService->verificar()) {
+    if ($produtoService->verificar()) { // aqui vê se vai ter duplicada, dentro do perfil
         header('location:index.php?erro=duplicada');
     } else {
-        if ($produtoService->atualizar()) {
-            header('location:index.php?status=sucesso_atualiza');
-        } else {
-            header('location:index.php?status=falha');
+        // meu objetivo agr é pegar esse valor novo, ver se está na lista de produtos, se estiver eu vou trocar ele 
+        // no tb_user_prod, se não tiver eu vou só criar um novo, sem dar update, pois, pode ser um produto interessante para 
+        // o futuro
+        $existencia = $produtoService->verificarExistencia()->produto_id;
+        if(!empty($existencia)){
+            $userProd = new UserProd;
+            $userProd->__set('id_prods', $existencia);
+            $userProd->__set('id_user', $_GET['produto_id']);
+            $userProdService = new UserProdService($userProd, $conexao);
+            if($userProdService->atualizar()){
+                header('location:index.php?status=sucesso');
+            }else{
+                header('location:index.php?status=erro');
+            }
+        }else{
+            $produto = new Produtos;
+            $produto->__set('nome_produto', $_GET['valor']);
+            $produtoService = new ProdutoService($produto, $conexao);
+            $produtoService->inserir();
+            $userProd = new UserProd;
+            $userProd->__set('id_prods', $produtoService->verificarExistencia()->produto_id);
+            $userProd->__set('id_user', $_GET['produto_id']);
+            $userProdService = new UserProdService($userProd, $conexao);
+            if($userProdService->atualizar()){
+                header('location:index.php?status=sucesso');
+            }else{
+                header('location:index.php?status=erro');
+            }
         }
+        print_r($existencia->produto_id);
+        // if ($produtoService->atualizar()) {
+        //     header('location:index.php?status=sucesso_atualiza');
+        // } else {
+        //     header('location:index.php?status=falha');
+        // }
 
     }
 }

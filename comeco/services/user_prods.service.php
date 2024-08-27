@@ -19,5 +19,12 @@ class UserProdService{
         $smtm->bindValue(1, $this->userProd->id_user);
         return $smtm->execute();
     }
+    public function atualizar(){
+        $query = 'UPDATE tb_user_prods set id_prods = ? where id_prods = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->userProd->id_prods);
+        $smtm->bindValue(2, $this->userProd->id_user);
+        return $smtm->execute();
+    }
 }
 ?>

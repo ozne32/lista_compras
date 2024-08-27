@@ -61,4 +61,11 @@ class ProdutoService{
         $smtm->bindValue(2, $this->produto->produto_id);
         return $smtm->execute();
     }
+    public function verificarExistencia(){
+        $query='SELECT produto_id from tb_produtos where nome_produto = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->produto->nome_produto);
+        $smtm->execute();
+        return $smtm->fetch(PDO::FETCH_OBJ);
+    }
 }

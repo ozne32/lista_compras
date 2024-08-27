@@ -9,6 +9,5 @@ class UserProd{
         $this->$attr = $val;
         return $this;
     }
-
 }
 ?>
