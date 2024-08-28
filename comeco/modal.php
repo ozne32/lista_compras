@@ -104,3 +104,26 @@
         </div>
     </div>
 </div>
+<!-- criar lista -->
+<div class="modal" tabindex="-1" role="dialog" id="criarModel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success">Criar lista</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId5">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="controller.php?acao=cria_lista" method="post">
+                    <label for="lista_nome">Digite o nome da sua lista:</label>
+                    <input type="text" id="lista_nome" placeholder="Nome da Lista:" class="form-control" name="nome">
+                    <button class='btn btn-success btn-sm mt-2' type="submit">Criar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnCancela">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</div>

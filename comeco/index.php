@@ -77,8 +77,12 @@ require_once 'controller.php';
                                 <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="lista.php">Ver listas</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=logout'"><i class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
+                            
                             <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -171,9 +175,20 @@ require_once 'controller.php';
                         })
                     </script>
                 </div>
-                <!-- <div class="col-md-3">
-                    <button class="btn  btn-primary" onclick="concluida()"> Comprada </button>
-                </div> -->
+                <div class="col-md-3">
+                    <button class="btn  btn-primary" id='cria_lista' > Criar lista</button>
+                    <script>
+                        $('#cria_lista').on('click', ()=>{
+                            $('#criarModel').modal('show')
+                            $('#fecharId5').on('click', ()=>{
+                                $('#criarModel').modal('hide')
+                            })
+                            $('#btnCancela').on('click', ()=>{
+                                $('#criarModel').modal('hide')
+                            })
+                        })
+                    </script>
+                </div>
             </div>
 
         </div>

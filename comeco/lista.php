@@ -49,10 +49,10 @@ require_once 'controller.php';
                                 <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="lista.php">Ver listas</a>
+                                <a class="nav-link active" href="lista.php">Ver listas</a>
                             </li>
                             <li class="nav-item">
                                 <button class="btn btn-danger"
@@ -82,32 +82,9 @@ require_once 'controller.php';
         </nav>
     </header>
     <main class="container pt-5">
-        <div class="container">
-            <h3 class="display-4 mb-2"> Adicionar produto </h3>
-            <form action="controller.php?acao=adicionar" method="post">
-                <div class="form-group">
-                    <label for="nome_produto" class="lead fw-normal">Produto nome:</label>
-                    <input class="form-control" name="nome_produto" type="text" placeholder="Digite o nome do produto"
-                        id="inputColoca">
-                    <button class="btn btn-success mt-2">adicionar</button>
-                </div>
-            </form>
-        </div>
-        <script>
-            $(document).ready(function () {
-                $('#inputColoca').focus();
-            });
-        </script>
-        <div class="container">
-            <table class="table table-striped mt-5">
-                <tbody>
-                    <?php foreach ($_SESSION['valores'] as $val) { ?>
-                        <tr>
-                            <td class="lead fw-normal"><?php echo $val->nome_produto ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+        <div class="row">
+            <!-- esse aqui que vai ficar com repeat -->
+            <div class="col-md-3"></div>
         </div>
     </main>
     <footer>
