@@ -110,6 +110,35 @@ ALTER TABLE `tb_user_prods`
   ADD CONSTRAINT `tb_user_prods_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tb_usuarios` (`usuario_id`);
 COMMIT;
 
+--
+-- Estrutura para tabela `tb_listas`
+--
+
+CREATE TABLE `tb_listas` (
+  `nome` varchar(100) NOT NULL,
+  `id_prods` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Índices de tabela `tb_listas`
+--
+ALTER TABLE `tb_listas`
+  ADD KEY `id_prods` (`id_prods`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `tb_listas`
+--
+ALTER TABLE `tb_listas`
+  ADD CONSTRAINT `tb_listas_ibfk_1` FOREIGN KEY (`id_prods`) REFERENCES `tb_produtos` (`produto_id`),
+  ADD CONSTRAINT `tb_listas_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tb_usuarios` (`usuario_id`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
