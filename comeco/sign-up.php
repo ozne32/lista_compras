@@ -49,6 +49,46 @@
         </div><!--final do card-->
     </div>
 </main>
+<?php require_once 'modal.php';?>
+<?php if(isset($_GET['erro']) && $_GET['erro'] == 'conf-senha'){?>
+<script>
+    $(document).ready(() => {
+                $('#modalSenhaConfirma').modal('show')
+                $('#okButton').on('click', ()=>{
+                    $('#modalSenhaConfirma').modal('hide')
+                })
+                $('#fecharId').on('click', ()=>{
+                    $('#modalSenhaConfirma').modal('hide')
+                })
+            })
+</script>
+<?php }?>
+<?php if(isset($_GET['erro']) && $_GET['erro'] == 'cadastroExistente'){?>
+<script>
+    $(document).ready(() => {
+                $('#modalCadastroExistente').modal('show')
+                $('#okButton1').on('click', ()=>{
+                    $('#modalCadastroExistente').modal('hide')
+                })
+                $('#fecharId1').on('click', ()=>{
+                    $('#modalCadastroExistente').modal('hide')
+                })
+            })
+</script>
+<?php }?>
+<?php if(isset($_GET['erro']) && $_GET['erro'] == 'campoVazio'){?>
+<script>
+    $(document).ready(() => {
+                $('#campoVazio').modal('show')
+                $('#okButton2').on('click', ()=>{
+                    $('#campoVazio').modal('hide')
+                })
+                $('#fecharId2').on('click', ()=>{
+                    $('#campoVazio').modal('hide')
+                })
+            })
+</script>
+<?php }?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>

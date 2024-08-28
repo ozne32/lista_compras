@@ -41,6 +41,7 @@ if ($acao == 'login') {
         header('location:index.php');
     }
 }
+
 if($acao =='logout'){
     session_start();
     session_destroy();
@@ -142,7 +143,10 @@ if ($acao == 'atualizar') {
     }
 }
 if ($acao == 'signup') {
-    if ($_POST['senha-signin'] == $_POST['confirma-senha'] && $_POST['email'] != '' && $_POST['nome'] != '' && $_POST['senha'] != '') {
+    // echo '<pre>';
+    // print_r($_POST);
+    // echo '</pre>';
+    if ($_POST['senha'] == $_POST['conf-senha'] && $_POST['email'] != '' && $_POST['nome'] != '' && $_POST['senha'] != '' && $_POST['conf-senha'] !='') {
         // caso nada estiver vazio + a senha e confirmar senha estiver certo
         $usuario = new Usuarios;
         $usuario->__set('email', $_POST['email']);
@@ -164,10 +168,9 @@ if ($acao == 'signup') {
                 echo 'deu erro';
             }
         }
-    } else {
+    } else if($_POST['senha'] != $_POST['conf-senha']) {
+        header('location:sign-up.php?erro=conf-senha'); 
+    }else{
         header('location:sign-up.php?erro=campoVazio');
-    }
-    if ($_POST['senha-sigin'] != $_POST['confirma-senha']) {
-        header('location:sign-up.php?erro=conf-senha');
     }
 }

@@ -145,19 +145,29 @@ require_once 'controller.php';
                     </script>
                     <button class="btn  btn-danger" id="click-delete">
                         Deletar </button>
+                    <?php require_once 'modal.php'?>
                     <script>
                          $('#click-delete').on("click", function () {
-                            $.ajax({
-                                type: 'POST',
-                                url: 'controller.php?acao=deletar',
-                                data: { lista: lista_coisas },
-                                success: function (response) {
-                                    window.location.href = 'index.php?status=sucesso'
-                                },
-                                error: function (error) {
-                                    console.log('Erro:', error);
-                                }
-                            });
+                            $('#delModal').modal('show')
+                            $('#btnYes').on('click', ()=>{
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'controller.php?acao=deletar',
+                                    data: { lista: lista_coisas },
+                                    success: function (response) {
+                                        window.location.href = 'index.php?status=sucesso-rmv'
+                                    },
+                                    error: function (error) {
+                                        console.log('Erro:', error);
+                                    }
+                                });
+                            })
+                            $('#btnNo').on('click', ()=>{
+                                $('#delModal').modal('hide')
+                            })
+                            $('#fecharId4').on('click', ()=>{
+                                $('#delModal').modal('hide')
+                            })
                         })
                     </script>
                 </div>
@@ -168,14 +178,6 @@ require_once 'controller.php';
 
         </div>
     </main>
-
-
-
-
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>

@@ -1,20 +1,105 @@
-<!-- cadastro sucesso -->
-<div class="modal" tabindex="-1" role="dialog" id="modalCadExistente" aria-hidden="true">
+<!-- modal Senha Confirma-->
+<div class="modal" tabindex="-1" role="dialog" id="modalSenhaConfirma" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-danger">Email já utilizado</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <h5 class="modal-title text-danger">Senha repetida</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
                 </button>
             </div>
             <div class="modal-body">
                 <p>
-                    esse email já está sendo utilizado
+                    Os inputs de senha e confirmar senha precisam ser iguais
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#" type="button" class="btn btn-danger">Ok!</a>
+                <a href="#" type="button" class="btn btn-danger" id="okButton">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- caso o  usuário já exista -->
+<div class="modal" tabindex="-1" role="dialog" id="modalCadastroExistente" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Usuário já registrado</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId1">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Este email já está registrado
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="okButton1">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- preencha todos os campos -->
+<div class="modal" tabindex="-1" role="dialog" id="campoVazio" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Campos</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId2">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Preencha todos os campos para continuar
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="okButton2">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- senha errada -->
+<div class="modal" tabindex="-1" role="dialog" id="loginErrado" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Verificação</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId3">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Usuário ou senha estão errados
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="okButton3">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Deletar -->
+<div class="modal" tabindex="-1" role="dialog" id="delModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Deletar</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId4">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Tem certeza que quer deletar esses elementos ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnYes">Sim!</a>
+                <a href="#" type="button" class="btn btn-danger" id="btnNo">Não!</a>
             </div>
         </div>
     </div>

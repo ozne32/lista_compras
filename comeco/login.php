@@ -45,8 +45,21 @@
             </div><!--final do card-body-->
         </div><!--final do card-->
     </div>
-   
 </main>
+<?php require_once 'modal.php';?>
+<?php if(isset($_GET['erro']) && $_GET['erro'] == 'user-senhaErrada'){?>
+<script>
+    $(document).ready(() => {
+                $('#loginErrado').modal('show')
+                $('#okButton3').on('click', ()=>{
+                    $('#loginErrado').modal('hide')
+                })
+                $('#fecharId3').on('click', ()=>{
+                    $('#loginErrado').modal('hide')
+                })
+            })
+</script>
+<?php }?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
