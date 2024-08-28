@@ -201,3 +201,10 @@ if ($acao == 'cria_lista') {
     }
     header('location:index.php');
 }
+if($lista =='pegarItem'){
+    $lista = new Lista;
+    $conexao = new Conexao;
+    $lista->__set('id_user', $_SESSION['id']);
+    $listaService = new ListaService($lista, $conexao);
+    $_SESSION['vals_lista']=$listaService->pegarVals();
+}

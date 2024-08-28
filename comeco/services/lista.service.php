@@ -22,4 +22,11 @@ class ListaService{
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
+    public function pegarVals(){
+        $query = 'SELECT * from tb_listas where id_user = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->lista->id_user);
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
+    }
 }

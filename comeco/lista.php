@@ -4,6 +4,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     header('Location: sign-up.php?erro=acessoRestrito');
     // exit();
 }
+$lista = 'pegarItem';
 require_once 'controller.php';
 
 ?>
@@ -21,7 +22,7 @@ require_once 'controller.php';
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
 </head>
 
@@ -84,7 +85,17 @@ require_once 'controller.php';
     <main class="container pt-5">
         <div class="row">
             <!-- esse aqui que vai ficar com repeat -->
-            <div class="col-md-3"></div>
+            <?php foreach ($_SESSION['vals_lista'] as $key => $valor) { ?>
+                    <?php if ($key > 0 && $_SESSION['vals_lista'][$key]->nome != $_SESSION['vals_lista'][$key - 1]->nome) { ?>
+                        <div class="col-md-4 mt-2">
+                            <button class="btn btn-primary btn-lg"><?php echo $valor->nome ?></button>
+                        </div>
+                    <?php } else if ($key == 0) { ?>
+                            <div class="col-md-4 mt-2">
+                                <button class="btn btn-primary btn-lg"><?php echo $valor->nome ?></button>
+                            </div>
+                    <?php } ?>
+            <?php } ?>
         </div>
     </main>
     <footer>
