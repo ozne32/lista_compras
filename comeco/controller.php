@@ -207,4 +207,6 @@ if($lista =='pegarItem'){
     $lista->__set('id_user', $_SESSION['id']);
     $listaService = new ListaService($lista, $conexao);
     $_SESSION['vals_lista']=$listaService->pegarVals();
+}if($acao =='pegarValores'){
+    echo 'chegou aqui';
 }

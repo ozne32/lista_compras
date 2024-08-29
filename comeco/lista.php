@@ -60,43 +60,54 @@ require_once 'controller.php';
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Compras
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
-                                    <?php //} ?>
-                                </ul>
-                            </li> -->
                         </ul>
-                        <!-- form de pesquisa que pode ser incrementado dps -->
-                        <!-- <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
         </nav>
     </header>
     <main class="container pt-5">
-        <div class="row">
-            <!-- esse aqui que vai ficar com repeat -->
-            <?php foreach ($_SESSION['vals_lista'] as $key => $valor) { ?>
+        <?php if (!isset($_GET['lista_nome'])) { ?>
+            <div class="row">
+                <!-- esse aqui que vai ficar com repeat -->
+                <?php foreach ($_SESSION['vals_lista'] as $key => $valor) { ?>
                     <?php if ($key > 0 && $_SESSION['vals_lista'][$key]->nome != $_SESSION['vals_lista'][$key - 1]->nome) { ?>
                         <div class="col-md-4 mt-2">
-                            <button class="btn btn-primary btn-lg"><?php echo $valor->nome ?></button>
+                            <button class="btn btn-primary btn-lg"
+                                onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor->nome ?>'"><?php echo $valor->nome ?></button>
                         </div>
                     <?php } else if ($key == 0) { ?>
                             <div class="col-md-4 mt-2">
-                                <button class="btn btn-primary btn-lg"><?php echo $valor->nome ?></button>
+                                <button class="btn btn-primary btn-lg"
+                                    onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor->nome ?>'"><?php echo $valor->nome ?></button>
                             </div>
                     <?php } ?>
-            <?php } ?>
-        </div>
+                <?php } ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($_GET['lista_nome'])) { ?>
+            <h3>Lista <?php $_GET['lista_nome'] ?></h3>
+            <script>
+                $.ajax({
+                    type: 'POST',
+                    url: 'controller.php?acao=pegarValores',
+                    data: { nome_lista: <?php echo $_GET['lista_nome'] ?> },
+                    success: function (response) {
+                        console.log(response)
+                        // window.location.href = 'index.php?status=sucesso-rmv'
+                    },
+                    error: function (error) {
+                        console.log('Erro:', error);
+                    }
+                });
+            </script>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                    </tr>
+                </tbody>
+            </table>
+        <?php } ?>
     </main>
     <footer>
         <!-- place footer here -->
