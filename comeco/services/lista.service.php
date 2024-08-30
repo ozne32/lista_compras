@@ -16,9 +16,10 @@ class ListaService{
         return $smtm->execute();
     }
     public function verificar(){
-        $query='SELECT * from tb_listas where nome = ?';
+        $query='SELECT * from tb_listas where nome = ? and id_user = ? ';
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1, $this->lista->nome);
+        $smtm->bindValue(2, $_SESSION['id']);
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
@@ -26,6 +27,17 @@ class ListaService{
         $query = 'SELECT * from tb_listas where id_user = ?';
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1, $this->lista->id_user);
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function acharLista(){
+        $query = ' SELECT tp.nome_produto, tp.produto_id
+        FROM tb_listas AS tl
+        INNER JOIN tb_produtos AS tp ON tl.id_prods = tp.produto_id
+        WHERE tl.id_user = ? AND tl.nome = ?;';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $_SESSION['id']);
+        $smtm->bindValue(2, $this->lista->nome);
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }

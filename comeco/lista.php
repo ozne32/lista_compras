@@ -86,14 +86,25 @@ require_once 'controller.php';
             </div>
         <?php } ?>
         <?php if (isset($_GET['lista_nome'])) { ?>
-            <h3>Lista <?php $_GET['lista_nome'] ?></h3>
+            <h3><?php echo ucfirst($_GET['lista_nome']) ?></h3>
             <script>
                 $.ajax({
                     type: 'POST',
                     url: 'controller.php?acao=pegarValores',
-                    data: { nome_lista: <?php echo $_GET['lista_nome'] ?> },
+                    data: { nome_lista:'<?php echo $_GET['lista_nome'] ?>'},
                     success: function (response) {
-                        console.log(response)
+                        let resposta = response.resultado
+                        resposta.forEach((element) => {
+                            // jogar mais um produto para dentro da tabela
+                            // criar o tr 
+                            let tr = document.createElement('tr')
+                            tr.id = element.produto_id
+                            let td = document.createElement('td')
+                            td.innerHTML = element.nome_produto
+                            tr.appendChild(td)
+                            document.getElementById('corpo-tabela').appendChild(tr)
+                            console.log(element)
+                        });
                         // window.location.href = 'index.php?status=sucesso-rmv'
                     },
                     error: function (error) {
@@ -101,12 +112,13 @@ require_once 'controller.php';
                     }
                 });
             </script>
-            <table class="table table-striped">
-                <tbody>
+            <table class="table table-striped" >
+                <tbody id="corpo-tabela">
                     <tr>
                     </tr>
                 </tbody>
             </table>
+            <button class="btn btn-danger" onclick="window.location.href = 'lista.php'"><i class="fa-solid fa-angle-left"></i>  Voltar</button>
         <?php } ?>
     </main>
     <footer>

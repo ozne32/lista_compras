@@ -21,7 +21,7 @@ require_once 'controller.php';
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
 </head>
 
@@ -113,6 +113,20 @@ require_once 'controller.php';
     <footer>
         <!-- place footer here -->
     </footer>
+    <?php require_once 'modal.php' ?>
+    <?php if (isset($_GET['status']) && $_GET['status'] == 'vazio') { ?>
+        <script>
+            $(document).ready(() => {
+                $('#campoVazio').modal('show')
+                $('#okButton2').on('click', () => {
+                    $('#campoVazio').modal('hide')
+                })
+                $('#fecharId2').on('click', () => {
+                    $('#campoVazio').modal('hide')
+                })
+            })
+        </script>
+    <?php } ?>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

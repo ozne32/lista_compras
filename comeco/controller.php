@@ -51,38 +51,42 @@ if ($acao == 'logout') {
 }
 
 if ($acao == 'adicionar') {
-    $produto = new Produtos;
-    $produto->__set('nome_produto', $_POST['nome_produto']);
-    $conexao = new Conexao;
-    $produtoService = new ProdutoService($produto, $conexao);
-    $verificacao = $produtoService->verificar();
-    if (!empty($verificacao)) {
-        header('location:add_rmv.php?erro=duplicada');
-    } else if (empty($verificacao)) {
-        $idProduto = $produtoService->verificarExistencia()->produto_id;
-        if (!empty($idProduto)) { //produto já existe, então eu vou pegar e só atribuir ele na tabela user_prods
-            $userProd = new UserProd;
-            $userProd->__set('id_prods', $idProduto);
-            $userProd->__set('id_user', $_SESSION['id']);
-            $userProdService = new UserProdService($userProd, $conexao);
-            if ($userProdService->adicionar()) {
-                header('location:add_rmv.php?status=sucesso');
-            } else {
-                header('location:add_rmv.php?status=erro');
-            }
-        } else if (empty($idProduto)) {
-            if ($produtoService->inserir()) {
-                $ids_produtos = $produtoService->verId(); //pegando o id
+    if( $_POST['nome_produto'] != ''){
+        $produto = new Produtos;
+        $produto->__set('nome_produto', $_POST['nome_produto']);
+        $conexao = new Conexao;
+        $produtoService = new ProdutoService($produto, $conexao);
+        $verificacao = $produtoService->verificar();
+        if (!empty($verificacao)) {
+            header('location:add_rmv.php?erro=duplicada');
+        } else if (empty($verificacao)) {
+            $idProduto = $produtoService->verificarExistencia()->produto_id;
+            if (!empty($idProduto)) { //produto já existe, então eu vou pegar e só atribuir ele na tabela user_prods
                 $userProd = new UserProd;
-                $userProd->__set('id_prods', $ids_produtos[0]['produto_id']);
+                $userProd->__set('id_prods', $idProduto);
                 $userProd->__set('id_user', $_SESSION['id']);
                 $userProdService = new UserProdService($userProd, $conexao);
-                $userProdService->adicionar();
-                header('location:add_rmv.php?status=sucesso');
-            } else {
-                header('location:add_rmv.php?status=falha');
+                if ($userProdService->adicionar()) {
+                    header('location:add_rmv.php?status=sucesso');
+                } else {
+                    header('location:add_rmv.php?status=erro');
+                }
+            } else if (empty($idProduto)) {
+                if ($produtoService->inserir()) {
+                    $ids_produtos = $produtoService->verId(); //pegando o id
+                    $userProd = new UserProd;
+                    $userProd->__set('id_prods', $ids_produtos[0]['produto_id']);
+                    $userProd->__set('id_user', $_SESSION['id']);
+                    $userProdService = new UserProdService($userProd, $conexao);
+                    $userProdService->adicionar();
+                    header('location:add_rmv.php?status=sucesso');
+                } else {
+                    header('location:add_rmv.php?status=falha');
+                }
             }
         }
+    }else{
+        header('location:add_rmv.php?status=vazio');
     }
 }
 if ($acao == 'deletar') {
@@ -178,28 +182,31 @@ if ($acao == 'signup') {
 }
 if ($acao == 'cria_lista') {
     $nome = $_POST['nome'];
-    foreach ($_SESSION['valores'] as $val) {
-        $id_prods = $val->id_prods;
-        $id_user = $val->id_user;
-        $conexao = new Conexao;
-        $lista = new Lista;
-        $lista->__set('nome', $nome);
-        $lista->__set('id_prods', $id_prods);
-        $lista->__set('id_user', $id_user);
-        $listaService = new ListaService($lista, $conexao);
-        if(empty($listaService->verificar())){
+    $conexao = new Conexao;
+    $lista = new Lista;
+    $lista->__set('nome', $nome);
+    $listaService = new ListaService($lista, $conexao);
+    if(empty($listaService->verificar())){
+        // echo 'chegou';
+        foreach ($_SESSION['valores'] as $val){
+            $id_prods = $val->id_prods;
+            $id_user = $val->id_user;
+            $lista = new Lista;
+            $lista->__set('nome', $nome);
+            $lista->__set('id_prods', $id_prods);
+            $lista->__set('id_user', $_SESSION['id']);
+            $listaService = new ListaService($lista, $conexao);
             $listaService->adicionar();
             $userProd = new UserProd;
             $userProd->__set('id_prods', $id_prods);
             $userProd->__set('id_user', $id_user);
             $userProdService = new UserProdService($userProd, $conexao);
             $userProdService->deletar();
-        }else{
-            header('location:index.php?erro=duplicada');
-            die();
-        }
+        }if(!empty($listaService->verificar())){
+        header('location:index.php?erro=duplicada');
     }
     header('location:index.php');
+}
 }
 if($lista =='pegarItem'){
     $lista = new Lista;
@@ -208,5 +215,12 @@ if($lista =='pegarItem'){
     $listaService = new ListaService($lista, $conexao);
     $_SESSION['vals_lista']=$listaService->pegarVals();
 }if($acao =='pegarValores'){
-    echo 'chegou aqui';
+    $nome_lista = $_POST['nome_lista'];
+    $lista = new Lista;
+    $conexao = new Conexao;
+    $lista->__set('nome', $nome_lista);
+    $listaService = new ListaService($lista, $conexao);
+    $resultado = $listaService->acharLista();
+    header('Content-Type: application/json');
+    echo json_encode(['resultado'=> $resultado]);
 }
