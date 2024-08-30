@@ -86,22 +86,43 @@ require_once 'controller.php';
             </div>
         <?php } ?>
         <?php if (isset($_GET['lista_nome'])) { ?>
-            <h3><?php echo ucfirst($_GET['lista_nome']) ?></h3>
+            <h3 class="display-4 mb-2"><?php echo ucfirst($_GET['lista_nome']) ?></h3>
             <script>
                 $.ajax({
                     type: 'POST',
                     url: 'controller.php?acao=pegarValores',
-                    data: { nome_lista:'<?php echo $_GET['lista_nome'] ?>'},
+                    data: { nome_lista: '<?php echo $_GET['lista_nome'] ?>' },
                     success: function (response) {
                         let resposta = response.resultado
                         resposta.forEach((element) => {
                             // jogar mais um produto para dentro da tabela
                             // criar o tr 
+                            lista_ids = []
+                            lista_nomes = []
                             let tr = document.createElement('tr')
-                            tr.id = element.produto_id
                             let td = document.createElement('td')
+                            td.id = 'td'+element.produto_id
                             td.innerHTML = element.nome_produto
+                            td.className = 'lead fw-normal'
+                            let button = document.createElement('button')
+                            button.className = 'btn btn-lg'
+                            button.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>'
+                            button.style = 'border: 0.1px solid black; border-radius: 0px 10px 10px 0px;'
+                            button.onclick = () => {
+                                lista_nomes.push(element.nome_produto);
+                                td.innerHTML = `<input type='text' class='form-control' id='input${element.produto_id}'
+                                    placeholder='Digite o novo valor:'>`
+                                $(`#input${element.produto_id}`).focus()
+                                lista_ids.push(element.produto_id)
+                                if (lista_ids.length == 2) {
+                                    let td1 = document.getElementById(`td${lista_ids[0]}`)
+                                    td1.innerHTML = lista_nomes[0]
+                                    lista_ids.splice(0, 1)
+                                    lista_nomes.splice(0, 1)
+                                }
+                            };
                             tr.appendChild(td)
+                            tr.appendChild(button)
                             document.getElementById('corpo-tabela').appendChild(tr)
                             console.log(element)
                         });
@@ -112,13 +133,14 @@ require_once 'controller.php';
                     }
                 });
             </script>
-            <table class="table table-striped" >
+            <table class="table table-striped">
                 <tbody id="corpo-tabela">
                     <tr>
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-danger" onclick="window.location.href = 'lista.php'"><i class="fa-solid fa-angle-left"></i>  Voltar</button>
+            <button class="btn btn-danger" onclick="window.location.href = 'lista.php'"><i
+                    class="fa-solid fa-angle-left"></i> Voltar</button>
         <?php } ?>
     </main>
     <footer>
