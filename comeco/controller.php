@@ -139,13 +139,6 @@ if ($acao == 'atualizar') {
                 header('location:index.php?status=erro');
             }
         }
-        print_r($existencia->produto_id);
-        // if ($produtoService->atualizar()) {
-        //     header('location:index.php?status=sucesso_atualiza');
-        // } else {
-        //     header('location:index.php?status=falha');
-        // }
-
     }
 }
 if ($acao == 'signup') {
@@ -223,4 +216,40 @@ if($lista =='pegarItem'){
     $resultado = $listaService->acharLista();
     header('Content-Type: application/json');
     echo json_encode(['resultado'=> $resultado]);
+}
+if($acao =='atualizarLista'){
+    /*
+        passos:
+            1-verificar se o nome colocado existe na tabela de produtos e pegar o id
+            2-se sim eu só atualizo a lista listaService    
+            3-se não eu faço um novo produto e passo ele direto para lista pego o id
+            4-coloco na Lista
+    */
+    // passo 1 vendo se o nome colocado existe na tabela de produtos 
+    $produto = new Produtos;
+    $produto->__set('nome_produto', $_GET['valor']);
+    $conexao = new Conexao;
+    $produtoService = new ProdutoService($produto, $conexao);
+    $pegarId = $produtoService->verificarLista();
+    if(empty($pegarId)){
+        // caso objeto não exista ainda  
+        // adicionar na lista
+        $produtoService->inserir();
+        $pegarId = $produtoService->verificarLista()[0]->produto_id;
+        // fazer a lista e adicionar nela
+        $lista = new Lista;
+        $lista->__set('nome', $_GET['nome_lista']);
+        $lista->__set('id_prods', $pegarId);
+        $lista->__set('id_user', $_SESSION['id']);
+        $listaService = new ListaService($lista, $conexao);
+        $listaService->adicionar();
+    }else{
+        // atribuir o id do produto e jogar na lista
+        // eu tenho tudo que preciso o id_user, o id_produtos, nomes
+        $lista = new Lista;
+        $lista->__set('nome', $_GET['nome_lista']);
+        $lista->__set('id_prods', $pegarId);
+        $lista->__set('id_user', $_SESSION['id']);
+        print_r($pegarId[0]->produto_id);
+    }
 }

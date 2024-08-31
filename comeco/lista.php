@@ -101,7 +101,7 @@ require_once 'controller.php';
                             lista_nomes = []
                             let tr = document.createElement('tr')
                             let td = document.createElement('td')
-                            td.id = 'td'+element.produto_id
+                            td.id = 'td' + element.produto_id
                             td.innerHTML = element.nome_produto
                             td.className = 'lead fw-normal'
                             let button = document.createElement('button')
@@ -111,9 +111,16 @@ require_once 'controller.php';
                             button.onclick = () => {
                                 lista_nomes.push(element.nome_produto);
                                 td.innerHTML = `<input type='text' class='form-control' id='input${element.produto_id}'
-                                    placeholder='Digite o novo valor:'>`
+                                        placeholder='Digite o novo valor:'>`
                                 $(`#input${element.produto_id}`).focus()
                                 lista_ids.push(element.produto_id)
+                                $(`#input${element.produto_id}`).on('keypress', e => {
+                                    if (e.keyCode == 13) {
+                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome']?>`
+                                    } else {
+                                        novo_valor = $(e.target).val()
+                                    }
+                                })
                                 if (lista_ids.length == 2) {
                                     let td1 = document.getElementById(`td${lista_ids[0]}`)
                                     td1.innerHTML = lista_nomes[0]

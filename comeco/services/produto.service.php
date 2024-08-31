@@ -34,6 +34,13 @@ class ProdutoService{
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
+    public function verificarLista(){
+        $query = 'SELECT * from tb_produtos where nome_produto = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->produto->nome_produto);
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
+    }
     public function todosVal(){
         $query='
          SELECT * from tb_user_prods as tup 
