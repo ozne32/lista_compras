@@ -16,6 +16,8 @@ require_once 'controller.php';
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -99,7 +101,22 @@ require_once 'controller.php';
                                 <?php echo $users->nome ?>
                             </div>
                             <div class="col-md-1">
-                                <button class="btn btn-success" onclick="window.location.href='controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>'">Adicionar</button>
+                                <button class="btn btn-success" id=btn<?php echo $users->usuario_id?> >Adicionar</button>
+                                <script>
+                                    // onclick="window.location.href='controller.php?acao=fazerPedido&user_id=<?php //echo $users->usuario_id?>'"
+                                    let btn = $('#btn<?php echo $users->usuario_id?>')
+                                    $(btn).on('click',()=>{
+                                        if(btn.html()=='Adicionar'){
+                                            btn.html('Remover')
+                                            btn.attr('class', 'btn btn-danger')
+                                            window.location.href='controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>'
+                                        }else if(btn.html()=='Remover'){
+                                            btn.html('Adicionar')
+                                            btn.attr('class', 'btn btn-success')
+                                            window.location.href='controller.php?acao=desFazerPedido&user_id=<?php echo $users->usuario_id?>'
+                                        }
+                                    })
+                                </script>
                             </div>
                         </td>
                     </tr>

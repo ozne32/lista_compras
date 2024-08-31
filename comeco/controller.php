@@ -283,3 +283,13 @@ if($acao =='fazerPedido'){
         header('location:pedidos.php');
     };
 }
+if($acao =='desFazerPedido'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_SESSION['id']); // usuário logado
+    $pedido->__set('id_user2', $_GET['user_id']); // usuário que vai receber o pedido
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->deletar()){
+        header('location:pedidos.php');
+    };
+}
