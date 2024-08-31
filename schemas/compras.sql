@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Tempo de geração: 27/08/2024 às 00:10
+-- Tempo de geração: 31/08/2024 às 14:11
 -- Versão do servidor: 11.4.2-MariaDB-ubu2404
 -- Versão do PHP: 8.2.8
 
@@ -24,6 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `tb_listas`
+--
+
+CREATE TABLE `tb_listas` (
+  `nome` varchar(100) NOT NULL,
+  `id_prods` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_lista` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `tb_produtos`
 --
 
@@ -32,6 +45,7 @@ CREATE TABLE `tb_produtos` (
   `nome_produto` varchar(255) NOT NULL,
   `comprado` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
 
 -- --------------------------------------------------------
 
@@ -43,7 +57,6 @@ CREATE TABLE `tb_user_prods` (
   `id_prods` int(11) NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
 
 -- --------------------------------------------------------
 
@@ -58,10 +71,17 @@ CREATE TABLE `tb_usuarios` (
   `senha` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
-
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `tb_listas`
+--
+ALTER TABLE `tb_listas`
+  ADD PRIMARY KEY (`id_lista`),
+  ADD KEY `id_prods` (`id_prods`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Índices de tabela `tb_produtos`
@@ -87,6 +107,12 @@ ALTER TABLE `tb_usuarios`
 --
 
 --
+-- AUTO_INCREMENT de tabela `tb_listas`
+--
+ALTER TABLE `tb_listas`
+  MODIFY `id_lista` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+--
 -- AUTO_INCREMENT de tabela `tb_produtos`
 --
 ALTER TABLE `tb_produtos`
@@ -103,40 +129,18 @@ ALTER TABLE `tb_usuarios`
 --
 
 --
--- Restrições para tabelas `tb_user_prods`
---
-ALTER TABLE `tb_user_prods`
-  ADD CONSTRAINT `tb_user_prods_ibfk_1` FOREIGN KEY (`id_prods`) REFERENCES `tb_produtos` (`produto_id`),
-  ADD CONSTRAINT `tb_user_prods_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tb_usuarios` (`usuario_id`);
-COMMIT;
-
---
--- Estrutura para tabela `tb_listas`
---
-
-CREATE TABLE `tb_listas` (
-  `nome` varchar(100) NOT NULL,
-  `id_prods` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
---
--- Índices de tabela `tb_listas`
---
-ALTER TABLE `tb_listas`
-  ADD KEY `id_prods` (`id_prods`),
-  ADD KEY `id_user` (`id_user`);
-
---
--- Restrições para tabelas despejadas
---
-
---
 -- Restrições para tabelas `tb_listas`
 --
 ALTER TABLE `tb_listas`
   ADD CONSTRAINT `tb_listas_ibfk_1` FOREIGN KEY (`id_prods`) REFERENCES `tb_produtos` (`produto_id`),
   ADD CONSTRAINT `tb_listas_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tb_usuarios` (`usuario_id`);
+
+--
+-- Restrições para tabelas `tb_user_prods`
+--
+ALTER TABLE `tb_user_prods`
+  ADD CONSTRAINT `tb_user_prods_ibfk_1` FOREIGN KEY (`id_prods`) REFERENCES `tb_produtos` (`produto_id`),
+  ADD CONSTRAINT `tb_user_prods_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tb_usuarios` (`usuario_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
