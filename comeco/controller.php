@@ -280,6 +280,6 @@ if($acao =='fazerPedido'){
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
     if($pedidoService->adicionar()){
-        header('location:pedidos.php')
+        header('location:pedidos.php');
     };
 }
