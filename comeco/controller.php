@@ -8,6 +8,8 @@ require_once './models/user_prod.php';
 require_once './services/user_prods.service.php';
 require_once './models/lista.php';
 require_once './services/lista.service.php';
+require_once './models/pedidos.php';
+require_once './services/pedidos.service.php';
 session_start();
 $acao = $_GET['acao'];
 $coisa;
@@ -263,4 +265,21 @@ if ($acao == 'atualizarLista') {
             header('location:lista.php?lista_nome='.$_GET['nome_lista']);
         }
     }
+}
+if($listaUser =='verdadeiro'){
+    $user = new Usuarios;
+    $user->__set('usuario_id', $_SESSION['id']);
+    $conexao = new Conexao;
+    $userService = new UsuarioService($user, $conexao);
+    $usuarios = $userService->pegarUsuarios();
+}
+if($acao =='fazerPedido'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_SESSION['id']); // usuário logado
+    $pedido->__set('id_user2', $_GET['user_id']); // usuário que vai receber o pedido
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->adicionar()){
+        header('location:pedidos.php')
+    };
 }

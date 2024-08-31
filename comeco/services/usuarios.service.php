@@ -30,4 +30,11 @@ class UsuarioService{
         $smtm->bindValue(3,$this->usuario->senha);
         return $smtm->execute();
     }
+    public function pegarUsuarios(){
+        $query = 'SELECT nome,usuario_id  from tb_usuarios where usuario_id <> ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->usuario->usuario_id);
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
+    }
 }
