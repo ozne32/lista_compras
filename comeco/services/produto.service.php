@@ -39,7 +39,7 @@ class ProdutoService{
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1, $this->produto->nome_produto);
         $smtm->execute();
-        return $smtm->fetchAll(PDO::FETCH_OBJ);
+        return $smtm->fetch(PDO::FETCH_OBJ);
     }
     public function todosVal(){
         $query='

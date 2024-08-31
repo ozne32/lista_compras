@@ -51,7 +51,7 @@ if ($acao == 'logout') {
 }
 
 if ($acao == 'adicionar') {
-    if( $_POST['nome_produto'] != ''){
+    if ($_POST['nome_produto'] != '') {
         $produto = new Produtos;
         $produto->__set('nome_produto', $_POST['nome_produto']);
         $conexao = new Conexao;
@@ -85,7 +85,7 @@ if ($acao == 'adicionar') {
                 }
             }
         }
-    }else{
+    } else {
         header('location:add_rmv.php?status=vazio');
     }
 }
@@ -179,9 +179,9 @@ if ($acao == 'cria_lista') {
     $lista = new Lista;
     $lista->__set('nome', $nome);
     $listaService = new ListaService($lista, $conexao);
-    if(empty($listaService->verificar())){
+    if (empty($listaService->verificar())) {
         // echo 'chegou';
-        foreach ($_SESSION['valores'] as $val){
+        foreach ($_SESSION['valores'] as $val) {
             $id_prods = $val->id_prods;
             $id_user = $val->id_user;
             $lista = new Lista;
@@ -195,19 +195,21 @@ if ($acao == 'cria_lista') {
             $userProd->__set('id_user', $id_user);
             $userProdService = new UserProdService($userProd, $conexao);
             $userProdService->deletar();
-        }if(!empty($listaService->verificar())){
-        header('location:index.php?erro=duplicada');
+        }
+        if (!empty($listaService->verificar())) {
+            header('location:index.php?erro=duplicada');
+        }
+        header('location:index.php');
     }
-    header('location:index.php');
 }
-}
-if($lista =='pegarItem'){
+if ($lista == 'pegarItem') {
     $lista = new Lista;
     $conexao = new Conexao;
     $lista->__set('id_user', $_SESSION['id']);
     $listaService = new ListaService($lista, $conexao);
-    $_SESSION['vals_lista']=$listaService->pegarVals();
-}if($acao =='pegarValores'){
+    $_SESSION['vals_lista'] = $listaService->pegarVals();
+}
+if ($acao == 'pegarValores') {
     $nome_lista = $_POST['nome_lista'];
     $lista = new Lista;
     $conexao = new Conexao;
@@ -215,9 +217,9 @@ if($lista =='pegarItem'){
     $listaService = new ListaService($lista, $conexao);
     $resultado = $listaService->acharLista();
     header('Content-Type: application/json');
-    echo json_encode(['resultado'=> $resultado]);
+    echo json_encode(['resultado' => $resultado]);
 }
-if($acao =='atualizarLista'){
+if ($acao == 'atualizarLista') {
     /*
         passos:
             1-verificar se o nome colocado existe na tabela de produtos e pegar o id
@@ -229,27 +231,36 @@ if($acao =='atualizarLista'){
     $produto = new Produtos;
     $produto->__set('nome_produto', $_GET['valor']);
     $conexao = new Conexao;
+    // pegar o id da lista
+    $lista = new Lista;
+    $lista->__set('nome', $_GET['nome_lista']);
+    $lista->__set('id_prods', $_GET['id_prod']);
+    $lista->__set('id_user', $_SESSION['id']);
+    $listaService = new ListaService($lista, $conexao);
+    $id_lista = $listaService->pegarId()->id_lista;
+    // verificar se está na lista tb_produtos existe e se tiver é para pegar o id
     $produtoService = new ProdutoService($produto, $conexao);
     $pegarId = $produtoService->verificarLista();
-    if(empty($pegarId)){
+    if (empty($pegarId)) {
         // caso objeto não exista ainda  
         // adicionar na lista
         $produtoService->inserir();
-        $pegarId = $produtoService->verificarLista()[0]->produto_id;
-        // fazer a lista e adicionar nela
-        $lista = new Lista;
-        $lista->__set('nome', $_GET['nome_lista']);
+        $pegarId = $produtoService->verificarLista()->produto_id;
+        // fazer a lista e fazer o update dela
         $lista->__set('id_prods', $pegarId);
-        $lista->__set('id_user', $_SESSION['id']);
+        $lista->__set('id_lista', $id_lista);
         $listaService = new ListaService($lista, $conexao);
-        $listaService->adicionar();
-    }else{
-        // atribuir o id do produto e jogar na lista
-        // eu tenho tudo que preciso o id_user, o id_produtos, nomes
-        $lista = new Lista;
-        $lista->__set('nome', $_GET['nome_lista']);
-        $lista->__set('id_prods', $pegarId);
-        $lista->__set('id_user', $_SESSION['id']);
-        print_r($pegarId[0]->produto_id);
+        if($listaService->atualizar()){
+            header('location:lista.php?lista_nome='.$_GET['nome_lista']);
+        }
+    } else {
+        // aqui é muito mais fácil, já tenho o id da lista e do produto, só fazer o update
+        $lista->__set('id_lista', $id_lista);
+        $lista->__set('id_prods', $pegarId->produto_id);
+        $listaService = new ListaService($lista, $conexao);
+        $listaService->atualizar();
+        if($listaService->atualizar()){
+            header('location:lista.php?lista_nome='.$_GET['nome_lista']);
+        }
     }
 }

@@ -50,7 +50,20 @@ class ListaService{
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
-    // public function atualizar(){
-    //     $query = 'UPDATE tb_listas set nome_produto = ? where produto_id = ?'
-    // }
+    public function pegarId(){
+        $query = 'SELECT id_lista from tb_listas where id_prods = ? and nome = ? and id_user = ?';
+        $smtm= $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->lista->id_prods);
+        $smtm->bindValue(2, $this->lista->nome);
+        $smtm->bindValue(3, $this->lista->id_user);
+        $smtm->execute();
+        return $smtm->fetch(PDO::FETCH_OBJ);
+    }
+    public function atualizar(){
+        $query = 'UPDATE tb_listas set id_prods= ? where id_lista= ?';
+        $smtm= $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->lista->id_prods);
+        $smtm->bindValue(2, $this->lista->id_lista);
+        return $smtm->execute();
+    }
 }

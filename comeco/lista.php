@@ -116,7 +116,7 @@ require_once 'controller.php';
                                 lista_ids.push(element.produto_id)
                                 $(`#input${element.produto_id}`).on('keypress', e => {
                                     if (e.keyCode == 13) {
-                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome']?>`
+                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome']?>&id_prod=${element.produto_id}`
                                     } else {
                                         novo_valor = $(e.target).val()
                                     }
