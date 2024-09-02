@@ -254,6 +254,7 @@ if ($acao == 'atualizarLista') {
         $listaService = new ListaService($lista, $conexao);
         if($listaService->atualizar()){
             header('location:lista.php?lista_nome='.$_GET['nome_lista']);
+            exit();
         }
     } else {
         // aqui é muito mais fácil, já tenho o id da lista e do produto, só fazer o update
@@ -263,6 +264,7 @@ if ($acao == 'atualizarLista') {
         $listaService->atualizar();
         if($listaService->atualizar()){
             header('location:lista.php?lista_nome='.$_GET['nome_lista']);
+            exit();
         }
     }
 }
@@ -288,12 +290,42 @@ if($acao =='fazerPedido'){
     };
 }
 if($acao =='desFazerPedido'){
-    $pedido = new Pedidos;
+    $pedido = new Pedidos; 
     $pedido->__set('id_user1', $_SESSION['id']); // usuário logado
     $pedido->__set('id_user2', $_GET['user_id']); // usuário que vai receber o pedido
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
     if($pedidoService->deletar()){
         header('location:pedidos.php');
+        exit();
+    };
+}
+if($pegarSolicitacao =='verdadeiro'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user2', $_SESSION['id']);
+    $conexao = new Conexao; 
+    $pedidoService = new PedidosService($pedido, $conexao);
+    $solicitacao = $pedidoService->verSolicitacao();
+}
+if($acao == 'aceitarSolicitacao'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_GET['id_user1'])->
+    __set('id_user2', $_SESSION['id']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->aceitarSolicitacao()){
+        header('location:solicitacoes.php');
+        exit();
+    };
+}
+if($acao =='recusarSolicitacao'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_GET['id_user1'])->
+    __set('id_user2', $_SESSION['id']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->recusarSolicitacao()){
+        header('location:solicitacoes.php');
+        exit();
     };
 }

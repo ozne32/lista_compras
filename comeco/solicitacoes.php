@@ -1,3 +1,7 @@
+<?php
+$pegarSolicitacao = 'verdadeiro';
+require_once 'controller.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -80,7 +84,27 @@
             </div>
         </nav>
     </header>
-    <main></main>
+    <main class="container pt-5">
+        <h3 class="display-4 mb-2">Solicitações</h3>
+        <table class="table table-stripped">
+            <?php foreach($solicitacao as $s){?>
+            <tr>
+                <td class="row">
+                    <div class="col-md-10 lead fw-normal"> <?php echo $s->nome?></div>
+                    <div class="col-md-1">
+                        <button class="btn btn-success" onclick="window.location.href='controller.php?acao=aceitarSolicitacao&id_user1=<?php echo $s->id_user1?>'">Aceitar</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-danger"  onclick="window.location.href='controller.php?acao=recusarSolicitacao&id_user1=<?php echo $s->id_user1?>'">Recusar</button>
+                    </div>
+                </td>
+            </tr>
+            <?php }?>
+        </table>
+        <!-- 1) pegar os usuários que mandaram solicitação (está no começo da página) -->
+        <!-- 2) botão de aceitar ou rejeitar -->
+        <!-- 3) se aceitar, vai dar visualizacao = 1 se rejeitar, vai apagar o pedido -->
+    </main>
     <footer>
         <!-- place footer here -->
     </footer>

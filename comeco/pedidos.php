@@ -106,15 +106,15 @@ require_once 'controller.php';
                                     let btn = $('#btn<?php echo $users->usuario_id?>');
                                     let pedidos = <?php echo $pedidos?>;
                                     pedidos.forEach(pedido => {
-                                        if(pedido['id_user2'] != <?php echo $users->usuario_id?>){
-                                            console.log('oi')
+                                        console.log(pedido.visualizar)
+                                        if(pedido.visualizar == 1){
                                             $(btn).html('Adicionar')
                                             $(btn).attr('class', 'btn btn-success')
                                             $(btn).click(()=>{ 
                                                 window.location.href = "controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>"
                                             }
                                             )
-                                        }else if(pedido['id_user2'] == <?php echo $users->usuario_id?>){
+                                        }else if(pedido.visualizar == 0){
                                             $(btn).html('Remover')
                                             $(btn).attr('class', 'btn btn-danger')
                                             $(btn).click(()=>{
