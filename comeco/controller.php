@@ -272,6 +272,10 @@ if($listaUser =='verdadeiro'){
     $conexao = new Conexao;
     $userService = new UsuarioService($user, $conexao);
     $usuarios = $userService->pegarUsuarios();
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_SESSION['id']); //usuário que eu estou
+    $pedidoService = new PedidosService($pedido, $conexao);
+    $pedidos = json_encode($pedidoService->verPedido());
 }
 if($acao =='fazerPedido'){
     $pedido = new Pedidos;

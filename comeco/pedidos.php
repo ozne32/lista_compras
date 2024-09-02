@@ -89,9 +89,9 @@ require_once 'controller.php';
     <main class="container pt-5">
         <h3 class="display-4 mb-2">Fazer pedidos</h3>
         <!-- aqui vai ter um input para ver os usuários -->
-        <div class="input-group">
+        <!-- <div class="input-group">
             <input class="form-control" type="text" placeholder="Pesquisar">
-        </div>
+        </div> -->
         <div class="mt-3">
             <table class="table table-stripped">
                 <?php foreach ($usuarios as $users) { ?>
@@ -101,21 +101,36 @@ require_once 'controller.php';
                                 <?php echo $users->nome ?>
                             </div>
                             <div class="col-md-1">
-                                <button class="btn btn-success" id=btn<?php echo $users->usuario_id?> >Adicionar</button>
+                                <button id=btn<?php echo $users->usuario_id ?>></button>
                                 <script>
-                                    // onclick="window.location.href='controller.php?acao=fazerPedido&user_id=<?php //echo $users->usuario_id?>'"
-                                    let btn = $('#btn<?php echo $users->usuario_id?>')
-                                    $(btn).on('click',()=>{
-                                        if(btn.html()=='Adicionar'){
-                                            btn.html('Remover')
-                                            btn.attr('class', 'btn btn-danger')
-                                            window.location.href='controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>'
-                                        }else if(btn.html()=='Remover'){
-                                            btn.html('Adicionar')
-                                            btn.attr('class', 'btn btn-success')
-                                            window.location.href='controller.php?acao=desFazerPedido&user_id=<?php echo $users->usuario_id?>'
+                                    let btn = $('#btn<?php echo $users->usuario_id?>');
+                                    let pedidos = <?php echo $pedidos?>;
+                                    pedidos.forEach(pedido => {
+                                        if(pedido['id_user2'] != <?php echo $users->usuario_id?>){
+                                            console.log('oi')
+                                            $(btn).html('Adicionar')
+                                            $(btn).attr('class', 'btn btn-success')
+                                            $(btn).click(()=>{ 
+                                                window.location.href = "controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>"
+                                            }
+                                            )
+                                        }else if(pedido['id_user2'] == <?php echo $users->usuario_id?>){
+                                            $(btn).html('Remover')
+                                            $(btn).attr('class', 'btn btn-danger')
+                                            $(btn).click(()=>{
+                                                window.location.href = "controller.php?acao=desFazerPedido&user_id=<?php echo $users->usuario_id?>"
+                                            }
+                                            )
                                         }
-                                    })
+                                    });
+                                    if(pedidos.length==0){
+                                        $(btn).html('Adicionar')
+                                            $(btn).attr('class', 'btn btn-success')
+                                            $(btn).click(()=>{ 
+                                                window.location.href = "controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>"
+                                            }
+                                            )
+                                    }
                                 </script>
                             </div>
                         </td>
