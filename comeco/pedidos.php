@@ -102,7 +102,6 @@ require_once 'controller.php';
                 let passo = 0
             </script>
             <table class="table table-stripped">
-                <?php echo $_SESSION['id'] ?>
                 <script>
                     ultimo_id = 0;
                 </script>
