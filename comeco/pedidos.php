@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
+    header('Location: sign-up.php?erro=acessoRestrito');
+    // exit();
+}
 $listaUser = 'verdadeiro';
 require_once 'controller.php';
 ?>
@@ -93,45 +98,46 @@ require_once 'controller.php';
             <input class="form-control" type="text" placeholder="Pesquisar">
         </div> -->
         <div class="mt-3">
+            <script>
+                let passo = 0
+            </script>
             <table class="table table-stripped">
-                <?php foreach ($usuarios as $users) { ?>
+                <?php echo $_SESSION['id'] ?>
+                <script>
+                    ultimo_id = 0;
+                </script>
+                <?php foreach ($usuarios as $key => $users) { ?>
                     <tr>
-                        <td class="row">
+                        <td class="row" id="td<?php echo $users->usuario_id ?>">
                             <div class="col-md-11 lead fw-normal">
                                 <?php echo $users->nome ?>
                             </div>
                             <div class="col-md-1">
-                                <button id=btn<?php echo $users->usuario_id ?>></button>
+                            <button class="btn btn-success" id="btn<?php echo $users->usuario_id ?>" onclick="window.location.href = 'controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id ?>'">Adicionar</button>
+
                                 <script>
-                                    let btn = $('#btn<?php echo $users->usuario_id?>');
-                                    let pedidos = <?php echo $pedidos?>;
-                                    pedidos.forEach(pedido => {
-                                        console.log(pedido.visualizar)
-                                        if(pedido.visualizar == 1){
-                                            $(btn).html('Adicionar')
-                                            $(btn).attr('class', 'btn btn-success')
-                                            $(btn).click(()=>{ 
-                                                window.location.href = "controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>"
+                                    <?php if ($key == 0) { ?>
+                                        let pedidos = <?php echo $pedidos ?>;
+                                        let coisa = []
+                                    <?php } ?>
+                                    for (let i = pedidos.length-1; i>=0 ; i--) {
+                                        if(pedidos[i].id_user2 == <?php echo $users->usuario_id?>){
+                                                coisa.push(<?php echo $users->usuario_id?>)
+                                                if(pedidos[i].visualizar == 1){
+                                                    $('td<?php $users->usuario_id?>').hide()
+                                                }
                                             }
-                                            )
-                                        }else if(pedido.visualizar == 0){
-                                            $(btn).html('Remover')
-                                            $(btn).attr('class', 'btn btn-danger')
-                                            $(btn).click(()=>{
-                                                window.location.href = "controller.php?acao=desFazerPedido&user_id=<?php echo $users->usuario_id?>"
-                                            }
-                                            )
-                                        }
-                                    });
-                                    if(pedidos.length==0){
-                                        $(btn).html('Adicionar')
-                                            $(btn).attr('class', 'btn btn-success')
-                                            $(btn).click(()=>{ 
-                                                window.location.href = "controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id?>"
-                                            }
-                                            )
                                     }
-                                </script>
+                                    coisa.forEach((nmr)=>{
+                                            $('#btn'+nmr).html('Remover')
+                                            $('#btn'+nmr).attr('class', 'btn btn-danger')
+                                            $('#btn'+nmr).click(() => {
+                                                        window.location.href = "controller.php?acao=desFazerPedido&user_id=<?php echo $users->usuario_id ?>"
+                                                        indexCoisa = coisa.indexOf(nmr)
+                                                        coisa.splice(indexCoisa, i)
+                                                    })
+                                    })
+                                    </script>
                             </div>
                         </td>
                     </tr>

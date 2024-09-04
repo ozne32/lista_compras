@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
+    header('Location: sign-up.php?erro=acessoRestrito');
+    // exit();
+}
 $pegarSolicitacao = 'verdadeiro';
 require_once 'controller.php';
 ?>

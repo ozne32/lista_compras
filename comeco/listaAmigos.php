@@ -1,8 +1,18 @@
+<?php
+session_start();
+if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
+    header('Location: sign-up.php?erro=acessoRestrito');
+    // exit();
+}
+$lista123 = 'pegarListasAmigos';
+require_once 'controller.php';
+
+?>
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
-    <title>Lista amigos</title>
+    <title>adiciona e remove</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -10,8 +20,10 @@
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -38,49 +50,45 @@
                                 <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="lista.php">Ver listas</a>
+                                <a class="nav-link active" href="lista.php">Ver listas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="listaAmigos.php">Lista dos amigos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="pedidos.php">pedidos pendentes</a>
+                                <a class="nav-link" href="listaAmigos.php">Lista dos amigos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="pedidos.php">fazer pedidos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
-
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Compras
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
-                                    <?php //} ?>
-                                </ul>
-                            </li> -->
                         </ul>
-                        <!-- form de pesquisa que pode ser incrementado dps -->
-                        <!-- <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
         </nav>
     </header>
-    <main></main>
+    <main class="container pt-5">
+        <h3 class="display-4 ">Ver lista dos amigos</h3>
+        <?php if (!isset($_GET['lista_nome'])) { ?>
+            <?php foreach($listaAmigos as $key=>$la){?>
+                <?php if($key >0 && $la->nome_lista != $listaAmigos[$key-1]->nome_lista){?>
+                    <button class="btn btn-success"> <?php echo $la->nome_lista?> <small><?php echo $la->nome?></small></button>
+                <?php }if($key == 0){?>
+                    <button class="btn btn-success"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
+                <?php }?>  
+            <?php }?>
+        <?php } ?>
+        <?php if (isset($_GET['lista_nome'])) { ?>
+        <?php } ?>
+    </main>
     <footer>
         <!-- place footer here -->
     </footer>

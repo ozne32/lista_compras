@@ -329,3 +329,11 @@ if($acao =='recusarSolicitacao'){
         exit();
     };
 }
+if($lista123 =='pegarListasAmigos'){
+    // pegar o id dos usuários que eu posso ver
+    $pedidos = new Pedidos;
+    $pedidos->__set('id_user1', $_SESSION['id']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedidos, $conexao);
+    $listaAmigos = $pedidoService->verListas();
+}
