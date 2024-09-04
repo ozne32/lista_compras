@@ -82,11 +82,20 @@ require_once 'controller.php';
                 <?php if($key >0 && $la->nome_lista != $listaAmigos[$key-1]->nome_lista){?>
                     <button class="btn btn-success"> <?php echo $la->nome_lista?> <small><?php echo $la->nome?></small></button>
                 <?php }if($key == 0){?>
-                    <button class="btn btn-success"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
+                    <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $la->usuario_id?>&nome_lista=<?php  echo $la->nome_lista ?>'"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
                 <?php }?>  
             <?php }?>
         <?php } ?>
         <?php if (isset($_GET['lista_nome'])) { ?>
+            <table class="table table-striped">
+                <?php foreach($_SESSION['valores_lista'] as $val){?>
+                <tr>
+                    <td class="lead fw-normal" id="td<?php echo $val->produto_id?>"><?php echo $val->nome_produto?></td>
+                </tr>
+                <?php }?>
+            </table>
+            <button class="btn btn-danger" onclick="window.location.href = 'listaAmigos.php'"><i
+                    class="fa-solid fa-angle-left"></i> Voltar</button>
         <?php } ?>
     </main>
     <footer>

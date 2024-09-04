@@ -45,7 +45,7 @@ class ListaService{
         INNER JOIN tb_produtos AS tp ON tl.id_prods = tp.produto_id
         WHERE tl.id_user = ? AND tl.nome_lista = ?;';
         $smtm = $this->conn->prepare($query);
-        $smtm->bindValue(1, $_SESSION['id']);
+        $smtm->bindValue(1, $this->lista->id_user);
         $smtm->bindValue(2, $this->lista->nome);
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);

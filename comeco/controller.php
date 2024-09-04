@@ -216,6 +216,7 @@ if ($acao == 'pegarValores') {
     $lista = new Lista;
     $conexao = new Conexao;
     $lista->__set('nome', $nome_lista);
+    $lista->__set('id_user', $_SESSION['id']);
     $listaService = new ListaService($lista, $conexao);
     $resultado = $listaService->acharLista();
     header('Content-Type: application/json');
@@ -336,4 +337,14 @@ if($lista123 =='pegarListasAmigos'){
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedidos, $conexao);
     $listaAmigos = $pedidoService->verListas();
+}
+if($acao =='pegarListaAmigo'){
+    $lista = new Lista;
+    $lista->__set('nome', $_GET['nome_lista'])->
+    __set('id_user', $_GET['usuario_id'] );
+    $conexao = new Conexao;
+    $listaService = new ListaService($lista, $conexao);
+    $valores = $listaService->acharLista();
+    $_SESSION['valores_lista'] = $valores;
+    header('location:listaAmigos.php?lista_nome='. $_GET['nome_lista']);
 }

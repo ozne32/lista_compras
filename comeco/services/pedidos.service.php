@@ -58,7 +58,7 @@ class PedidosService
         return $smtm->execute();
     }
     public function verListas(){
-        $query = 'SELECT tl.nome_lista, tu.nome FROM tb_pedidos as tp 
+        $query = 'SELECT tl.nome_lista, tu.nome, tu.usuario_id FROM tb_pedidos as tp 
         INNER JOIN tb_listas as tl inner join tb_usuarios as tu on tl.id_user = tu.usuario_id
         where tp.id_user1 = ? and tp.visualizar = 1 and tl.id_user <> ?';
         $smtm = $this->conn->prepare($query);
