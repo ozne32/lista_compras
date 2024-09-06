@@ -96,6 +96,19 @@ require_once 'controller.php';
             </table>
             <button class="btn btn-danger" onclick="window.location.href = 'listaAmigos.php'"><i
                     class="fa-solid fa-angle-left"></i> Voltar</button>
+            <button class="btn btn-success" id="agrupar">Agrupar lista</button>
+            <?php  require_once 'modal.php'?>
+            <script>
+                  $('#agrupar').on("click", function () {
+                            $('#agrupaLista').modal('show')
+                            $('#fecharId6').on('click', ()=>{
+                                $('#agrupaLista').modal('hide')
+                            })
+                            $('#btnCancela1').on('click', ()=>{
+                                $('#agrupaLista').modal('hide')
+                            })
+                        })
+            </script>
         <?php } ?>
     </main>
     <footer>

@@ -209,7 +209,11 @@ if ($lista == 'pegarItem') {
     $conexao = new Conexao;
     $lista->__set('id_user', $_SESSION['id']);
     $listaService = new ListaService($lista, $conexao);
-    $_SESSION['vals_lista'] = $listaService->pegarVals();
+    $lista = [];
+    foreach($listaService->pegarVals() as $vals){
+        array_push($lista, $vals->nome_lista);
+    };
+    $_SESSION['vals_lista'] = array_unique($lista);
 }
 if ($acao == 'pegarValores') {
     $nome_lista = $_POST['nome_lista'];
@@ -253,8 +257,8 @@ if ($acao == 'atualizarLista') {
         $lista->__set('id_prods', $pegarId);
         $lista->__set('id_lista', $id_lista);
         $listaService = new ListaService($lista, $conexao);
-        if($listaService->atualizar()){
-            header('location:lista.php?lista_nome='.$_GET['nome_lista']);
+        if ($listaService->atualizar()) {
+            header('location:lista.php?lista_nome=' . $_GET['nome_lista']);
             exit();
         }
     } else {
@@ -263,13 +267,13 @@ if ($acao == 'atualizarLista') {
         $lista->__set('id_prods', $pegarId->produto_id);
         $listaService = new ListaService($lista, $conexao);
         $listaService->atualizar();
-        if($listaService->atualizar()){
-            header('location:lista.php?lista_nome='.$_GET['nome_lista']);
+        if ($listaService->atualizar()) {
+            header('location:lista.php?lista_nome=' . $_GET['nome_lista']);
             exit();
         }
     }
 }
-if($listaUser =='verdadeiro'){
+if ($listaUser == 'verdadeiro') {
     $user = new Usuarios;
     $user->__set('usuario_id', $_SESSION['id']);
     $conexao = new Conexao;
@@ -280,57 +284,61 @@ if($listaUser =='verdadeiro'){
     $pedidoService = new PedidosService($pedido, $conexao);
     $pedidos = json_encode($pedidoService->verPedido());
 }
-if($acao =='fazerPedido'){
+if ($acao == 'fazerPedido') {
     $pedido = new Pedidos;
     $pedido->__set('id_user1', $_SESSION['id']); // usuário logado
     $pedido->__set('id_user2', $_GET['user_id']); // usuário que vai receber o pedido
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->adicionar()){
+    if ($pedidoService->adicionar()) {
         header('location:pedidos.php');
-    };
+    }
+    ;
 }
-if($acao =='desFazerPedido'){
-    $pedido = new Pedidos; 
+if ($acao == 'desFazerPedido') {
+    $pedido = new Pedidos;
     $pedido->__set('id_user1', $_SESSION['id']); // usuário logado
     $pedido->__set('id_user2', $_GET['user_id']); // usuário que vai receber o pedido
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->deletar()){
+    if ($pedidoService->deletar()) {
         header('location:pedidos.php');
         exit();
-    };
+    }
+    ;
 }
-if($pegarSolicitacao =='verdadeiro'){
+if ($pegarSolicitacao == 'verdadeiro') {
     $pedido = new Pedidos;
     $pedido->__set('id_user2', $_SESSION['id']);
-    $conexao = new Conexao; 
+    $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
     $solicitacao = $pedidoService->verSolicitacao();
 }
-if($acao == 'aceitarSolicitacao'){
+if ($acao == 'aceitarSolicitacao') {
     $pedido = new Pedidos;
     $pedido->__set('id_user1', $_GET['id_user1'])->
-    __set('id_user2', $_SESSION['id']);
+        __set('id_user2', $_SESSION['id']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->aceitarSolicitacao()){
+    if ($pedidoService->aceitarSolicitacao()) {
         header('location:solicitacoes.php');
         exit();
-    };
+    }
+    ;
 }
-if($acao =='recusarSolicitacao'){
+if ($acao == 'recusarSolicitacao') {
     $pedido = new Pedidos;
     $pedido->__set('id_user1', $_GET['id_user1'])->
-    __set('id_user2', $_SESSION['id']);
+        __set('id_user2', $_SESSION['id']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->recusarSolicitacao()){
+    if ($pedidoService->recusarSolicitacao()) {
         header('location:solicitacoes.php');
         exit();
-    };
+    }
+    ;
 }
-if($lista123 =='pegarListasAmigos'){
+if ($lista123 == 'pegarListasAmigos') {
     // pegar o id dos usuários que eu posso ver
     $pedidos = new Pedidos;
     $pedidos->__set('id_user1', $_SESSION['id']);
@@ -338,13 +346,71 @@ if($lista123 =='pegarListasAmigos'){
     $pedidoService = new PedidosService($pedidos, $conexao);
     $listaAmigos = $pedidoService->verListas();
 }
-if($acao =='pegarListaAmigo'){
+if ($acao == 'pegarListaAmigo') {
     $lista = new Lista;
     $lista->__set('nome', $_GET['nome_lista'])->
-    __set('id_user', $_GET['usuario_id'] );
+        __set('id_user', $_GET['usuario_id']);
     $conexao = new Conexao;
     $listaService = new ListaService($lista, $conexao);
     $valores = $listaService->acharLista();
     $_SESSION['valores_lista'] = $valores;
-    header('location:listaAmigos.php?lista_nome='. $_GET['nome_lista']);
+    header('location:listaAmigos.php?lista_nome=' . $_GET['nome_lista'] . '&id_amigo=' . $_GET['usuario_id']);
 }
+if ($acao == 'agruparLista') {
+    $listaUsuario = $_POST['produto_id'];// aqui vai ter o nome da lista do usuário que está logado
+    $listaSerAgrupadaNome = $_GET['lista_nome']; // lista do usuário que não é oq está logado
+    $listaSerAgrupadaId = $_GET['idUsuario']; //id do usuário que não é oq está logado
+    /*primeiro eu vou pegar todos os elementos que estão na listaSerAgrupado, fazer um array com isso, após isso eu vou adicionar na Lista 1 a 1 com o insert só que eu preciso
+    ver se tem elementos repetidos, eu pensei em pegar os ids e dar um for para cada produto que aparecer, ou eu posso dar um inner para ver os elementos que tem 
+    aí eu posso ir removendo os itens com um loop for msm utilizando o array_search($value, $array) e dps o unset($array[$index])*/
+    $listaSerAgrupada = new Lista;
+    $listaSerAgrupada->__set('nome', $listaSerAgrupadaNome);
+    $listaSerAgrupada->__set('id_user', $listaSerAgrupadaId);
+    // print_r($listaSerAgrupada);
+
+    $conexao = new Conexao;
+    $listaService = new ListaService($listaSerAgrupada, $conexao);
+    $listaId = [];
+    $listaUser = [];
+    foreach ($listaService->acharLista() as $val) {
+        array_push($listaId, $val->produto_id);
+    }
+    ;
+    $listaUserLogado = new Lista;
+    $listaUserLogado->__set('nome', $listaUsuario);
+    $listaUserLogado->__set('id_user', $_SESSION['id']);
+    $listaService = new ListaService($listaUserLogado, $conexao);
+    foreach ($listaService->acharLista() as $val) {
+        array_push($listaUser, $val->produto_id);
+    }
+    ;
+    print_r($listaId);
+    echo '<br>';
+    print_r($listaUser);
+    echo '<br>';
+    foreach ($listaUser as $idU) {
+        $index = array_search($idU, $listaId);
+        unset($listaId[$index]);
+    }
+    $tamanhoLista = count($listaId);
+    foreach ($listaId as $key => $ids) {
+        if ($key == $tamanhoLista - 1) {
+            $listaUserLogado->__set('id_prods', $ids);
+            $listaService = new ListaService($listaUserLogado, $conexao);
+            $listaService->adicionar(); ?>
+            <script>
+                window.location.href = 'listaAmigos.php'
+            </script>
+        <?php } ?>
+        <?php if ($key != $tamanhoLista - 1) {
+            $listaUserLogado->__set('id_prods', $ids);
+            $listaService = new ListaService($listaUserLogado, $conexao);
+            $listaService->adicionar();
+        }
+    }
+    if ($tamanhoLista == 0) { ?>
+        <script>
+            window.location.href = 'listaAmigos.php'
+        </script>
+    <?php } ?>
+<?php } ?>

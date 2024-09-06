@@ -79,18 +79,11 @@ require_once 'controller.php';
         <?php if (!isset($_GET['lista_nome'])) { ?>
             <div class="row">
                 <!-- esse aqui que vai ficar com repeat -->
-                <?php foreach ($_SESSION['vals_lista'] as $key => $valor) { ?>
-                    <?php if ($key > 0 && $_SESSION['vals_lista'][$key]->nome_lista != $_SESSION['vals_lista'][$key - 1]->nome_lista) { ?>
+                <?php foreach ($_SESSION['vals_lista'] as $valor) { ?>
                         <div class="col-md-4 mt-2">
                             <button class="btn btn-primary btn-lg"
-                                onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor->nome_lista ?>'"><?php echo $valor->nome_lista ?></button>
+                                onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor?>'"><?php echo $valor?></button>
                         </div>
-                    <?php } else if ($key == 0) { ?>
-                            <div class="col-md-4 mt-2">
-                                <button class="btn btn-primary btn-lg"
-                                    onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor->nome_lista ?>'"><?php echo $valor->nome_lista ?></button>
-                            </div>
-                    <?php } ?>
                 <?php } ?>
             </div>
         <?php } ?>
