@@ -4,14 +4,14 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     header('Location: sign-up.php?erro=acessoRestrito');
     // exit();
 }
+$listaUser = 'verdadeiro';
 require_once 'controller.php';
-
 ?>
 <!doctype html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
-    <title>adiciona e remove</title>
+    <title>Pedidos</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -20,9 +20,9 @@ require_once 'controller.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -49,7 +49,7 @@ require_once 'controller.php';
                                 <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="lista.php">Ver listas</a>
@@ -58,7 +58,7 @@ require_once 'controller.php';
                                 <a class="nav-link" href="listaAmigos.php">Lista dos amigos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="pedidos.php">fazer pedidos</a>
+                                <a class="nav-link active" href="pedidos.php">fazer pedidos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
@@ -68,6 +68,7 @@ require_once 'controller.php';
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
+
                             <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -91,51 +92,61 @@ require_once 'controller.php';
         </nav>
     </header>
     <main class="container pt-5">
-        <div class="container">
-            <h3 class="display-4 mb-2"> Adicionar produto </h3>
-            <form action="controller.php?acao=adicionar" method="post">
-                <div class="form-group">
-                    <label for="nome_produto" class="lead fw-normal">Produto nome:</label>
-                    <input class="form-control" name="nome_produto" type="text" placeholder="Digite o nome do produto"
-                        id="inputColoca">
-                    <button class="btn btn-success mt-2">adicionar</button>
-                </div>
-            </form>
-        </div>
-        <script>
-            $(document).ready(function () {
-                $('#inputColoca').focus();
-            });
-        </script>
-        <div class="container">
-            <table class="table table-striped mt-5">
-                <tbody>
-                    <?php foreach ($_SESSION['valores'] as $val) { ?>
-                        <tr>
-                            <td class="lead fw-normal"><?php echo $val->nome_produto ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
+        <h3 class="display-4 mb-2">Fazer pedidos</h3>
+        <!-- aqui vai ter um input para ver os usuários -->
+        <!-- <div class="input-group">
+            <input class="form-control" type="text" placeholder="Pesquisar">
+        </div> -->
+        <div class="mt-3">
+            <script>
+                let passo = 0
+            </script>
+            <table class="table table-stripped">
+                <script>
+                    ultimo_id = 0;
+                </script>
+                <?php foreach ($usuarios as $key => $users) { ?>
+                    <tr>
+                        <td class="row" id="td<?php echo $users->usuario_id ?>">
+                            <div class="col-md-11 lead fw-normal">
+                                <?php echo $users->nome ?>
+                            </div>
+                            <div class="col-md-1">
+                            <button class="btn btn-success" id="btn<?php echo $users->usuario_id ?>" onclick="window.location.href = 'controller.php?acao=fazerPedido&user_id=<?php echo $users->usuario_id ?>'">Adicionar</button>
+
+                                <script>
+                                    <?php if ($key == 0) { ?>
+                                        let pedidos = <?php echo $pedidos ?>;
+                                        let coisa = []
+                                    <?php } ?>
+                                    for (let i = pedidos.length-1; i>=0 ; i--) {
+                                        if(pedidos[i].id_user2 == <?php echo $users->usuario_id?>){
+                                                coisa.push(<?php echo $users->usuario_id?>)
+                                                if(pedidos[i].visualizar == 1){
+                                                    $('td<?php $users->usuario_id?>').hide()
+                                                }
+                                            }
+                                    }
+                                    coisa.forEach((nmr)=>{
+                                            $('#btn'+nmr).html('Remover')
+                                            $('#btn'+nmr).attr('class', 'btn btn-danger')
+                                            $('#btn'+nmr).click(() => {
+                                                        window.location.href = "controller.php?acao=desFazerPedido&user_id=<?php echo $users->usuario_id ?>"
+                                                        indexCoisa = coisa.indexOf(nmr)
+                                                        coisa.splice(indexCoisa, i)
+                                                    })
+                                    })
+                                    </script>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
             </table>
         </div>
     </main>
     <footer>
         <!-- place footer here -->
     </footer>
-    <?php require_once 'modal.php' ?>
-    <?php if (isset($_GET['status']) && $_GET['status'] == 'vazio') { ?>
-        <script>
-            $(document).ready(() => {
-                $('#campoVazio').modal('show')
-                $('#okButton2').on('click', () => {
-                    $('#campoVazio').modal('hide')
-                })
-                $('#fecharId2').on('click', () => {
-                    $('#campoVazio').modal('hide')
-                })
-            })
-        </script>
-    <?php } ?>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

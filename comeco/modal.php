@@ -104,3 +104,56 @@
         </div>
     </div>
 </div>
+<!-- criar lista -->
+<div class="modal" tabindex="-1" role="dialog" id="criarModel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success">Criar lista</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId5">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="controller.php?acao=cria_lista" method="post">
+                    <label for="lista_nome">Digite o nome da sua lista:</label>
+                    <input type="text" id="lista_nome" placeholder="Nome da Lista:" class="form-control" name="nome">
+                    <button class='btn btn-success btn-sm mt-2' type="submit">Criar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnCancela">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Agrupar listas -->
+<div class="modal" tabindex="-1" role="dialog" id="agrupaLista" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success">Criar lista</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId6">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <form action="controller.php?acao=agruparLista&lista_nome=<?php echo $_GET['lista_nome']?>&idUsuario=<?php echo $_GET['id_amigo']?>" method="post">
+                <div class="modal-body">
+                    <div class="form-floating">
+                        <select class="form-select" id="listaSeleciona" name="produto_id" aria-label="Selecione a lista">
+                            <option  selected>Clique aqui para selecionar a lista</option>
+                            <?php foreach ($_SESSION['vals_lista'] as $val) { ?>
+                                    <option value="<?php echo $val?>"><?php echo $val ?></option>
+                            <?php } ?>
+                        </select>
+                        <label for="listaSeleciona">Listas</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Agrupar</button>
+                    <a href="#" type="button" class="btn btn-danger" id="btnCancela1">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
