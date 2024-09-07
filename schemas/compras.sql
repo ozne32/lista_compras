@@ -85,16 +85,6 @@ CREATE TABLE `tb_usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Despejando dados para a tabela `tb_usuarios`
---
-
-INSERT INTO `tb_usuarios` (`usuario_id`, `email`, `nome`, `senha`) VALUES
-(1, 'enzo@gmail.com', 'enzo', 'enzo'),
-(2, 'adm@teste.com', 'adm', '123'),
-(3, 'ana@gmail.com', 'ana', 'ana'),
-(4, 'rafa@gmail.com', 'rafa', 'rafa');
-
---
 -- Índices para tabelas despejadas
 --
 
