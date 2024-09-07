@@ -357,9 +357,14 @@ if ($acao == 'pegarListaAmigo') {
     header('location:listaAmigos.php?lista_nome=' . $_GET['nome_lista'] . '&id_amigo=' . $_GET['usuario_id']);
 }
 if ($acao == 'agruparLista') {
+
     $listaUsuario = $_POST['produto_id'];// aqui vai ter o nome da lista do usuário que está logado
     $listaSerAgrupadaNome = $_GET['lista_nome']; // lista do usuário que não é oq está logado
     $listaSerAgrupadaId = $_GET['idUsuario']; //id do usuário que não é oq está logado
+    if($listaUsuario == 'Clique aqui para selecionar a lista'){
+        header('location:listaAmigos.php');
+        exit();
+    }
     /*primeiro eu vou pegar todos os elementos que estão na listaSerAgrupado, fazer um array com isso, após isso eu vou adicionar na Lista 1 a 1 com o insert só que eu preciso
     ver se tem elementos repetidos, eu pensei em pegar os ids e dar um for para cada produto que aparecer, ou eu posso dar um inner para ver os elementos que tem 
     aí eu posso ir removendo os itens com um loop for msm utilizando o array_search($value, $array) e dps o unset($array[$index])*/
@@ -382,12 +387,7 @@ if ($acao == 'agruparLista') {
     $listaService = new ListaService($listaUserLogado, $conexao);
     foreach ($listaService->acharLista() as $val) {
         array_push($listaUser, $val->produto_id);
-    }
-    ;
-    print_r($listaId);
-    echo '<br>';
-    print_r($listaUser);
-    echo '<br>';
+    };
     foreach ($listaUser as $idU) {
         $index = array_search($idU, $listaId);
         unset($listaId[$index]);
