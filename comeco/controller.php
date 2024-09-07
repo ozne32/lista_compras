@@ -356,6 +356,24 @@ if ($acao == 'pegarListaAmigo') {
     $_SESSION['valores_lista'] = $valores;
     header('location:listaAmigos.php?lista_nome=' . $_GET['nome_lista'] . '&id_amigo=' . $_GET['usuario_id']);
 }
+if($acao =='removerDuplicadas'){
+    $lista = new Lista;
+    $conexao = new Conexao;
+    $listaService = new ListaService($lista, $conexao);
+    $valExcluidos = $listaService->pegarDuplicadas();
+    $valores = '';
+    foreach($valExcluidos as $val){
+        $valores .= $val->produto_id .',';
+    }
+    $valores = substr($valores, 0, -1);
+    $produtos = new Produtos;
+    $produtos->__set('produto_id', $val->produto_id);
+    $produtoService = new ProdutoService($produtos, $conexao);
+    if($produtoService->deletar()){
+        header('location:index.php');
+        exit();
+    };
+}
 if ($acao == 'agruparLista') {
 
     $listaUsuario = $_POST['produto_id'];// aqui vai ter o nome da lista do usuário que está logado
@@ -413,4 +431,13 @@ if ($acao == 'agruparLista') {
             window.location.href = 'listaAmigos.php'
         </script>
     <?php } ?>
+
 <?php } ?>
+<!-- SELECT tp.produto_id
+FROM tb_produtos as tp
+WHERE tp.produto_id NOT IN (
+    SELECT id_prods FROM tb_listas
+    UNION
+    SELECT id_prods FROM tb_user_prods
+);
+ -->

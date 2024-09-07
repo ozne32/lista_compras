@@ -69,6 +69,13 @@ require_once 'controller.php';
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
+                            <?php if($_SESSION['id']==8){?>
+                                <li class="nav-item">
+                                <button class="btn btn-danger"
+                                    onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                        class="fa-solid fa-power-off mr-1"></i> Remover duplicadas</button>
+                            </li>
+                            <?php }?>
                         </ul>
                     </div>
                 </div>
