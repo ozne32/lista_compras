@@ -87,7 +87,12 @@ CREATE TABLE `tb_usuarios` (
 --
 -- Índices para tabelas despejadas
 --
+--
+-- Despejando dados para a tabela `tb_usuarios`
+--
 
+INSERT INTO `tb_usuarios` (`usuario_id`, `email`, `nome`, `senha`) VALUES
+(1, 'masterUser@gmail.com', 'master', 'masterUserSenha'),
 --
 -- Índices de tabela `tb_listas`
 --
