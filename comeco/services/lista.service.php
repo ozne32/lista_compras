@@ -88,4 +88,11 @@ class ListaService
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
+    public function deletarLista(){
+        $query = 'DELETE from tb_listas where nome_lista=? and id_user = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->lista->nome);
+        $smtm->bindValue(2, $this->lista->id_user);
+        return $smtm->execute();
+    }
 }

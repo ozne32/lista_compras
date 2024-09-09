@@ -83,6 +83,7 @@
     </div>
 </div>
 <!-- Deletar -->
+ 
 <div class="modal" tabindex="-1" role="dialog" id="delModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -154,6 +155,28 @@
                     <a href="#" type="button" class="btn btn-danger" id="btnCancela1">Cancelar</a>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- deletar elementos da lista -->
+<div class="modal" tabindex="-1" role="dialog" id="delLista" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Deletar</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharId10">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Tem certeza que quer deletar à lista "<?php echo $_GET['lista_nome']?>" ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button  type="button" class="btn btn-danger" id="btnYes" onclick="window.location.href='controller.php?acao=removerLista&lista_nome=<?php echo $_GET['lista_nome']?>'">Sim!</button>
+                <a href="#" type="button" class="btn btn-danger" id="btnNo1">Não!</a>
+            </div>
         </div>
     </div>
 </div>

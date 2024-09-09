@@ -381,24 +381,31 @@ if($acao =='removerDuplicadas'){
     $conexao = new Conexao;
     $listaService = new ListaService($lista, $conexao);
     $valExcluidos = $listaService->pegarDuplicadas();
+    echo '<pre>';
+    print_r($valExcluidos);
+    echo '</pre>';
     if(!empty($valExcluidos)){
         $valores = '';
         foreach($valExcluidos as $val){
             $valores .= $val->produto_id .',';
         }
         $valores = substr($valores, 0, -1);
+        echo $valores;
         $produtos = new Produtos;
-        $produtos->__set('produto_id', $val->produto_id);
+        $produtos->__set('produto_id', $valores);
+        print_r($produtos);
         $produtoService = new ProdutoService($produtos, $conexao);
         if($produtoService->deletar()){
-            header('location:index.php');
+            echo "<script>window.location.href='index.php'</script>";
             exit();
         };
     }else{
-        header('location:index.php');
+        echo "<script>window.location.href='index.php'</script>";
         exit();
     }
 }
+
+
 if ($acao == 'agruparLista') {
 
     $listaUsuario = $_POST['produto_id'];// aqui vai ter o nome da lista do usuário que está logado
@@ -455,6 +462,17 @@ if ($acao == 'agruparLista') {
         echo "<script>window.location.href ='listaAmigos.php'</script>";
         exit();
     } 
+}
+if($acao=='removerLista'){
+    $lista = new Lista;
+    $lista->__set('nome', $_GET['lista_nome']);
+    $lista->__set('id_user', $_SESSION['id']);
+    $conexao = new Conexao;
+    $listaService = new ListaService($lista, $conexao);
+    if($listaService->deletarLista()){
+        header('location: lista.php');
+        exit();
+    }
 }
 
 ?>

@@ -6,6 +6,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
 }
 $lista = 'pegarItem';
 require_once 'controller.php';
+require_once 'modal.php';
 
 ?>
 <!doctype html>
@@ -153,6 +154,18 @@ require_once 'controller.php';
             </table>
             <button class="btn btn-danger" onclick="window.location.href = 'lista.php'"><i
                     class="fa-solid fa-angle-left"></i> Voltar</button>
+            <button class="btn btn-danger"  id="removBtn">Remover</button>
+            <script>
+                    $('#removBtn').on('click', ()=>{
+                        $('#delLista').modal('show')
+                    })
+                    $('#fecharId10').on('click', ()=>{
+                        $('#delLista').modal('hide')
+                    })
+                    $('#btnNo1').on('click', ()=>{
+                        $('#delLista').modal('hide')
+                    })
+            </script>
         <?php } ?>
     </main>
     <footer>

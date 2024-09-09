@@ -5,6 +5,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     // exit();
 }
 $lista123 = 'pegarListasAmigos';
+$lista = 'pegarItem';
 require_once 'controller.php';
 
 ?>
