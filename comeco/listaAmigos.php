@@ -53,10 +53,10 @@ require_once 'controller.php';
                                 <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="lista.php">Ver listas</a>
+                                <a class="nav-link" href="lista.php">Ver listas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="listaAmigos.php">Lista dos amigos</a>
+                                <a class="nav-link active" href="listaAmigos.php">Lista dos amigos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="pedidos.php">fazer pedidos</a>
@@ -71,9 +71,9 @@ require_once 'controller.php';
                             </li>
                             <?php if($_SESSION['id']==1){?>
                                 <li class="nav-item">
-                                <button class="btn btn-danger"
+                                <button class="btn btn-danger mt-2"
                                     onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
-                                        class="fa-solid fa-power-off mr-1"></i> Remover duplicadas</button>
+                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
                             </li>
                             <?php }?>
                         </ul>

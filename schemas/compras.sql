@@ -92,7 +92,7 @@ CREATE TABLE `tb_usuarios` (
 --
 
 INSERT INTO `tb_usuarios` (`usuario_id`, `email`, `nome`, `senha`) VALUES
-(1, 'masterUser@gmail.com', 'master', 'masterUserSenha'),
+(1, 'masterUser@gmail.com', 'master', 'masterUserSenha');
 --
 -- Índices de tabela `tb_listas`
 --
@@ -154,7 +154,7 @@ ALTER TABLE `tb_produtos`
 -- AUTO_INCREMENT de tabela `tb_usuarios`
 --
 ALTER TABLE `tb_usuarios`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Restrições para tabelas despejadas

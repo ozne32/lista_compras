@@ -70,9 +70,9 @@ require_once 'controller.php';
                             </li>
                             <?php if($_SESSION['id']==1){?>
                                 <li class="nav-item">
-                                <button class="btn btn-danger"
+                                <button class="btn btn-danger mt-2"
                                     onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
-                                        class="fa-solid fa-power-off mr-1"></i> Remover duplicadas</button>
+                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
                             </li>
                             <?php }?>
                             <!-- <li class="nav-item dropdown">

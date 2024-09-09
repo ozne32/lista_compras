@@ -361,18 +361,23 @@ if($acao =='removerDuplicadas'){
     $conexao = new Conexao;
     $listaService = new ListaService($lista, $conexao);
     $valExcluidos = $listaService->pegarDuplicadas();
-    $valores = '';
-    foreach($valExcluidos as $val){
-        $valores .= $val->produto_id .',';
-    }
-    $valores = substr($valores, 0, -1);
-    $produtos = new Produtos;
-    $produtos->__set('produto_id', $val->produto_id);
-    $produtoService = new ProdutoService($produtos, $conexao);
-    if($produtoService->deletar()){
+    if(!empty($valExcluidos)){
+        $valores = '';
+        foreach($valExcluidos as $val){
+            $valores .= $val->produto_id .',';
+        }
+        $valores = substr($valores, 0, -1);
+        $produtos = new Produtos;
+        $produtos->__set('produto_id', $val->produto_id);
+        $produtoService = new ProdutoService($produtos, $conexao);
+        if($produtoService->deletar()){
+            header('location:index.php');
+            exit();
+        };
+    }else{
         header('location:index.php');
         exit();
-    };
+    }
 }
 if ($acao == 'agruparLista') {
 
