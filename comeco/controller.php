@@ -347,7 +347,24 @@ if ($lista123 == 'pegarListasAmigos') {
     $pedidos->__set('id_user1', $_SESSION['id']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedidos, $conexao);
-    $listaAmigos = $pedidoService->verListas();
+    $listaAmigos = $pedidoService->verUsuarios();
+    $lista = [];
+    foreach($listaAmigos as $val){
+        $pedidos->__set('id_user2', $val->id_user2);
+        array_push($lista, $pedidoService->verListas());
+    }
+    $listaNome = [];
+    $userNome = [];
+    $userId = [];
+    foreach($lista as $val){
+        foreach($val as $valor){
+            if(!in_array($valor->nome_lista, $listaNome)){
+                $listaNome[] = $valor->nome_lista;
+                $userNome[] = $valor->nome;
+                $userId[] = $valor->usuario_id;
+            }
+        }
+    }
 }
 if ($acao == 'pegarListaAmigo') {
     $lista = new Lista;
@@ -434,12 +451,10 @@ if ($acao == 'agruparLista') {
             $listaService->adicionar();
         }
     }
-    if ($tamanhoLista == 0) { ?>
-        <script>
-            window.location.href = 'listaAmigos.php'
-        </script>
-    <?php } ?>
-
-<?php } 
+    if ($tamanhoLista == 0) { 
+        echo "<script>window.location.href ='listaAmigos.php'</script>";
+        exit();
+    } 
+}
 
 ?>

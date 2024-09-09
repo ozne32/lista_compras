@@ -82,12 +82,8 @@ require_once 'controller.php';
     <main class="container pt-5">
         <h3 class="display-4 ">Ver lista dos amigos</h3>
         <?php if (!isset($_GET['lista_nome'])) { ?>
-            <?php foreach($listaAmigos as $key=>$la){?>
-                <?php if($key >0 && $la->nome_lista != $listaAmigos[$key-1]->nome_lista){?>
-                    <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $la->usuario_id?>&nome_lista=<?php  echo $la->nome_lista ?>'"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
-                <?php }if($key == 0){?>
-                    <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $la->usuario_id?>&nome_lista=<?php  echo $la->nome_lista ?>'"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
-                <?php }?>  
+            <?php foreach($listaNome as $key=>$la){?>
+                <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $userId[$key]?>&nome_lista=<?php  echo $la ?>'"> <?php echo $la?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($userNome[$key])?> </strong></small></button>
             <?php }?>
         <?php } ?>
         <?php if (isset($_GET['lista_nome'])) { ?>

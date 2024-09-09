@@ -1,6 +1,21 @@
 <?php
-$lista = 'pegarItem';
+$lista123 = 'pegarListasAmigos';
 require_once 'controller.php';
+
+// print_r($listaAmigos);
+echo 'listaNome <br>';
+echo '<pre>';
+print_r($listaNome);
+echo '</pre>';
+echo 'userId <br>';
+echo '<pre>';
+print_r($userId);
+echo '</pre>';
+echo 'userNome <br>';
+echo '<pre>';
+print_r($userNome);
+echo '</pre>';
+// print_r(array_unique($listaAmigos));
 ?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
