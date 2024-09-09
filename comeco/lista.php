@@ -47,10 +47,7 @@ require_once 'controller.php';
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link " aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="lista.php">Ver listas</a>
@@ -69,13 +66,13 @@ require_once 'controller.php';
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
-                            <?php if($_SESSION['id']==1){?>
+                            <?php if ($_SESSION['id'] == 1) { ?>
                                 <li class="nav-item">
-                                <button class="btn btn-danger mt-2"
-                                    onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
-                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
-                            </li>
-                            <?php }?>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                            class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
@@ -87,10 +84,10 @@ require_once 'controller.php';
             <div class="row">
                 <!-- esse aqui que vai ficar com repeat -->
                 <?php foreach ($_SESSION['vals_lista'] as $valor) { ?>
-                        <div class="col-md-4 mt-2">
-                            <button class="btn btn-primary btn-lg"
-                                onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor?>'"><?php echo $valor?></button>
-                        </div>
+                    <div class="col-md-4 mt-2">
+                        <button class="btn btn-primary btn-lg"
+                            onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor ?>'"><?php echo $valor ?></button>
+                    </div>
                 <?php } ?>
             </div>
         <?php } ?>
@@ -102,6 +99,7 @@ require_once 'controller.php';
                     url: 'controller.php?acao=pegarValores',
                     data: { nome_lista: '<?php echo $_GET['lista_nome'] ?>' },
                     success: function (response) {
+                        console.log(response)
                         let resposta = response.resultado
                         resposta.forEach((element) => {
                             // jogar mais um produto para dentro da tabela
@@ -120,12 +118,12 @@ require_once 'controller.php';
                             button.onclick = () => {
                                 lista_nomes.push(element.nome_produto);
                                 td.innerHTML = `<input type='text' class='form-control' id='input${element.produto_id}'
-                                        placeholder='Digite o novo valor:'>`
+                                            placeholder='Digite o novo valor:'>`
                                 $(`#input${element.produto_id}`).focus()
                                 lista_ids.push(element.produto_id)
                                 $(`#input${element.produto_id}`).on('keypress', e => {
                                     if (e.keyCode == 13) {
-                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome']?>&id_prod=${element.produto_id}`
+                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome'] ?>&id_prod=${element.produto_id}`
                                     } else {
                                         novo_valor = $(e.target).val()
                                     }
@@ -140,9 +138,7 @@ require_once 'controller.php';
                             tr.appendChild(td)
                             tr.appendChild(button)
                             document.getElementById('corpo-tabela').appendChild(tr)
-                            console.log(element)
                         });
-                        // window.location.href = 'index.php?status=sucesso-rmv'
                     },
                     error: function (error) {
                         console.log('Erro:', error);

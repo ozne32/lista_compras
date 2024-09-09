@@ -46,11 +46,8 @@ require_once 'controller.php';
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
+                        <li class="nav-item">
+                                <a class="nav-link " aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="lista.php">Ver listas</a>

@@ -9,6 +9,7 @@ require_once 'controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,22 +32,22 @@ require_once 'controller.php';
             lista_inputs.push(id)
             let input = $(`#input${id}`)
             lista_nomes.push(input.prop('placeholder'))
-            if(lista_inputs.length == 2){
-                let input1=$(`#input${lista_inputs[0]}`)
+            if (lista_inputs.length == 2) {
+                let input1 = $(`#input${lista_inputs[0]}`)
                 input1.prop('readonly', true)
                 input1.attr('placeholder', lista_nomes[0])
-                lista_inputs.splice(0,1)
-                lista_nomes.splice(0,1)
+                lista_inputs.splice(0, 1)
+                lista_nomes.splice(0, 1)
             }
             input.trigger('focus')
-            let novo_valor='';
+            let novo_valor = '';
             input.prop('readonly', false)
             input.attr('placeholder', 'digite o novo valor')
-            $(`#input${id}`).on('keypress', e=>{
-                if(e.keyCode==13){
+            $(`#input${id}`).on('keypress', e => {
+                if (e.keyCode == 13) {
                     window.location.href = `controller.php?acao=atualizar&valor=${$(e.target).val()}&produto_id=${id}`
-                }else{
-                    novo_valor=$(e.target).val()
+                } else {
+                    novo_valor = $(e.target).val()
                     console.log(novo_valor)
                 }
             })
@@ -72,10 +73,7 @@ require_once 'controller.php';
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.php">Home(Conferir lista)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link" aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="lista.php">Ver listas</a>
@@ -90,33 +88,18 @@ require_once 'controller.php';
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
-                                <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=logout'"><i class="fa-solid fa-power-off mr-1"></i> Logout</button>
+                                <button class="btn btn-danger"
+                                    onclick="window.location.href='controller.php?acao=logout'"><i
+                                        class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
-                            <?php if($_SESSION['id']==1){?>
+                            <?php if ($_SESSION['id'] == 1) { ?>
                                 <li class="nav-item">
-                                <button class="btn btn-danger mt-2"
-                                    onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
-                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
-                            </li>
-                            <?php }?>
-                            
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Compras
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
-                                    <?php //} ?>
-                                </ul>
-                            </li> -->
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                            class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
+                                </li>
+                            <?php } ?>
                         </ul>
-                        <!-- form de pesquisa que pode ser incrementado dps -->
-                        <!-- <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
@@ -125,8 +108,21 @@ require_once 'controller.php';
     <main class="container pt-5">
         <div class="container">
             <h3 class="display-4 mb-2"> Lista de produtos </h3>
-
-            
+            <div class="container">
+                <form action="controller.php?acao=adicionar" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Digite o nome do produto"
+                            aria-label="Digite o nome do produto:" aria-describedby="button-addon" name="nome_produto"
+                             id="inputColoca">
+                        <button class="btn btn-success" type="submit" id="button-addon">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('#inputColoca').focus();
+                });
+            </script>
             <div class=" mt-3">
                 <?php foreach ($_SESSION['valores'] as $val) { ?>
                     <div class="input-group mb-3">
@@ -160,56 +156,72 @@ require_once 'controller.php';
             </div>
             <div class="row mt-2">
                 <!-- colocar um active para cada um desses botões -->
-                <div class="col-md-1">
-                    <script>
-                        <?php $_SESSION['remover'] ?> = lista_coisas
-                    </script>
-                    <button class="btn  btn-danger" id="click-delete">
-                        Deletar </button>
-                    <?php require_once 'modal.php'?>
-                    <script>
-                         $('#click-delete').on("click", function () {
-                            $('#delModal').modal('show')
-                            $('#btnYes').on('click', ()=>{
-                                $.ajax({
-                                    type: 'POST',
-                                    url: 'controller.php?acao=deletar',
-                                    data: { lista: lista_coisas },
-                                    success: function (response) {
-                                        window.location.href = 'index.php?status=sucesso-rmv'
-                                    },
-                                    error: function (error) {
-                                        console.log('Erro:', error);
-                                    }
-                                });
+                <?php if (!empty($_SESSION['valores'])) { ?>
+                    <div class="col-md-1">
+                        <script>
+                            <?php $_SESSION['remover'] ?> = lista_coisas
+                        </script>
+                        <button class="btn  btn-danger" id="click-delete">
+                            Deletar </button>
+                        <?php require_once 'modal.php' ?>
+                        <script>
+                            $('#click-delete').on("click", function () {
+                                $('#delModal').modal('show')
+                                $('#btnYes').on('click', () => {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: 'controller.php?acao=deletar',
+                                        data: { lista: lista_coisas },
+                                        success: function (response) {
+                                            window.location.href = 'index.php?status=sucesso-rmv'
+                                        },
+                                        error: function (error) {
+                                            console.log('Erro:', error);
+                                        }
+                                    });
+                                })
+                                $('#btnNo').on('click', () => {
+                                    $('#delModal').modal('hide')
+                                })
+                                $('#fecharId4').on('click', () => {
+                                    $('#delModal').modal('hide')
+                                })
                             })
-                            $('#btnNo').on('click', ()=>{
-                                $('#delModal').modal('hide')
+                        </script>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn  btn-primary" id='cria_lista'> Criar lista</button>
+                        <script>
+                            $('#cria_lista').on('click', () => {
+                                $('#criarModel').modal('show')
+                                $('#fecharId5').on('click', () => {
+                                    $('#criarModel').modal('hide')
+                                })
+                                $('#btnCancela').on('click', () => {
+                                    $('#criarModel').modal('hide')
+                                })
                             })
-                            $('#fecharId4').on('click', ()=>{
-                                $('#delModal').modal('hide')
-                            })
-                        })
-                    </script>
-                </div>
-                <div class="col-md-3">
-                    <button class="btn  btn-primary" id='cria_lista' > Criar lista</button>
-                    <script>
-                        $('#cria_lista').on('click', ()=>{
-                            $('#criarModel').modal('show')
-                            $('#fecharId5').on('click', ()=>{
-                                $('#criarModel').modal('hide')
-                            })
-                            $('#btnCancela').on('click', ()=>{
-                                $('#criarModel').modal('hide')
-                            })
-                        })
-                    </script>
-                </div>
+                        </script>
+                    </div>
+                <?php } ?>
             </div>
 
         </div>
     </main>
+    <?php require_once 'modal.php' ?>
+    <?php if (isset($_GET['status']) && $_GET['status'] == 'vazio') { ?>
+        <script>
+            $(document).ready(() => {
+                $('#campoVazio').modal('show')
+                $('#okButton2').on('click', () => {
+                    $('#campoVazio').modal('hide')
+                })
+                $('#fecharId2').on('click', () => {
+                    $('#campoVazio').modal('hide')
+                })
+            })
+        </script>
+    <?php } ?>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>

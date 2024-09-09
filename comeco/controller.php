@@ -60,7 +60,7 @@ if ($acao == 'adicionar') {
         $produtoService = new ProdutoService($produto, $conexao);
         $verificacao = $produtoService->verificar();
         if (!empty($verificacao)) {
-            header('location:add_rmv.php?erro=duplicada');
+            header('location:index.php?erro=duplicada');
         } else if (empty($verificacao)) {
             $idProduto = $produtoService->verificarExistencia()->produto_id;
             if (!empty($idProduto)) { //produto já existe, então eu vou pegar e só atribuir ele na tabela user_prods
@@ -69,9 +69,9 @@ if ($acao == 'adicionar') {
                 $userProd->__set('id_user', $_SESSION['id']);
                 $userProdService = new UserProdService($userProd, $conexao);
                 if ($userProdService->adicionar()) {
-                    header('location:add_rmv.php?status=sucesso');
+                    header('location:index.php?status=sucesso');
                 } else {
-                    header('location:add_rmv.php?status=erro');
+                    header('location:index.php?status=erro');
                 }
             } else if (empty($idProduto)) {
                 if ($produtoService->inserir()) {
@@ -81,14 +81,14 @@ if ($acao == 'adicionar') {
                     $userProd->__set('id_user', $_SESSION['id']);
                     $userProdService = new UserProdService($userProd, $conexao);
                     $userProdService->adicionar();
-                    header('location:add_rmv.php?status=sucesso');
+                    header('location:index.php?status=sucesso');
                 } else {
-                    header('location:add_rmv.php?status=falha');
+                    header('location:index.php?status=falha');
                 }
             }
         }
     } else {
-        header('location:add_rmv.php?status=vazio');
+        header('location:index.php?status=vazio');
     }
 }
 if ($acao == 'deletar') {
@@ -210,15 +210,18 @@ if ($lista == 'pegarItem') {
     $lista->__set('id_user', $_SESSION['id']);
     $listaService = new ListaService($lista, $conexao);
     $lista = [];
+    // print_r($listaService->pegarVals());
     foreach($listaService->pegarVals() as $vals){
         array_push($lista, $vals->nome_lista);
     };
+    // print_r(array_unique($lista));
     $_SESSION['vals_lista'] = array_unique($lista);
 }
 if ($acao == 'pegarValores') {
     $nome_lista = $_POST['nome_lista'];
     $lista = new Lista;
     $conexao = new Conexao;
+    // echo $nome_lista;
     $lista->__set('nome', $nome_lista);
     $lista->__set('id_user', $_SESSION['id']);
     $listaService = new ListaService($lista, $conexao);
@@ -420,12 +423,12 @@ if ($acao == 'agruparLista') {
         if ($key == $tamanhoLista - 1) {
             $listaUserLogado->__set('id_prods', $ids);
             $listaService = new ListaService($listaUserLogado, $conexao);
-            $listaService->adicionar(); ?>
-            <script>
-                window.location.href = 'listaAmigos.php'
-            </script>
-        <?php } ?>
-        <?php if ($key != $tamanhoLista - 1) {
+            if($listaService->adicionar()){
+                header('location: listaAmigos.php');
+                exit();
+            }
+        } 
+         if ($key != $tamanhoLista - 1) {
             $listaUserLogado->__set('id_prods', $ids);
             $listaService = new ListaService($listaUserLogado, $conexao);
             $listaService->adicionar();
@@ -437,12 +440,6 @@ if ($acao == 'agruparLista') {
         </script>
     <?php } ?>
 
-<?php } ?>
-<!-- SELECT tp.produto_id
-FROM tb_produtos as tp
-WHERE tp.produto_id NOT IN (
-    SELECT id_prods FROM tb_listas
-    UNION
-    SELECT id_prods FROM tb_user_prods
-);
- -->
+<?php } 
+
+?>
