@@ -180,3 +180,24 @@
         </div>
     </div>
 </div>
+<!-- lista duplicada -->
+<div class="modal" tabindex="-1" role="dialog" id="duplicada" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Duplicada</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharDuplicada">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Você já criou uma lista com esse nome
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnSair">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>

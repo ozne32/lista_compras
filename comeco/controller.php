@@ -179,12 +179,17 @@ if ($acao == 'signup') {
 }
 if ($acao == 'cria_lista') {
     $nome = $_POST['nome'];
-    if($nome != ''){
+    if($nome == ''){
+        header('location:index.php?status=vazio');
+        exit();
+    }else{
         $conexao = new Conexao;
         $lista = new Lista;
         $lista->__set('nome', $nome);
         $listaService = new ListaService($lista, $conexao);
+        print_r($listaService->verificar());
         if (empty($listaService->verificar())) {
+                echo 'chegou aqui';
             // echo 'chegou';
             foreach ($_SESSION['valores'] as $val) {
                 $id_prods = $val->id_prods;
@@ -201,14 +206,13 @@ if ($acao == 'cria_lista') {
                 $userProdService = new UserProdService($userProd, $conexao);
                 $userProdService->deletar();
             }
-            if (!empty($listaService->verificar())) {
-                header('location:index.php?erro=duplicada');
-            }
-            header('location:index.php');
+            echo "<script>window.location.href='index.php'</script>";
+            exit();
         }
-    }else{
-        header('location:index.php?status=vazio');
-        exit();
+        if (!empty($listaService->verificar())) {
+            echo "<script>window.location.href='index.php?erro=duplicada'</script>";
+            exit();
+            }
     }
 }
 if ($lista == 'pegarItem') {
