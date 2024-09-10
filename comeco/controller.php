@@ -486,5 +486,40 @@ if($acao=='removerLista'){
         exit();
     }
 }
-
+if($pegarAmigosLindos=='pegarAmigos'){
+    $pedido=new Pedidos;
+    $pedido->__set('id_user1', $_SESSION['id']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    $usuariosAmigos = $pedidoService->verUsuarios();
+    $usersAmigos = [];
+    foreach($usuariosAmigos as $val){
+        $usuario = new Usuarios;
+        $usuario->__set('usuario_id', $val->id_user2);
+        $usuarioService = new UsuarioService($usuario, $conexao);
+        $usersAmigos[] = $usuarioService->pegarNome();
+    }
+}
+if($acao =='pararSeguir'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_SESSION['id']);
+    $pedido->__set('id_user2', $_GET['id_user']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->pararSeguir()){
+        header('location: amigos.php');
+        exit();
+    };
+}
+if($acao =='pararSeguir'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user1', $_SESSION['id']);
+    $pedido->__set('id_user2', $_GET['id_user']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->pararSeguir()){
+        header('location: amigos.php');
+        exit();
+    };
+}
 ?>

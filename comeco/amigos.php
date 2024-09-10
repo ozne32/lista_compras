@@ -4,8 +4,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     header('Location: sign-up.php?erro=acessoRestrito');
     // exit();
 }
-$lista123 = 'pegarListasAmigos';
-$lista = 'pegarItem';
+$pegarAmigosLindos = 'pegarAmigos';
 require_once 'controller.php';
 
 ?>
@@ -55,7 +54,7 @@ require_once 'controller.php';
                                 <a class="nav-link" href="lista.php">Ver listas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="listaAmigos.php">Lista dos amigos</a>
+                                <a class="nav-link" href="listaAmigos.php">Lista dos amigos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="pedidos.php">fazer pedidos</a>
@@ -64,7 +63,7 @@ require_once 'controller.php';
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="amigos.php">amigos</a>
+                                <a class="nav-link active" href="amigos.php">amigos</a>
                             </li>
                             <li class="nav-item">
                                 <button class="btn btn-danger"
@@ -85,36 +84,21 @@ require_once 'controller.php';
         </nav>
     </header>
     <main class="container pt-5">
-        <h3 class="display-4 ">Ver lista dos amigos</h3>
-        <?php if (!isset($_GET['lista_nome'])) { ?>
-            <?php foreach($listaNome as $key=>$la){?>
-                <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $userId[$key]?>&nome_lista=<?php  echo $la ?>'"> <?php echo $la?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($userNome[$key])?> </strong></small></button>
+        <h3 class="display-4 mb-2">Amigos</h3>
+        <table class="table table-striped">
+            <?php foreach($usuariosAmigos as $key=>$val){?>
+            <tr>
+                <td class="row">
+                    <div class="col-md-10">
+                        <?php echo $usersAmigos[$key]->nome?>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=pararSeguir&id_user=<?php echo $val->id_user2?>'">Parar de Seguir</button>
+                    </div>
+                </td>
+            </tr>
             <?php }?>
-        <?php } ?>
-        <?php if (isset($_GET['lista_nome'])) { ?>
-            <table class="table table-striped">
-                <?php foreach($_SESSION['valores_lista'] as $val){?>
-                <tr>
-                    <td class="lead fw-normal" id="td<?php echo $val->produto_id?>"><?php echo $val->nome_produto?></td>
-                </tr>
-                <?php }?>
-            </table>
-            <button class="btn btn-danger" onclick="window.location.href = 'listaAmigos.php'"><i
-                    class="fa-solid fa-angle-left"></i> Voltar</button>
-            <button class="btn btn-success" id="agrupar">Agrupar lista</button>
-            <?php  require_once 'modal.php'?>
-            <script>
-                  $('#agrupar').on("click", function () {
-                            $('#agrupaLista').modal('show')
-                            $('#fecharId6').on('click', ()=>{
-                                $('#agrupaLista').modal('hide')
-                            })
-                            $('#btnCancela1').on('click', ()=>{
-                                $('#agrupaLista').modal('hide')
-                            })
-                        })
-            </script>
-        <?php } ?>
+        </table>
     </main>
     <footer>
         <!-- place footer here -->

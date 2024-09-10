@@ -37,4 +37,11 @@ class UsuarioService{
         $smtm->execute();
         return $smtm->fetchAll(PDO::FETCH_OBJ);
     }
+    public function pegarNome(){
+        $query = 'SELECT nome from tb_usuarios where usuario_id = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->usuario->usuario_id);
+        $smtm->execute();
+        return $smtm->fetch(PDO::FETCH_OBJ);
+    }
 }
