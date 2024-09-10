@@ -14,11 +14,11 @@ require_once 'controller.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <title>Inicio</title>
 </head>
@@ -65,12 +65,13 @@ require_once 'controller.php';
                 </div>
                 <!-- parte do canvas -->
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
-                aria-labelledby="offcanvasNavbarLabel">
+                    aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Loja de compras</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                        <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="index.php">Home</a>
@@ -90,17 +91,17 @@ require_once 'controller.php';
                             <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
-                                    class="fa-solid fa-power-off mr-1"></i> Logout</button>
-                                </li>
+                                        class="fa-solid fa-power-off mr-1"></i> Logout</button>
+                            </li>
                             <?php if ($_SESSION['id'] == 1) { ?>
                                 <li class="nav-item">
                                     <button class="btn btn-danger mt-2"
                                         onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
                                             class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
                                 </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
+                            <?php } ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -113,7 +114,7 @@ require_once 'controller.php';
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Digite o nome do produto"
                             aria-label="Digite o nome do produto:" aria-describedby="button-addon" name="nome_produto"
-                             id="inputColoca">
+                            id="inputColoca">
                         <button class="btn btn-success" type="submit" id="button-addon">Adicionar</button>
                     </div>
                 </form>
@@ -128,7 +129,7 @@ require_once 'controller.php';
                     <div class="input-group mb-3">
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="checkbox" value="<?php echo $val->produto_id ?>"
-                            onclick="adiciona(<?php echo $val->produto_id ?>)">
+                                onclick="adiciona(<?php echo $val->produto_id ?>)">
                             <script>
                                 function adiciona(valor) {
                                     let indexValor = lista_coisas.indexOf(valor)
@@ -142,12 +143,12 @@ require_once 'controller.php';
                         </div>
                         <input type="text" class="form-control" id="input<?php echo $val->produto_id ?>"
                             placeholder="<?php echo $val->nome_produto ?>" readonly="true">
-                            <button class="btn" onclick="edita(<?php echo $val->produto_id ?>)"
+                        <button class="btn" onclick="edita(<?php echo $val->produto_id ?>)"
                             style="border: 0.1px solid black; border-radius: 0px 10px 10px 0px ;">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>
-                    <?php } ?>
+                <?php } ?>
                 <!-- <div class='inputs-group mb-3'>
                     <div class="input-group-text">
                         <input class="form-check-input mt-0" type="checkbox">
@@ -160,13 +161,13 @@ require_once 'controller.php';
                     <div class="col-md-1">
                         <script>
                             <?php $_SESSION['remover'] ?> = lista_coisas
-                            </script>
+                        </script>
                         <button class="btn  btn-danger" id="click-delete">
                             Deletar </button>
-                            <?php require_once 'modal.php' ?>
-                            <script>
-                                $('#click-delete').on("click", function () {
-                                    $('#delModal').modal('show')
+                        <?php require_once 'modal.php' ?>
+                        <script>
+                            $('#click-delete').on("click", function () {
+                                $('#delModal').modal('show')
                                 $('#btnYes').on('click', () => {
                                     $.ajax({
                                         type: 'POST',
@@ -220,11 +221,11 @@ require_once 'controller.php';
                     $('#campoVazio').modal('hide')
                 })
             })
-            </script>
+        </script>
     <?php } ?>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>

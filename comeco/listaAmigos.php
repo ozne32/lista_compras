@@ -46,6 +46,7 @@ require_once 'controller.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                    <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
                                 <a class="nav-link " aria-current="page" href="index.php">Home</a>

@@ -42,6 +42,7 @@ if ($acao == 'login') {
         session_start();
         $_SESSION['verificar'] = 'verificado';
         $_SESSION['id'] = $pessoa->usuario_id;
+        $_SESSION['nome_usuario'] = $pessoa->nome;
         header('location:index.php');
     }
 }
@@ -164,6 +165,7 @@ if ($acao == 'signup') {
                 session_start();
                 $_SESSION['verificar'] = 'verificado';
                 $_SESSION['id'] = $pessoa->usuario_id;
+                $_SESSION['nome_usuario'] = $pessoa->nome;
                 header('location:index.php');
             } else {
                 echo 'deu erro';
@@ -177,31 +179,36 @@ if ($acao == 'signup') {
 }
 if ($acao == 'cria_lista') {
     $nome = $_POST['nome'];
-    $conexao = new Conexao;
-    $lista = new Lista;
-    $lista->__set('nome', $nome);
-    $listaService = new ListaService($lista, $conexao);
-    if (empty($listaService->verificar())) {
-        // echo 'chegou';
-        foreach ($_SESSION['valores'] as $val) {
-            $id_prods = $val->id_prods;
-            $id_user = $val->id_user;
-            $lista = new Lista;
-            $lista->__set('nome', $nome);
-            $lista->__set('id_prods', $id_prods);
-            $lista->__set('id_user', $_SESSION['id']);
-            $listaService = new ListaService($lista, $conexao);
-            $listaService->adicionar();
-            $userProd = new UserProd;
-            $userProd->__set('id_prods', $id_prods);
-            $userProd->__set('id_user', $id_user);
-            $userProdService = new UserProdService($userProd, $conexao);
-            $userProdService->deletar();
+    if($nome != ''){
+        $conexao = new Conexao;
+        $lista = new Lista;
+        $lista->__set('nome', $nome);
+        $listaService = new ListaService($lista, $conexao);
+        if (empty($listaService->verificar())) {
+            // echo 'chegou';
+            foreach ($_SESSION['valores'] as $val) {
+                $id_prods = $val->id_prods;
+                $id_user = $val->id_user;
+                $lista = new Lista;
+                $lista->__set('nome', $nome);
+                $lista->__set('id_prods', $id_prods);
+                $lista->__set('id_user', $_SESSION['id']);
+                $listaService = new ListaService($lista, $conexao);
+                $listaService->adicionar();
+                $userProd = new UserProd;
+                $userProd->__set('id_prods', $id_prods);
+                $userProd->__set('id_user', $id_user);
+                $userProdService = new UserProdService($userProd, $conexao);
+                $userProdService->deletar();
+            }
+            if (!empty($listaService->verificar())) {
+                header('location:index.php?erro=duplicada');
+            }
+            header('location:index.php');
         }
-        if (!empty($listaService->verificar())) {
-            header('location:index.php?erro=duplicada');
-        }
-        header('location:index.php');
+    }else{
+        header('location:index.php?status=vazio');
+        exit();
     }
 }
 if ($lista == 'pegarItem') {
