@@ -454,24 +454,25 @@ if ($acao == 'agruparLista') {
         unset($listaId[$index]);
     }
     $tamanhoLista = count($listaId);
-    foreach ($listaId as $key => $ids) {
-        if ($key == $tamanhoLista - 1) {
-            $listaUserLogado->__set('id_prods', $ids);
-            $listaService = new ListaService($listaUserLogado, $conexao);
-            if($listaService->adicionar()){
-                header('location: listaAmigos.php');
-                exit();
-            }
-        } 
-         if ($key != $tamanhoLista - 1) {
-            $listaUserLogado->__set('id_prods', $ids);
-            $listaService = new ListaService($listaUserLogado, $conexao);
-            $listaService->adicionar();
-        }
-    }
-    if ($tamanhoLista == 0) { 
-        echo "<script>window.location.href ='listaAmigos.php'</script>";
+    if (empty($listaId)) { 
+        header('location: listaAmigos.php');
         exit();
+    }else{
+        foreach ($listaId as $key => $ids) {
+            if ($key == $tamanhoLista - 1) {
+                $listaUserLogado->__set('id_prods', $ids);
+                $listaService = new ListaService($listaUserLogado, $conexao);
+                if($listaService->adicionar()){
+                    header('location: listaAmigos.php');
+                    exit();
+                }
+            } 
+             if ($key != $tamanhoLista - 1) {
+                $listaUserLogado->__set('id_prods', $ids);
+                $listaService = new ListaService($listaUserLogado, $conexao);
+                $listaService->adicionar();
+            }
+        }
     } 
 }
 if($acao=='removerLista'){
