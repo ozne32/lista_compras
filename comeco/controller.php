@@ -61,7 +61,7 @@ if ($acao == 'adicionar') {
         $produtoService = new ProdutoService($produto, $conexao);
         $verificacao = $produtoService->verificar();
         if (!empty($verificacao)) {
-            header('location:index.php?erro=duplicada');
+            header('location:index.php?erro=duplicadaItem');
         } else if (empty($verificacao)) {
             $idProduto = $produtoService->verificarExistencia()->produto_id;
             if (!empty($idProduto)) { //produto já existe, então eu vou pegar e só atribuir ele na tabela user_prods
@@ -111,7 +111,7 @@ if ($acao == 'atualizar') {
     $conexao = new Conexao;
     $produtoService = new ProdutoService($produto, $conexao);
     if ($produtoService->verificar()) { // aqui vê se vai ter duplicada, dentro do perfil
-        header('location:index.php?erro=duplicada');
+        header('location:index.php?erro=duplicadaItem');
     } else {
         // meu objetivo agr é pegar esse valor novo, ver se está na lista de produtos, se estiver eu vou trocar ele 
         // no tb_user_prod, se não tiver eu vou só criar um novo, sem dar update, pois, pode ser um produto interessante para 

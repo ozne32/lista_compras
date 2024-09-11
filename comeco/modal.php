@@ -201,3 +201,24 @@
         </div>
     </div>
 </div>
+<!-- item duplicado -->
+<div class="modal" tabindex="-1" role="dialog" id="duplicadaItem" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Duplicada</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharDuplicadaItem">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Essa lista já possui esse item
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnSairItem">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
