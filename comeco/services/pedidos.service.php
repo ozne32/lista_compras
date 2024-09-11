@@ -26,7 +26,7 @@ class PedidosService
     }
     public function verPedido()
     {
-        $query = 'SELECT * from tb_pedidos where id_user1 = ? ';
+        $query = 'SELECT * from tb_pedidos where id_user1 = ?';
         $smtm = $this->conn->prepare($query);
         $smtm->bindValue(1, $this->pedido->id_user1);
         $smtm->execute();
