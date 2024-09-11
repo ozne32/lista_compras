@@ -83,5 +83,12 @@ class PedidosService
         $smtm->bindValue(2, $this->pedido->id_user2);
         return $smtm->execute();
     }
+    public function pegarSeguidores(){
+        $query = 'SELECT * from tb_pedidos where id_user2 = ? and visualizar = 1';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->pedido->id_user2);
+        $smtm->execute();
+        return $smtm->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 ?>

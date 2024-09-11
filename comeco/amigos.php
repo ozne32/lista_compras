@@ -66,6 +66,9 @@ require_once 'controller.php';
                                 <a class="nav-link active" href="amigos.php">amigos</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="seguidores.php">seguidores</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
@@ -90,7 +93,7 @@ require_once 'controller.php';
             <tr>
                 <td class="row">
                     <div class="col-md-10">
-                        <?php echo $usersAmigos[$key]->nome?>
+                        <?php echo ucfirst($usersAmigos[$key]->nome)?>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=pararSeguir&id_user=<?php echo $val->id_user2?>'">Parar de Seguir</button>

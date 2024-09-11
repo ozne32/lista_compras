@@ -67,6 +67,9 @@ require_once 'controller.php';
                                 <a class="nav-link" href="amigos.php">amigos</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="seguidores.php">seguidores</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>

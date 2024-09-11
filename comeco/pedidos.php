@@ -44,6 +44,7 @@ require_once 'controller.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                    <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="index.php">Home</a>
@@ -62,6 +63,9 @@ require_once 'controller.php';
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="amigos.php">amigos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="seguidores.php">seguidores</a>
                             </li>
                             <li class="nav-item">
                                 <button class="btn btn-danger"
@@ -126,13 +130,15 @@ require_once 'controller.php';
                                         let pedidos = <?php echo $pedidos ?>;
                                         let coisa = []
                                     <?php } ?>
+                                    // mostrar todo mundo que eu não fiz pedido e está visualizar = 0
                                     for (let i = pedidos.length-1; i>=0 ; i--) {
-                                        if(pedidos[i].id_user2 == <?php echo $users->usuario_id?>){
-                                                coisa.push(<?php echo $users->usuario_id?>)
-                                                if(pedidos[i].visualizar == 1){
-                                                    $('td<?php $users->usuario_id?>').hide()
+                                        if(pedidos[i].id_user2 == <?php echo $users->usuario_id?> && pedidos[i].id_user1 == <?php echo $_SESSION['id']?> ){
+                                                if(pedidos[i].visualizar == 0){
+                                                    coisa.push(<?php echo $users->usuario_id?>)
+                                                }else if(pedidos[i].visualizar == 1){
+                                                    $('#td<?php echo $users->usuario_id?>').hide();
                                                 }
-                                            }
+                                        }
                                     }
                                     coisa.forEach((nmr)=>{
                                             $('#btn'+nmr).html('Remover')

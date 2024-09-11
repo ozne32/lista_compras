@@ -4,14 +4,15 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     header('Location: sign-up.php?erro=acessoRestrito');
     // exit();
 }
-$pegarSolicitacao = 'verdadeiro';
+$pegarSeguidores= 'pegarSeguidores';
 require_once 'controller.php';
+
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
-    <title>Lista amigos</title>
+    <title>adiciona e remove</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -19,8 +20,10 @@ require_once 'controller.php';
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/3a7cbcc65c.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -57,13 +60,13 @@ require_once 'controller.php';
                                 <a class="nav-link" href="pedidos.php">fazer pedidos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="solicitacoes.php">pedidos pendentes</a>
+                                <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="amigos.php">amigos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="seguidores.php">seguidores</a>
+                                <a class="nav-link active" href="seguidores.php">seguidores</a>
                             </li>
                             <li class="nav-item">
                                 <button class="btn btn-danger"
@@ -77,49 +80,28 @@ require_once 'controller.php';
                                         class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
                             </li>
                             <?php }?>
-
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Compras
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
-                                    <?php //} ?>
-                                </ul>
-                            </li> -->
                         </ul>
-                        <!-- form de pesquisa que pode ser incrementado dps -->
-                        <!-- <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
         </nav>
     </header>
     <main class="container pt-5">
-        <h3 class="display-4 mb-2">Solicitações</h3>
-        <table class="table table-stripped">
-            <?php foreach($solicitacao as $s){?>
+        <h3 class="display-4 mb-2">Seguidores</h3>
+        <table class="table table-striped">
+            <?php foreach($seguidores as $key=>$val){?>
             <tr>
                 <td class="row">
-                    <div class="col-md-10 lead fw-normal"> <?php echo $s->nome?></div>
-                    <div class="col-md-1">
-                        <button class="btn btn-success" onclick="window.location.href='controller.php?acao=aceitarSolicitacao&id_user1=<?php echo $s->id_user1?>'">Aceitar</button>
+                    <div class="col-md-10">
+                        <?php echo ucfirst($seguidoresNomes[$key]->nome)?>
                     </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-danger"  onclick="window.location.href='controller.php?acao=recusarSolicitacao&id_user1=<?php echo $s->id_user1?>'">Recusar</button>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=tirarSeguidor&id_user=<?php echo $val->id_user1?>'">Parar de Seguir</button>
                     </div>
                 </td>
             </tr>
             <?php }?>
         </table>
-        <!-- 1) pegar os usuários que mandaram solicitação (está no começo da página) -->
-        <!-- 2) botão de aceitar ou rejeitar -->
-        <!-- 3) se aceitar, vai dar visualizacao = 1 se rejeitar, vai apagar o pedido -->
     </main>
     <footer>
         <!-- place footer here -->

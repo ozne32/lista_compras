@@ -522,4 +522,29 @@ if($acao =='pararSeguir'){
         exit();
     };
 }
+if($pegarSeguidores =='pegarSeguidores'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user2', $_SESSION['id']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    $seguidores = $pedidoService->pegarSeguidores();
+    $seguidoresNomes = [];
+    foreach($seguidores as $val){
+        $usuario = new Usuarios;
+        $usuario->__set('usuario_id', $val->id_user1);
+        $usuarioService = new UsuarioService($usuario, $conexao);
+        $seguidoresNomes[] = $usuarioService->pegarNome();
+    }
+}
+if($acao == 'tirarSeguidor'){
+    $pedido = new Pedidos;
+    $pedido->__set('id_user2', $_SESSION['id']);
+    $pedido->__set('id_user1', $_GET['id_user']);
+    $conexao = new Conexao;
+    $pedidoService = new PedidosService($pedido, $conexao);
+    if($pedidoService->pararSeguir()){
+        header('location: seguidores.php');
+        exit();
+    };
+}
 ?>
