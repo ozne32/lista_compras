@@ -96,7 +96,7 @@ require_once 'controller.php';
                         <?php echo ucfirst($seguidoresNomes[$key]->nome)?>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=tirarSeguidor&id_user=<?php echo $val->id_user1?>'">Retirar seguidor</button>
+                        <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=tirarSeguidor&id_user=<?php echo $val->id_user1?>'">tirar seguidor</button>
                     </div>
                 </td>
             </tr>
