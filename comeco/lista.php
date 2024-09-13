@@ -46,7 +46,7 @@ require_once 'modal.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                    <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
+                        <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
                                 <a class="nav-link " aria-current="page" href="index.php">Home</a>
@@ -88,17 +88,69 @@ require_once 'modal.php';
         </nav>
     </header>
     <main class="container pt-5">
+        <script>
+            let valoresEdit = [];
+            let valores = []
+        </script>
         <?php if (!isset($_GET['lista_nome'])) { ?>
-            <div class="row">
+            <h3 class="display-4 ">Ver suas listas</h3>
+            <table class='table table-striped'>
                 <!-- esse aqui que vai ficar com repeat -->
-                <?php foreach ($_SESSION['vals_lista'] as $valor) { ?>
-                    <div class="col-md-4 mt-2">
-                        <button class="btn btn-primary btn-lg"
-                            onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor ?>'"><?php echo $valor ?></button>
-                    </div>
+                <?php foreach ($_SESSION['vals_lista'] as $key=>$valor) { ?>
+                    <tr>
+                        <td class="row">
+                            <span class="col-md-10 lead fw-normal" id="valorLista<?php echo $key?>">
+                                <?php echo $valor ?>
+                            </span>
+                            <div class="col-md-2">
+                                <div class="row justify-content-around">
+                                    <button class='btn btn-outline-dark btn-lg col-md-5' id="edita<?php echo  $key ?>">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button class='btn btn-outline-dark btn-lg col-md-5'
+                                        onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor ?>'">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(()=>{
+                                    $("#edita<?php echo $key?>").on('click', () => {
+                                        valoresEdit.push(<?php echo $key?>)
+                                        valores.push('<?php echo $valor?>')
+                                        if(valoresEdit.length >= 2){
+                                            $('#valorLista'+valoresEdit[0]).html(`${valores[0]}`)
+                                            valores.splice(0,1)
+                                            valoresEdit.splice(0,1)
+                                        }
+                                        $('#valorLista<?php echo $key?>').html("<input class='form-control' type=text placeholder ='digite o novo valor da lista' id='inputLista<?php echo $key;?>'>" );
+                                        $('#inputLista<?php echo $key;?>').focus()
+                                        $('#inputLista<?php echo $key;?>').keydown((e)=>{
+                                            if(e.key =='Enter'){
+                                                $.ajax({
+                                                type: 'POST',
+                                                url: 'controller.php?acao=editaLista',
+                                                data: { valor: '<?php echo $valor?>',
+                                                        valor_novo: $(e.target).val()
+                                                 },
+                                                success: function (response) {
+                                                    window.location.href = 'lista.php'
+                                                },
+                                                error: function (error) {
+                                                    console.log('Erro:', error);
+                                                }
+                                            });
+                                            }
+                                        })
+                                    })
+                                })
+                            </script>
+                        </td>
+                    </tr>
                 <?php } ?>
-            </div>
-        <?php } ?>
+            <?php } ?>
+            <?php print_r($valLista)?>
+        </table>
         <?php if (isset($_GET['lista_nome'])) { ?>
             <h3 class="display-4 mb-2"><?php echo ucfirst($_GET['lista_nome']) ?></h3>
             <script>
@@ -126,7 +178,7 @@ require_once 'modal.php';
                             button.onclick = () => {
                                 lista_nomes.push(element.nome_produto);
                                 td.innerHTML = `<input type='text' class='form-control' id='input${element.produto_id}'
-                                            placeholder='Digite o novo valor:'>`
+                                                    placeholder='Digite o novo valor:'>`
                                 $(`#input${element.produto_id}`).focus()
                                 lista_ids.push(element.produto_id)
                                 $(`#input${element.produto_id}`).on('keypress', e => {
@@ -155,23 +207,21 @@ require_once 'modal.php';
             </script>
             <table class="table table-striped">
                 <tbody id="corpo-tabela">
-                    <tr>
-                    </tr>
                 </tbody>
             </table>
             <button class="btn btn-danger" onclick="window.location.href = 'lista.php'"><i
                     class="fa-solid fa-angle-left"></i> Voltar</button>
-            <button class="btn btn-danger"  id="removBtn">Remover</button>
+            <button class="btn btn-danger" id="removBtn">Remover</button>
             <script>
-                    $('#removBtn').on('click', ()=>{
-                        $('#delLista').modal('show')
-                    })
-                    $('#fecharId10').on('click', ()=>{
-                        $('#delLista').modal('hide')
-                    })
-                    $('#btnNo1').on('click', ()=>{
-                        $('#delLista').modal('hide')
-                    })
+                $('#removBtn').on('click', () => {
+                    $('#delLista').modal('show')
+                })
+                $('#fecharId10').on('click', () => {
+                    $('#delLista').modal('hide')
+                })
+                $('#btnNo1').on('click', () => {
+                    $('#delLista').modal('hide')
+                })
             </script>
         <?php } ?>
     </main>

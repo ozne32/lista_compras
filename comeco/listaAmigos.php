@@ -91,7 +91,7 @@ require_once 'controller.php';
         <h3 class="display-4 ">Ver lista dos amigos</h3>
         <?php if (!isset($_GET['lista_nome'])) { ?>
             <?php foreach($listaNome as $key=>$la){?>
-                <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $userId[$key]?>&nome_lista=<?php  echo $la ?>'"> <?php echo $la?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($userNome[$key])?> </strong></small></button>
+                <button class="btn btn-success mt-2" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $userId[$key]?>&nome_lista=<?php  echo $la ?>'"> <?php echo $la?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($userNome[$key])?> </strong></small></button>
             <?php }?>
         <?php } ?>
         <?php if (isset($_GET['lista_nome'])) { ?>

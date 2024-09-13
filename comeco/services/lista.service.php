@@ -95,4 +95,13 @@ class ListaService
         $smtm->bindValue(2, $this->lista->id_user);
         return $smtm->execute();
     }
+    public function editarNomeLista(){
+        $query = 'UPDATE  tb_listas set nome_lista = ? where id_user = ? and nome_lista = ? ';
+        $smtm = $this->conn->prepare($query);
+        // print_r($this->lista);
+        $smtm->bindValue(1, $this->lista->novo_nome);
+        $smtm->bindValue(2, $this->lista->id_user);
+        $smtm->bindValue(3, $this->lista->nome);
+        return $smtm->execute();
+    }
 }

@@ -547,4 +547,16 @@ if($acao == 'tirarSeguidor'){
         exit();
     };
 }
+if($acao =='editaLista'){
+    $lista = new Lista;
+    $lista->__set('nome', $_POST['valor']);
+    $lista->__set('novo_nome', $_POST['valor_novo']);
+    $lista->__set('id_user', $_SESSION['id']);
+    $conexao = new Conexao;
+    $listaService = new ListaService($lista, $conexao);
+    // $listaService->editarNomeLista();
+    if($listaService->editarNomeLista()){
+        echo true;
+    };
+}
 ?>
