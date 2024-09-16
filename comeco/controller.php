@@ -276,14 +276,22 @@ if ($acao == 'atualizarLista') {
             exit();
         }
     } else {
-        // aqui é muito mais fácil, já tenho o id da lista e do produto, só fazer o update
-        $lista->__set('id_lista', $id_lista);
         $lista->__set('id_prods', $pegarId->produto_id);
         $listaService = new ListaService($lista, $conexao);
-        $listaService->atualizar();
-        if ($listaService->atualizar()) {
-            header('location:lista.php?lista_nome=' . $_GET['nome_lista']);
-            exit();
+        if(empty($listaService->pegarId())){
+            // aqui é muito mais fácil, já tenho o id da lista e do produto, só fazer o update
+            // porém eu tenho que ver se o produto já está existe na lista
+            $lista->__set('id_lista', $id_lista);
+            $lista->__set('id_prods', $pegarId->produto_id);
+            $listaService = new ListaService($lista, $conexao);
+            $listaService->atualizar();
+            if ($listaService->atualizar()) {
+                header('location:lista.php?lista_nome=' . $_GET['nome_lista']);
+                exit();
+            }
+        }else{
+                header('location:lista.php?lista_nome=' . $_GET['nome_lista']. '&erro=itemDuplicado');
+                exit();
         }
     }
 }

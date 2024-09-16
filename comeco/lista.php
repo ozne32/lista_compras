@@ -96,15 +96,15 @@ require_once 'modal.php';
             <h3 class="display-4 ">Ver suas listas</h3>
             <table class='table table-striped'>
                 <!-- esse aqui que vai ficar com repeat -->
-                <?php foreach ($_SESSION['vals_lista'] as $key=>$valor) { ?>
+                <?php foreach ($_SESSION['vals_lista'] as $key => $valor) { ?>
                     <tr>
                         <td class="row">
-                            <span class="col-md-10 lead fw-normal" id="valorLista<?php echo $key?>">
+                            <span class="col-md-10 lead fw-normal" id="valorLista<?php echo $key ?>">
                                 <?php echo $valor ?>
                             </span>
                             <div class="col-md-2">
                                 <div class="row justify-content-around">
-                                    <button class='btn btn-outline-dark btn-lg col-md-5' id="edita<?php echo  $key ?>">
+                                    <button class='btn btn-outline-dark btn-lg col-md-5' id="edita<?php echo $key ?>">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
                                     <button class='btn btn-outline-dark btn-lg col-md-5'
@@ -114,36 +114,37 @@ require_once 'modal.php';
                                 </div>
                             </div>
                             <script>
-                                $(document).ready(()=>{
-                                    $("#edita<?php echo $key?>").on('click', () => {
-                                        valoresEdit.push(<?php echo $key?>)
-                                        valores.push('<?php echo $valor?>')
-                                        if(valoresEdit.length >= 2){
-                                            $('#valorLista'+valoresEdit[0]).html(`${valores[0]}`)
-                                            valores.splice(0,1)
-                                            valoresEdit.splice(0,1)
+                                $(document).ready(() => {
+                                    $("#edita<?php echo $key ?>").on('click', () => {
+                                        valoresEdit.push(<?php echo $key ?>)
+                                        valores.push('<?php echo $valor ?>')
+                                        if (valoresEdit.length >= 2) {
+                                            $('#valorLista' + valoresEdit[0]).html(`${valores[0]}`)
+                                            valores.splice(0, 1)
+                                            valoresEdit.splice(0, 1)
                                         }
-                                        $('#valorLista<?php echo $key?>').html("<input class='form-control' type=text placeholder ='digite o novo valor da lista' id='inputLista<?php echo $key;?>'>" );
-                                        $('#inputLista<?php echo $key;?>').focus()
-                                        $('#inputLista<?php echo $key;?>').keydown((e)=>{
-                                            if(e.key =='Enter'){
+                                        $('#valorLista<?php echo $key ?>').html("<input class='form-control' type=text placeholder ='digite o novo valor da lista' id='inputLista<?php echo $key; ?>'>");
+                                        $('#inputLista<?php echo $key; ?>').focus()
+                                        $('#inputLista<?php echo $key; ?>').keydown((e) => {
+                                            if (e.key == 'Enter') {
                                                 $.ajax({
-                                                type: 'POST',
-                                                url: 'controller.php?acao=editaLista',
-                                                data: { valor: '<?php echo $valor?>',
+                                                    type: 'POST',
+                                                    url: 'controller.php?acao=editaLista',
+                                                    data: {
+                                                        valor: '<?php echo $valor ?>',
                                                         valor_novo: $(e.target).val()
-                                                 },
-                                                success: function (response) {
-                                                    if(response){
-                                                        window.location.href = 'lista.php'
-                                                    }else{
-                                                        window.location.href = 'lista.php?erro=duplicadaLista'
+                                                    },
+                                                    success: function (response) {
+                                                        if (response) {
+                                                            window.location.href = 'lista.php'
+                                                        } else {
+                                                            window.location.href = 'lista.php?erro=duplicadaLista'
+                                                        }
+                                                    },
+                                                    error: function (error) {
+                                                        console.log('Erro:', error);
                                                     }
-                                                },
-                                                error: function (error) {
-                                                    console.log('Erro:', error);
-                                                }
-                                            });
+                                                });
                                             }
                                         })
                                     })
@@ -151,23 +152,23 @@ require_once 'modal.php';
                             </script>
                         </td>
                     </tr>
-                    <?php if(isset($_GET['erro']) && $_GET['erro']=='duplicadaLista'){?>
+                    <?php if (isset($_GET['erro']) && $_GET['erro'] == 'duplicadaLista') { ?>
                         <script>
                             $(document).ready(() => {
                                 $('#duplicadaLista').modal('show')
-                            $('#fecharDuplicadaLista').on('click', ()=>{
-                                $('#duplicadaLista').modal('hide')
-                            })
-                            $('#btnSairLista').on('click', ()=>{
-                                $('#duplicadaLista').modal('hide')
-                            })
+                                $('#fecharDuplicadaLista').on('click', () => {
+                                    $('#duplicadaLista').modal('hide')
+                                })
+                                $('#btnSairLista').on('click', () => {
+                                    $('#duplicadaLista').modal('hide')
+                                })
                             })
                             console.log('deu erro')
                         </script>
-                    <?php }?>
+                    <?php } ?>
                 <?php } ?>
             <?php } ?>
-            <?php print_r($valLista)?>
+            <?php print_r($valLista) ?>
         </table>
         <?php if (isset($_GET['lista_nome'])) { ?>
             <h3 class="display-4 mb-2"><?php echo ucfirst($_GET['lista_nome']) ?></h3>
@@ -196,7 +197,7 @@ require_once 'modal.php';
                             button.onclick = () => {
                                 lista_nomes.push(element.nome_produto);
                                 td.innerHTML = `<input type='text' class='form-control' id='input${element.produto_id}'
-                                                    placeholder='Digite o novo valor:'>`
+                                                        placeholder='Digite o novo valor:'>`
                                 $(`#input${element.produto_id}`).focus()
                                 lista_ids.push(element.produto_id)
                                 $(`#input${element.produto_id}`).on('keypress', e => {
@@ -241,6 +242,19 @@ require_once 'modal.php';
                     $('#delLista').modal('hide')
                 })
             </script>
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'itemDuplicado') { ?>
+                <script>
+                    $(document).ready(() => {
+                        $('#duplicadaItem').modal('show')
+                        $('#fecharDuplicadaItem').on('click', () => {
+                            $('#duplicadaItem').modal('hide')
+                        })
+                        $('#btnSairItem').on('click', () => {
+                            $('#duplicadaItem').modal('hide')
+                        })
+                    })
+                </script>
+            <?php } ?>
         <?php } ?>
     </main>
     <footer>
