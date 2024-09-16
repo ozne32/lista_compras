@@ -556,25 +556,29 @@ if($acao == 'tirarSeguidor'){
     };
 }
 if($acao =='editaLista'){
-    $nmr = 0;
-    foreach($_SESSION['vals_lista'] as $val){
-        if($val == $_POST['valor_novo']){
-            $nmr +=1;
+    if(!empty($_POST['valor_novo'])){
+        $nmr = 0;
+        foreach($_SESSION['vals_lista'] as $val){
+            if($val == $_POST['valor_novo']){
+                $nmr +=1;
+            }
         }
-    }
-    if($nmr >= 1){
-        echo false;
+        if($nmr >= 1){
+            echo false;
+        }else{
+            $lista = new Lista;
+            $lista->__set('nome', $_POST['valor']);
+            $lista->__set('novo_nome', $_POST['valor_novo']);
+            $lista->__set('id_user', $_SESSION['id']);
+            $conexao = new Conexao;
+            $listaService = new ListaService($lista, $conexao);
+            // $listaService->editarNomeLista();
+            if($listaService->editarNomeLista()){
+                echo true;
+            };
+        }
     }else{
-        $lista = new Lista;
-        $lista->__set('nome', $_POST['valor']);
-        $lista->__set('novo_nome', $_POST['valor_novo']);
-        $lista->__set('id_user', $_SESSION['id']);
-        $conexao = new Conexao;
-        $listaService = new ListaService($lista, $conexao);
-        // $listaService->editarNomeLista();
-        if($listaService->editarNomeLista()){
-            echo true;
-        };
+        echo 3;
     }
 }
 ?>
