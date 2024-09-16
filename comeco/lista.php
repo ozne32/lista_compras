@@ -134,7 +134,11 @@ require_once 'modal.php';
                                                         valor_novo: $(e.target).val()
                                                  },
                                                 success: function (response) {
-                                                    window.location.href = 'lista.php'
+                                                    if(response){
+                                                        window.location.href = 'lista.php'
+                                                    }else{
+                                                        window.location.href = 'lista.php?erro=duplicadaLista'
+                                                    }
                                                 },
                                                 error: function (error) {
                                                     console.log('Erro:', error);
@@ -147,6 +151,20 @@ require_once 'modal.php';
                             </script>
                         </td>
                     </tr>
+                    <?php if(isset($_GET['erro']) && $_GET['erro']=='duplicadaLista'){?>
+                        <script>
+                            $(document).ready(() => {
+                                $('#duplicadaLista').modal('show')
+                            $('#fecharDuplicadaLista').on('click', ()=>{
+                                $('#duplicadaLista').modal('hide')
+                            })
+                            $('#btnSairLista').on('click', ()=>{
+                                $('#duplicadaLista').modal('hide')
+                            })
+                            })
+                            console.log('deu erro')
+                        </script>
+                    <?php }?>
                 <?php } ?>
             <?php } ?>
             <?php print_r($valLista)?>

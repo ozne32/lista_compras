@@ -222,3 +222,24 @@
         </div>
     </div>
 </div>
+<!-- nome lista duplicado -->
+<div class="modal" tabindex="-1" role="dialog" id="duplicadaLista" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Duplicada lista</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharDuplicadaLista">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Essa lista já possui esse item
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnSairLista">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
