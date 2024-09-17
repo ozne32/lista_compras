@@ -86,6 +86,34 @@ Voltando na página de login, o administrador do site pode logar com um usuário
 ![barraLateralMaster](https://github.com/user-attachments/assets/9d04a5be-b643-4837-854d-f64e73400e9e)
 Ao clicar neste botão você estará removendo todos os produtos que não estão sendo utilizados por nenhum usuário, evitando assim a sobrecarga do banco de dados.
 
+## Como Contribuir e Inicializar
+
+### Inicializando o Projeto
+
+1. **Pré-requisitos**
+
+   Certifique-se de ter o [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/install/) instalados em sua máquina.
+
+2. **Clonando o Repositório**
+
+   Clone o repositório para sua máquina local usando o comando:
+
+   ```bash
+   git clone https://github.com/ozne32/lista_compras
+   cd lista_compras
+3. **Inicializando o projeto**
+   Para inicializar o projeto basta executar este comando
+   ```bash
+   docker-compose up -d
+4. **Contribuindo**
+   Primeiro você criará a sua branch com o comando
+   ```bash
+   git checkout -b nome-do-seu-branch
+Após isso você poderá comitar a branch executando este comando, e então você abrirá um pull request pelo github para ser analisado
+   ```bash git add .
+	git commit -m "Descrição das suas alterações"
+	git push origin nome-do-seu-branch
+
 
 
 
