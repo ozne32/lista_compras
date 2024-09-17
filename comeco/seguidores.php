@@ -4,6 +4,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     header('Location: sign-up.php?erro=acessoRestrito');
     // exit();
 }
+$pegarSeguidores= 'pegarSeguidores';
 require_once 'controller.php';
 
 ?>
@@ -44,12 +45,10 @@ require_once 'controller.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                    <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="add_rmv.php">Adicionar compras</a>
+                        <li class="nav-item">
+                                <a class="nav-link " aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="lista.php">Ver listas</a>
@@ -64,78 +63,49 @@ require_once 'controller.php';
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="amigos.php">amigos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="seguidores.php">seguidores</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Compras
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <?php //foreach ($_SESSION['valores'] as $val) { ?>
-                                        <li><a class="dropdown-item" href="#"><?php // echo $val->nome_produto ?></a></li>
-                                    <?php //} ?>
-                                </ul>
-                            </li> -->
+                            <?php if($_SESSION['id']==1){?>
+                                <li class="nav-item">
+                                <button class="btn btn-danger mt-2"
+                                    onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
+                            </li>
+                            <?php }?>
                         </ul>
-                        <!-- form de pesquisa que pode ser incrementado dps -->
-                        <!-- <form class="d-flex mt-3" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
         </nav>
     </header>
     <main class="container pt-5">
-        <div class="container">
-            <h3 class="display-4 mb-2"> Adicionar produto </h3>
-            <form action="controller.php?acao=adicionar" method="post">
-                <div class="form-group">
-                    <label for="nome_produto" class="lead fw-normal">Produto nome:</label>
-                    <input class="form-control" name="nome_produto" type="text" placeholder="Digite o nome do produto"
-                        id="inputColoca">
-                    <button class="btn btn-success mt-2">adicionar</button>
-                </div>
-            </form>
-        </div>
-        <script>
-            $(document).ready(function () {
-                $('#inputColoca').focus();
-            });
-        </script>
-        <div class="container">
-            <table class="table table-striped mt-5">
-                <tbody>
-                    <?php foreach ($_SESSION['valores'] as $val) { ?>
-                        <tr>
-                            <td class="lead fw-normal"><?php echo $val->nome_produto ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+        <h3 class="display-4 mb-2">Seguidores</h3>
+        <table class="table table-striped">
+            <?php foreach($seguidores as $key=>$val){?>
+            <tr>
+                <td class="row">
+                    <div class="col-md-10">
+                        <?php echo ucfirst($seguidoresNomes[$key]->nome)?>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" onclick="window.location.href='controller.php?acao=tirarSeguidor&id_user=<?php echo $val->id_user1?>'">tirar seguidor</button>
+                    </div>
+                </td>
+            </tr>
+            <?php }?>
+        </table>
     </main>
     <footer>
         <!-- place footer here -->
     </footer>
-    <?php require_once 'modal.php' ?>
-    <?php if (isset($_GET['status']) && $_GET['status'] == 'vazio') { ?>
-        <script>
-            $(document).ready(() => {
-                $('#campoVazio').modal('show')
-                $('#okButton2').on('click', () => {
-                    $('#campoVazio').modal('hide')
-                })
-                $('#fecharId2').on('click', () => {
-                    $('#campoVazio').modal('hide')
-                })
-            })
-        </script>
-    <?php } ?>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

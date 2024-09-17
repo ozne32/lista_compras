@@ -85,19 +85,14 @@ CREATE TABLE `tb_usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
+-- Índices para tabelas despejadas
+--
+--
 -- Despejando dados para a tabela `tb_usuarios`
 --
 
 INSERT INTO `tb_usuarios` (`usuario_id`, `email`, `nome`, `senha`) VALUES
-(1, 'enzo@gmail.com', 'enzo', 'enzo'),
-(2, 'adm@teste.com', 'adm', '123'),
-(3, 'ana@gmail.com', 'ana', 'ana'),
-(4, 'rafa@gmail.com', 'rafa', 'rafa');
-
---
--- Índices para tabelas despejadas
---
-
+(1, 'masterUser@gmail.com', 'master', 'masterUserSenha');
 --
 -- Índices de tabela `tb_listas`
 --
@@ -159,7 +154,7 @@ ALTER TABLE `tb_produtos`
 -- AUTO_INCREMENT de tabela `tb_usuarios`
 --
 ALTER TABLE `tb_usuarios`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Restrições para tabelas despejadas

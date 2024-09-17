@@ -5,6 +5,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
     // exit();
 }
 $lista123 = 'pegarListasAmigos';
+$lista = 'pegarItem';
 require_once 'controller.php';
 
 ?>
@@ -45,18 +46,16 @@ require_once 'controller.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                    <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
+                        <li class="nav-item">
+                                <a class="nav-link " aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link" href="lista.php">Ver listas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="lista.php">Ver listas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="listaAmigos.php">Lista dos amigos</a>
+                                <a class="nav-link active" href="listaAmigos.php">Lista dos amigos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="pedidos.php">fazer pedidos</a>
@@ -65,10 +64,23 @@ require_once 'controller.php';
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="amigos.php">amigos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="seguidores.php">seguidores</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
+                            <?php if($_SESSION['id']==1){?>
+                                <li class="nav-item">
+                                <button class="btn btn-danger mt-2"
+                                    onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
+                            </li>
+                            <?php }?>
                         </ul>
                     </div>
                 </div>
@@ -78,12 +90,8 @@ require_once 'controller.php';
     <main class="container pt-5">
         <h3 class="display-4 ">Ver lista dos amigos</h3>
         <?php if (!isset($_GET['lista_nome'])) { ?>
-            <?php foreach($listaAmigos as $key=>$la){?>
-                <?php if($key >0 && $la->nome_lista != $listaAmigos[$key-1]->nome_lista){?>
-                    <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $la->usuario_id?>&nome_lista=<?php  echo $la->nome_lista ?>'"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
-                <?php }if($key == 0){?>
-                    <button class="btn btn-success" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $la->usuario_id?>&nome_lista=<?php  echo $la->nome_lista ?>'"> <?php echo $la->nome_lista?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($la->nome)?> </strong></small></button>
-                <?php }?>  
+            <?php foreach($listaNome as $key=>$la){?>
+                <button class="btn btn-success mt-2" onclick = "window.location.href='controller.php?acao=pegarListaAmigo&usuario_id=<?php echo $userId[$key]?>&nome_lista=<?php  echo $la ?>'"> <?php echo $la?> <br> <small style="font-size:70%"> De: <strong><?php echo ucfirst($userNome[$key])?> </strong></small></button>
             <?php }?>
         <?php } ?>
         <?php if (isset($_GET['lista_nome'])) { ?>

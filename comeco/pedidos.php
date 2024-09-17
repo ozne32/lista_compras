@@ -44,12 +44,10 @@ require_once 'controller.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                    <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="add_rmv.php">Adicionar compras</a>
+                        <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="lista.php">Ver listas</a>
@@ -64,10 +62,23 @@ require_once 'controller.php';
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="amigos.php">amigos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="seguidores.php">seguidores</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
+                            <?php if($_SESSION['id']==1){?>
+                                <li class="nav-item">
+                                <button class="btn btn-danger mt-2"
+                                    onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                        class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
+                            </li>
+                            <?php }?>
 
                             <!-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -119,13 +130,15 @@ require_once 'controller.php';
                                         let pedidos = <?php echo $pedidos ?>;
                                         let coisa = []
                                     <?php } ?>
+                                    // mostrar todo mundo que eu não fiz pedido e está visualizar = 0
                                     for (let i = pedidos.length-1; i>=0 ; i--) {
-                                        if(pedidos[i].id_user2 == <?php echo $users->usuario_id?>){
-                                                coisa.push(<?php echo $users->usuario_id?>)
-                                                if(pedidos[i].visualizar == 1){
-                                                    $('td<?php $users->usuario_id?>').hide()
+                                        if(pedidos[i].id_user2 == <?php echo $users->usuario_id?> && pedidos[i].id_user1 == <?php echo $_SESSION['id']?> ){
+                                                if(pedidos[i].visualizar == 0){
+                                                    coisa.push(<?php echo $users->usuario_id?>)
+                                                }else if(pedidos[i].visualizar == 1){
+                                                    $('#td<?php echo $users->usuario_id?>').hide();
                                                 }
-                                            }
+                                        }
                                     }
                                     coisa.forEach((nmr)=>{
                                             $('#btn'+nmr).html('Remover')

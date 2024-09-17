@@ -6,6 +6,7 @@ if (!isset($_SESSION['verificar']) || $_SESSION['verificar'] !== 'verificado') {
 }
 $lista = 'pegarItem';
 require_once 'controller.php';
+require_once 'modal.php';
 
 ?>
 <!doctype html>
@@ -45,12 +46,10 @@ require_once 'controller.php';
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                        <h5>Olá, <?php echo ucfirst($_SESSION['nome_usuario']) ?> </h5>
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="index.php">Home(Conferir lista)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="add_rmv.php">Adicionar compras</a>
+                                <a class="nav-link " aria-current="page" href="index.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="lista.php">Ver listas</a>
@@ -65,10 +64,23 @@ require_once 'controller.php';
                                 <a class="nav-link" href="solicitacoes.php">pedidos pendentes</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="amigos.php">amigos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="seguidores.php">seguidores</a>
+                            </li>
+                            <li class="nav-item">
                                 <button class="btn btn-danger"
                                     onclick="window.location.href='controller.php?acao=logout'"><i
                                         class="fa-solid fa-power-off mr-1"></i> Logout</button>
                             </li>
+                            <?php if ($_SESSION['id'] == 1) { ?>
+                                <li class="nav-item">
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="window.location.href='controller.php?acao=removerDuplicadas'"><i
+                                            class="fa-solid fa-trash mr-1 mt-2"></i> Remover itens inúteis</button>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
@@ -76,17 +88,88 @@ require_once 'controller.php';
         </nav>
     </header>
     <main class="container pt-5">
+        <script>
+            let valoresEdit = [];
+            let valores = []
+        </script>
         <?php if (!isset($_GET['lista_nome'])) { ?>
-            <div class="row">
+            <h3 class="display-4 ">Ver suas listas</h3>
+            <table class='table table-striped'>
                 <!-- esse aqui que vai ficar com repeat -->
-                <?php foreach ($_SESSION['vals_lista'] as $valor) { ?>
-                        <div class="col-md-4 mt-2">
-                            <button class="btn btn-primary btn-lg"
-                                onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor?>'"><?php echo $valor?></button>
-                        </div>
+                <?php foreach ($_SESSION['vals_lista'] as $key => $valor) { ?>
+                    <tr>
+                        <td class="row">
+                            <span class="col-md-10 lead fw-normal" id="valorLista<?php echo $key ?>">
+                                <?php echo $valor ?>
+                            </span>
+                            <div class="col-md-2">
+                                <div class="row justify-content-around">
+                                    <button class='btn btn-outline-dark btn-lg col-md-5' id="edita<?php echo $key ?>">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button class='btn btn-outline-dark btn-lg col-md-5'
+                                        onclick="window.location.href = 'lista.php?lista_nome=<?php echo $valor ?>'">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(() => {
+                                    $("#edita<?php echo $key ?>").on('click', () => {
+                                        valoresEdit.push(<?php echo $key ?>)
+                                        valores.push('<?php echo $valor ?>')
+                                        if (valoresEdit.length >= 2) {
+                                            $('#valorLista' + valoresEdit[0]).html(`${valores[0]}`)
+                                            valores.splice(0, 1)
+                                            valoresEdit.splice(0, 1)
+                                        }
+                                        $('#valorLista<?php echo $key ?>').html("<input class='form-control' type=text placeholder ='digite o novo valor da lista' id='inputLista<?php echo $key; ?>'>");
+                                        $('#inputLista<?php echo $key; ?>').focus()
+                                        $('#inputLista<?php echo $key; ?>').keydown((e) => {
+                                            if (e.key == 'Enter') {
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: 'controller.php?acao=editaLista',
+                                                    data: {
+                                                        valor: '<?php echo $valor ?>',
+                                                        valor_novo: $(e.target).val()
+                                                    },
+                                                    success: function (response) {
+                                                        if (response) {
+                                                            window.location.href = 'lista.php'
+                                                        } else {
+                                                            window.location.href = 'lista.php?erro=duplicadaLista'
+                                                        }
+                                                    },
+                                                    error: function (error) {
+                                                        console.log('Erro:', error);
+                                                    }
+                                                });
+                                            }
+                                        })
+                                    })
+                                })
+                            </script>
+                        </td>
+                    </tr>
+                    <?php if (isset($_GET['erro']) && $_GET['erro'] == 'duplicadaLista') { ?>
+                        <script>
+                            $(document).ready(() => {
+                                $('#duplicadaLista').modal('show')
+                                $('#fecharDuplicadaLista').on('click', () => {
+                                    $('#duplicadaLista').modal('hide')
+                                })
+                                $('#btnSairLista').on('click', () => {
+                                    $('#duplicadaLista').modal('hide')
+                                })
+                            })
+                            console.log('deu erro')
+                        </script>
+                    <?php } ?>
                 <?php } ?>
-            </div>
-        <?php } ?>
+            <?php } ?>
+            <?php print_r($valLista) ?>
+        </table>
         <?php if (isset($_GET['lista_nome'])) { ?>
             <h3 class="display-4 mb-2"><?php echo ucfirst($_GET['lista_nome']) ?></h3>
             <script>
@@ -95,6 +178,7 @@ require_once 'controller.php';
                     url: 'controller.php?acao=pegarValores',
                     data: { nome_lista: '<?php echo $_GET['lista_nome'] ?>' },
                     success: function (response) {
+                        console.log(response)
                         let resposta = response.resultado
                         resposta.forEach((element) => {
                             // jogar mais um produto para dentro da tabela
@@ -113,12 +197,12 @@ require_once 'controller.php';
                             button.onclick = () => {
                                 lista_nomes.push(element.nome_produto);
                                 td.innerHTML = `<input type='text' class='form-control' id='input${element.produto_id}'
-                                        placeholder='Digite o novo valor:'>`
+                                                        placeholder='Digite o novo valor:'>`
                                 $(`#input${element.produto_id}`).focus()
                                 lista_ids.push(element.produto_id)
                                 $(`#input${element.produto_id}`).on('keypress', e => {
                                     if (e.keyCode == 13) {
-                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome']?>&id_prod=${element.produto_id}`
+                                        window.location.href = `controller.php?acao=atualizarLista&valor=${$(e.target).val()}&nome_lista=<?php echo $_GET['lista_nome'] ?>&id_prod=${element.produto_id}`
                                     } else {
                                         novo_valor = $(e.target).val()
                                     }
@@ -133,9 +217,7 @@ require_once 'controller.php';
                             tr.appendChild(td)
                             tr.appendChild(button)
                             document.getElementById('corpo-tabela').appendChild(tr)
-                            console.log(element)
                         });
-                        // window.location.href = 'index.php?status=sucesso-rmv'
                     },
                     error: function (error) {
                         console.log('Erro:', error);
@@ -144,12 +226,35 @@ require_once 'controller.php';
             </script>
             <table class="table table-striped">
                 <tbody id="corpo-tabela">
-                    <tr>
-                    </tr>
                 </tbody>
             </table>
             <button class="btn btn-danger" onclick="window.location.href = 'lista.php'"><i
                     class="fa-solid fa-angle-left"></i> Voltar</button>
+            <button class="btn btn-danger" id="removBtn">Remover</button>
+            <script>
+                $('#removBtn').on('click', () => {
+                    $('#delLista').modal('show')
+                })
+                $('#fecharId10').on('click', () => {
+                    $('#delLista').modal('hide')
+                })
+                $('#btnNo1').on('click', () => {
+                    $('#delLista').modal('hide')
+                })
+            </script>
+            <?php if (isset($_GET['erro']) && $_GET['erro'] == 'itemDuplicado') { ?>
+                <script>
+                    $(document).ready(() => {
+                        $('#duplicadaItem').modal('show')
+                        $('#fecharDuplicadaItem').on('click', () => {
+                            $('#duplicadaItem').modal('hide')
+                        })
+                        $('#btnSairItem').on('click', () => {
+                            $('#duplicadaItem').modal('hide')
+                        })
+                    })
+                </script>
+            <?php } ?>
         <?php } ?>
     </main>
     <footer>

@@ -1,5 +1,6 @@
 <?php
 class Lista{
+    private $novo_nome;
     private $nome;
     private  $id_prods;
     private $id_user;
