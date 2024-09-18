@@ -234,7 +234,7 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Essa lista já possui esse item
+                    Já existe uma lista com este nome
                 </p>
             </div>
             <div class="modal-footer">
