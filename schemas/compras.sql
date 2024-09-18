@@ -90,6 +90,10 @@ CREATE TABLE `tb_usuarios` (
 --
 -- Despejando dados para a tabela `tb_usuarios`
 --
+CREATE TABLE `tb_redefini_senha` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 INSERT INTO `tb_usuarios` (`usuario_id`, `email`, `nome`, `senha`) VALUES
 (1, 'masterUser@gmail.com', 'master', 'masterUserSenha');
