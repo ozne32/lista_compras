@@ -1,4 +1,10 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once './PHPMailer/src/PHPMailer.php';
+require_once './PHPMailer/src/SMTP.php';
+require_once './PHPMailer/src/Exception.php';
 require_once 'conexao.php';
 require_once './models/produtos.php';
 require_once './services/produto.service.php';
@@ -10,6 +16,8 @@ require_once './models/lista.php';
 require_once './services/lista.service.php';
 require_once './models/pedidos.php';
 require_once './services/pedidos.service.php';
+require_once './models/redefiniSenha.php';
+require_once './services/redefiniSenha.service.php';
 session_start();
 $acao = $_GET['acao'];
 $coisa;
@@ -179,17 +187,17 @@ if ($acao == 'signup') {
 }
 if ($acao == 'cria_lista') {
     $nome = $_POST['nome'];
-    if($nome == ''){
+    if ($nome == '') {
         header('location:index.php?status=vazio');
         exit();
-    }else{
+    } else {
         $conexao = new Conexao;
         $lista = new Lista;
         $lista->__set('nome', $nome);
         $listaService = new ListaService($lista, $conexao);
         print_r($listaService->verificar());
         if (empty($listaService->verificar())) {
-                echo 'chegou aqui';
+            echo 'chegou aqui';
             // echo 'chegou';
             foreach ($_SESSION['valores'] as $val) {
                 $id_prods = $val->id_prods;
@@ -212,7 +220,7 @@ if ($acao == 'cria_lista') {
         if (!empty($listaService->verificar())) {
             echo "<script>window.location.href='index.php?erro=duplicada'</script>";
             exit();
-            }
+        }
     }
 }
 if ($lista == 'pegarItem') {
@@ -222,9 +230,10 @@ if ($lista == 'pegarItem') {
     $listaService = new ListaService($lista, $conexao);
     $lista = [];
     // print_r($listaService->pegarVals());
-    foreach($listaService->pegarVals() as $vals){
+    foreach ($listaService->pegarVals() as $vals) {
         array_push($lista, $vals->nome_lista);
-    };
+    }
+    ;
     // print_r(array_unique($lista));
     $_SESSION['vals_lista'] = array_unique($lista);
 }
@@ -278,7 +287,7 @@ if ($acao == 'atualizarLista') {
     } else {
         $lista->__set('id_prods', $pegarId->produto_id);
         $listaService = new ListaService($lista, $conexao);
-        if(empty($listaService->pegarId())){
+        if (empty($listaService->pegarId())) {
             // aqui é muito mais fácil, já tenho o id da lista e do produto, só fazer o update
             // porém eu tenho que ver se o produto já está existe na lista
             $lista->__set('id_lista', $id_lista);
@@ -289,9 +298,9 @@ if ($acao == 'atualizarLista') {
                 header('location:lista.php?lista_nome=' . $_GET['nome_lista']);
                 exit();
             }
-        }else{
-                header('location:lista.php?lista_nome=' . $_GET['nome_lista']. '&erro=itemDuplicado');
-                exit();
+        } else {
+            header('location:lista.php?lista_nome=' . $_GET['nome_lista'] . '&erro=itemDuplicado');
+            exit();
         }
     }
 }
@@ -368,16 +377,16 @@ if ($lista123 == 'pegarListasAmigos') {
     $pedidoService = new PedidosService($pedidos, $conexao);
     $listaAmigos = $pedidoService->verUsuarios();
     $lista = [];
-    foreach($listaAmigos as $val){
+    foreach ($listaAmigos as $val) {
         $pedidos->__set('id_user2', $val->id_user2);
         array_push($lista, $pedidoService->verListas());
     }
     $listaNome = [];
     $userNome = [];
     $userId = [];
-    foreach($lista as $val){
-        foreach($val as $valor){
-            if(!in_array($valor->nome_lista, $listaNome)){
+    foreach ($lista as $val) {
+        foreach ($val as $valor) {
+            if (!in_array($valor->nome_lista, $listaNome)) {
                 $listaNome[] = $valor->nome_lista;
                 $userNome[] = $valor->nome;
                 $userId[] = $valor->usuario_id;
@@ -395,7 +404,7 @@ if ($acao == 'pegarListaAmigo') {
     $_SESSION['valores_lista'] = $valores;
     header('location:listaAmigos.php?lista_nome=' . $_GET['nome_lista'] . '&id_amigo=' . $_GET['usuario_id']);
 }
-if($acao =='removerDuplicadas'){
+if ($acao == 'removerDuplicadas') {
     $lista = new Lista;
     $conexao = new Conexao;
     $listaService = new ListaService($lista, $conexao);
@@ -403,10 +412,10 @@ if($acao =='removerDuplicadas'){
     echo '<pre>';
     print_r($valExcluidos);
     echo '</pre>';
-    if(!empty($valExcluidos)){
+    if (!empty($valExcluidos)) {
         $valores = '';
-        foreach($valExcluidos as $val){
-            $valores .= $val->produto_id .',';
+        foreach ($valExcluidos as $val) {
+            $valores .= $val->produto_id . ',';
         }
         $valores = substr($valores, 0, -1);
         echo $valores;
@@ -414,11 +423,12 @@ if($acao =='removerDuplicadas'){
         $produtos->__set('produto_id', $valores);
         print_r($produtos);
         $produtoService = new ProdutoService($produtos, $conexao);
-        if($produtoService->deletar()){
+        if ($produtoService->deletar()) {
             echo "<script>window.location.href='index.php'</script>";
             exit();
-        };
-    }else{
+        }
+        ;
+    } else {
         echo "<script>window.location.href='index.php'</script>";
         exit();
     }
@@ -430,7 +440,7 @@ if ($acao == 'agruparLista') {
     $listaUsuario = $_POST['produto_id'];// aqui vai ter o nome da lista do usuário que está logado
     $listaSerAgrupadaNome = $_GET['lista_nome']; // lista do usuário que não é oq está logado
     $listaSerAgrupadaId = $_GET['idUsuario']; //id do usuário que não é oq está logado
-    if($listaUsuario == 'Clique aqui para selecionar a lista'){
+    if ($listaUsuario == 'Clique aqui para selecionar a lista') {
         header('location:listaAmigos.php');
         exit();
     }
@@ -456,116 +466,120 @@ if ($acao == 'agruparLista') {
     $listaService = new ListaService($listaUserLogado, $conexao);
     foreach ($listaService->acharLista() as $val) {
         array_push($listaUser, $val->produto_id);
-    };
+    }
+    ;
     foreach ($listaUser as $idU) {
         $index = array_search($idU, $listaId);
         unset($listaId[$index]);
     }
     $tamanhoLista = count($listaId);
-    if (empty($listaId)) { 
+    if (empty($listaId)) {
         header('location: listaAmigos.php');
         exit();
-    }else{
+    } else {
         foreach ($listaId as $key => $ids) {
             if ($key == $tamanhoLista - 1) {
                 $listaUserLogado->__set('id_prods', $ids);
                 $listaService = new ListaService($listaUserLogado, $conexao);
-                if($listaService->adicionar()){
+                if ($listaService->adicionar()) {
                     header('location: listaAmigos.php');
                     exit();
                 }
-            } 
-             if ($key != $tamanhoLista - 1) {
+            }
+            if ($key != $tamanhoLista - 1) {
                 $listaUserLogado->__set('id_prods', $ids);
                 $listaService = new ListaService($listaUserLogado, $conexao);
                 $listaService->adicionar();
             }
         }
-    } 
+    }
 }
-if($acao=='removerLista'){
+if ($acao == 'removerLista') {
     $lista = new Lista;
     $lista->__set('nome', $_GET['lista_nome']);
     $lista->__set('id_user', $_SESSION['id']);
     $conexao = new Conexao;
     $listaService = new ListaService($lista, $conexao);
-    if($listaService->deletarLista()){
+    if ($listaService->deletarLista()) {
         header('location: lista.php');
         exit();
     }
 }
-if($pegarAmigosLindos=='pegarAmigos'){
-    $pedido=new Pedidos;
+if ($pegarAmigosLindos == 'pegarAmigos') {
+    $pedido = new Pedidos;
     $pedido->__set('id_user1', $_SESSION['id']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
     $usuariosAmigos = $pedidoService->verUsuarios();
     $usersAmigos = [];
-    foreach($usuariosAmigos as $val){
+    foreach ($usuariosAmigos as $val) {
         $usuario = new Usuarios;
         $usuario->__set('usuario_id', $val->id_user2);
         $usuarioService = new UsuarioService($usuario, $conexao);
         $usersAmigos[] = $usuarioService->pegarNome();
     }
 }
-if($acao =='pararSeguir'){
+if ($acao == 'pararSeguir') {
     $pedido = new Pedidos;
     $pedido->__set('id_user1', $_SESSION['id']);
     $pedido->__set('id_user2', $_GET['id_user']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->pararSeguir()){
+    if ($pedidoService->pararSeguir()) {
         header('location: amigos.php');
         exit();
-    };
+    }
+    ;
 }
-if($acao =='pararSeguir'){
+if ($acao == 'pararSeguir') {
     $pedido = new Pedidos;
     $pedido->__set('id_user1', $_SESSION['id']);
     $pedido->__set('id_user2', $_GET['id_user']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->pararSeguir()){
+    if ($pedidoService->pararSeguir()) {
         header('location: amigos.php');
         exit();
-    };
+    }
+    ;
 }
-if($pegarSeguidores =='pegarSeguidores'){
+if ($pegarSeguidores == 'pegarSeguidores') {
     $pedido = new Pedidos;
     $pedido->__set('id_user2', $_SESSION['id']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
     $seguidores = $pedidoService->pegarSeguidores();
     $seguidoresNomes = [];
-    foreach($seguidores as $val){
+    foreach ($seguidores as $val) {
         $usuario = new Usuarios;
         $usuario->__set('usuario_id', $val->id_user1);
         $usuarioService = new UsuarioService($usuario, $conexao);
         $seguidoresNomes[] = $usuarioService->pegarNome();
     }
 }
-if($acao == 'tirarSeguidor'){
+if ($acao == 'tirarSeguidor') {
     $pedido = new Pedidos;
     $pedido->__set('id_user2', $_SESSION['id']);
     $pedido->__set('id_user1', $_GET['id_user']);
     $conexao = new Conexao;
     $pedidoService = new PedidosService($pedido, $conexao);
-    if($pedidoService->pararSeguir()){
+    if ($pedidoService->pararSeguir()) {
         header('location: seguidores.php');
         exit();
-    };
+    }
+    ;
 }
-if($acao =='editaLista'){
-    if(!empty($_POST['valor_novo'])){
+if ($acao == 'editaLista') {
+    if (!empty($_POST['valor_novo'])) {
         $nmr = 0;
-        foreach($_SESSION['vals_lista'] as $val){
-            if($val == $_POST['valor_novo']){
-                $nmr +=1;
+        foreach ($_SESSION['vals_lista'] as $val) {
+            if ($val == $_POST['valor_novo']) {
+                $nmr += 1;
             }
         }
-        if($nmr >= 1){
+        if ($nmr >= 1) {
             echo false;
-        }else{
+        } else {
             $lista = new Lista;
             $lista->__set('nome', $_POST['valor']);
             $lista->__set('novo_nome', $_POST['valor_novo']);
@@ -573,12 +587,107 @@ if($acao =='editaLista'){
             $conexao = new Conexao;
             $listaService = new ListaService($lista, $conexao);
             // $listaService->editarNomeLista();
-            if($listaService->editarNomeLista()){
+            if ($listaService->editarNomeLista()) {
                 echo true;
-            };
+            }
+            ;
         }
-    }else{
+    } else {
         echo 3;
     }
+}
+if ($acao == 'novaSenha') {
+    $token = bin2hex(random_bytes(50));
+    $email = $_POST['email'];
+    $redefiniSenha = new RedefiniSenha;
+    $redefiniSenha->__set('email', $email);
+    $redefiniSenha->__set('token', $token);
+    $conexao = new Conexao;
+    $usuario = new Usuarios;
+    $usuario->__set('email', $email);
+    $usuarioService = new UsuarioService($usuario, $conexao);
+    $redefiniSenhaService = new RedefiniSenhaService($redefiniSenha, $conexao);
+    //primeiro fazer o verificar que vai ver se já existe uma solicitação com esse email, dps disso, aí ss você pode adicionar na lista
+    if (empty($redefiniSenhaService->verificar())) {
+        if(!empty($usuarioService->verficarExistencia())){
+            $mail = new PHPMailer(true);
+            try {
+                // echo '<pre>';
+                // print_r($mail);
+                // echo '</pre>';
+                //Server settings
+                $mail->SMTPDebug = 1;                      //Enable verbose debug output
+                $mail->isSMTP();                                          //Send using SMTP
+                $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth = true;                                   //Enable SMTP authentication
+                $mail->Username = 'emailGenerico';                     //SMTP username
+                $mail->Password = 'senhaLinda';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                $mail->Port = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                $mail->setFrom('enzorcc.mf3rs@gmail.com', 'Lista compras');
+                $mail->addAddress($redefiniSenha->email);     //Add a recipient
+
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'Redefiniçaõ da sua senha';
+                $mail->Body = "<p>Clique no link abaixo para redefinir a sua senha</p><a href='http://localhost:8080/nova-senha.php?email=" . $redefiniSenha->email . "&token=" . $redefiniSenha->token . "'>Redefinir Senha</a>";
+                $mail->AltBody = 'Por favor habilite o html para conseguir acessar este recurso';
+                $mail->send();
+                if ($redefiniSenhaService->adicionar()) {
+                    echo "<script> window.location.href = 'login.php?sucesso=solicitacaoFeita'</script>";
+                    // header('location: login.php?sucesso=solicitacaoFeita');
+                    // die();
+                }
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+        }else{
+            header('location: login.php?erro=usuarioInexistente');
+            die();
+        }
+    } else {
+        header('location: login.php?erro=solicitacaoFeita');
+        die();
+    }
+    ;
+    // $redefiniSenhaService->adicionar();
+}
+if( $acao == 'verificaNovaSenha'){
+    $redefiniSenha = new RedefiniSenha;
+    $redefiniSenha->__set('email', $_POST['email']);
+    $redefiniSenha->__set('token', $_POST['token']);
+    $conexao = new Conexao;
+    $redefiniSenhaService = new RedefiniSenhaService($redefiniSenha, $conexao);
+    if(!empty($redefiniSenhaService->verificarExistencia())){
+        echo '0';
+    }else{
+        echo '1';
+    }
+}
+if($acao =='trocarSenha'){
+    $conexao = new Conexao;
+    $email = $_GET['email'];
+    $token = $_GET['token'];
+    if($_POST['senha'] == $_POST['nova_senha']){
+        $redefiniSenha = new RedefiniSenha;
+        $redefiniSenha->__set('email', $email);
+        $redefiniSenha->__set('token', $token);
+        $redefiniSenhaService = new RedefiniSenhaService($redefiniSenha, $conexao);
+        if($redefiniSenhaService->deletar()){
+            $usuario = new Usuarios;
+            $usuario->__set('email', $email);
+            $usuario->__set('senha', $_POST['senha']);
+            $usuarioService = new usuarioService($usuario, $conexao);
+            if($usuarioService->atualizaSenha()){
+                header('location:login.php?sucesso=trocaDeSenha');
+                die();
+            }
+        }
+    }else if($_POST['senha'] != $_POST['nova_senha']){
+        header('location:nova-senha.php?email='.$email.'&token='.$token);
+        die();
+    }
+    // if($_POST[''])
 }
 ?>

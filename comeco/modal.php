@@ -243,3 +243,66 @@
         </div>
     </div>
 </div>
+<!-- Solicitação feita -->
+<div class="modal" tabindex="-1" role="dialog" id="solicitacaoFeita" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success">Solicitação feita</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharSolicitacao">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Solicitação realizada com sucesso
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-success" id="btnSolicitacao">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Solicitação já feita -->
+<div class="modal" tabindex="-1" role="dialog" id="solicitacaoJaFeita" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Solicitação já feita</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharSolicitacaoJa">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Você já fez essa solicitação
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnSolicitacaoJa">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Solicitação usuário inexistente -->
+<div class="modal" tabindex="-1" role="dialog" id="solicitacaoUsuario" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Usuário inexistente</h5>
+                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" id="fecharSolicitacaoUsuario">
+                    <span aria-hidden="true"><i class="fa-solid fa-x fa-sm"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    não existe nenhum usuário vinculado à este email
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-danger" id="btnSolicitacaoUsuario">Ok!</a>
+            </div>
+        </div>
+    </div>
+</div>

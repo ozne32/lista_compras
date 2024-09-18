@@ -44,4 +44,11 @@ class UsuarioService{
         $smtm->execute();
         return $smtm->fetch(PDO::FETCH_OBJ);
     }
+    public function atualizaSenha(){
+        $query = 'UPDATE tb_usuarios set senha = ? where email = ?';
+        $smtm = $this->conn->prepare($query);
+        $smtm->bindValue(1, $this->usuario->senha);
+        $smtm->bindValue(2, $this->usuario->email);
+        return $smtm->execute();
+    }
 }

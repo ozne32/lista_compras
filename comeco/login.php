@@ -70,6 +70,45 @@
             })
 </script>
 <?php }?>
+<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'solicitacaoFeita') { ?>
+    <script>
+        $(document).ready(() => {
+            $('#solicitacaoFeita').modal('show')
+            $('#btnSolicitacao').on('click', () => {
+                $('#solicitacaoFeita').modal('hide')
+            })
+            $('#fecharSolicitacao').on('click', () => {
+                $('#solicitacaoFeita').modal('hide')
+            })
+        })
+    </script>
+<?php } ?>
+<?php if (isset($_GET['erro']) && $_GET['erro'] == 'solicitacaoFeita') { ?>
+    <script>
+        $(document).ready(() => {
+            $('#solicitacaoJaFeita').modal('show')
+            $('#fecharSolicitacaoJa').on('click', () => {
+                $('#solicitacaoJaFeita').modal('hide')
+            })
+            $('#btnSolicitacaoJa').on('click', () => {
+                $('#solicitacaoJaFeita').modal('hide')
+            })
+        })
+    </script>
+<?php } ?>
+<?php if (isset($_GET['erro']) && $_GET['erro'] == 'usuarioInexistente') { ?>
+    <script>
+        $(document).ready(() => {
+            $('#solicitacaoUsuario').modal('show')
+            $('#fecharSolicitacaoUsuario').on('click', () => {
+                $('#solicitacaoUsuario').modal('hide')
+            })
+            $('#btnSolicitacaoUsuario').on('click', () => {
+                $('#solicitacaoUsuario').modal('hide')
+            })
+        })
+    </script>
+<?php } ?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
