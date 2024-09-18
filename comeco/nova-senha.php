@@ -17,34 +17,25 @@
     <nav class="navbar bg-warning fixed-top">
         <div class="container">
             <h2 class="display-4 fw-normal text-center titulo">Compras</h2>
-            <div class="ml-auto">
-                <button class="btn btn-danger" onclick="window.location.href='login.php'">Login</button>
-                <button class="btn btn-danger" onclick="window.location.href='sign-up.php'">Sign-up</button>
-            </div>
         </div>
     </nav>
 </header>
 <main class="container mt-5  d-flex justify-content-center">
     <div style="margin-top:120px; width: 100%; max-width: 500px">
         <div class="card mx-auto"><!-- começo do card -->
-            <div class="card-header">Login:</div>
+            <div class="card-header">Recuperar senha:</div>
             <div class="card-body"> <!--começo do card-body-->
                 <form action="controller.php?acao=login" method="post">
                     <label for="email">Email:</label>
                     <input name='email' class="form-control" type="email" placeholder="exemplo:nome@gmail.com">
-                    <label for="senha">Senha:</label>
-                    <input type="password" name='senha' class="form-control">
                     <div class="row">
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-warning mt-3">Entrar</button>
-                        </div>
-                        <div class="col-md-10" style="margin-top:25px">
+                        <div class="col-md-7">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <small><a href="sign-up.php" style="text-decoration: none;">Não tem conta? Clique aqui</a></small>
+                                <div class="col-md-5">
+                                    <button type="submit" class="btn btn-danger mt-3" onclick="window.location.href='login.php'">Voltar</button>
                                 </div>
-                                <div class="col-md-6">
-                                    <small><a href="nova-senha.php" style="text-decoration: none;">Esqueceu a senha? Clique aqui</a></small>
+                                <div class="col-md-7">
+                                    <button type="submit" class="btn btn-success mt-3">Mandar email</button>
                                 </div>
                             </div>
                         </div>
