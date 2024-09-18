@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <title>Login</title>
+    <title>Recupera senha</title>
 </head>
 <header class="container mb-5">
     <nav class="navbar bg-warning fixed-top">
@@ -25,42 +25,36 @@
         <div class="card mx-auto"><!-- começo do card -->
             <div class="card-header">Recuperar senha:</div>
             <div class="card-body"> <!--começo do card-body-->
-                <form action="controller.php?acao=login" method="post">
+                <form action="controller.php?acao=nova-senha" method="post">
                     <label for="email">Email:</label>
                     <input name='email' class="form-control" type="email" placeholder="exemplo:nome@gmail.com">
                     <div class="row">
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <button type="submit" class="btn btn-danger mt-3" onclick="window.location.href='login.php'">Voltar</button>
-                                </div>
-                                <div class="col-md-7">
-                                    <button type="submit" class="btn btn-success mt-3">Mandar email</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" style="margin-top:25px">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success mt-3">Mandar email</button>
                         </div>
                     </div>
-                </form>
-            </div><!--final do card-body-->
-        </div><!--final do card-->
+                    <div class="col-md-6" style="margin-top:25px">
+                    </div>
+            </div>
+            </form>
+        </div><!--final do card-body-->
+    </div><!--final do card-->
     </div>
 </main>
-<?php require_once 'modal.php';?>
-<?php if(isset($_GET['erro']) && $_GET['erro'] == 'user-senhaErrada'){?>
-<script>
-    $(document).ready(() => {
-                $('#loginErrado').modal('show')
-                $('#okButton3').on('click', ()=>{
-                    $('#loginErrado').modal('hide')
-                })
-                $('#fecharId3').on('click', ()=>{
-                    $('#loginErrado').modal('hide')
-                })
+<?php require_once 'modal.php'; ?>
+<?php if (isset($_GET['erro']) && $_GET['erro'] == 'user-senhaErrada') { ?>
+    <script>
+        $(document).ready(() => {
+            $('#loginErrado').modal('show')
+            $('#okButton3').on('click', () => {
+                $('#loginErrado').modal('hide')
             })
-</script>
-<?php }?>
+            $('#fecharId3').on('click', () => {
+                $('#loginErrado').modal('hide')
+            })
+        })
+    </script>
+<?php } ?>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
     integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
     crossorigin="anonymous"></script>
