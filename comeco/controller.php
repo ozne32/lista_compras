@@ -620,8 +620,8 @@ if ($acao == 'novaSenha') {
                 $mail->isSMTP();                                          //Send using SMTP
                 $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
                 $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-                $mail->Username =                      //SMTP username --> email
-                $mail->Password =                                //SMTP password -->senha
+                $mail->Username = 'seu email legal';                     //SMTP username --> email
+                $mail->Password = 'senha genérica';                               //SMTP password -->senha
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
                 $mail->Port = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
