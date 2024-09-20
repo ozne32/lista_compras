@@ -7,8 +7,8 @@ services:
     environment:
       RELAY_HOST: smtp.gmail.com
       RELAY_PORT: 587
-      RELAY_USERNAME: enzorcc.mf3rs@gmail.com
-      RELAY_PASSWORD: ijrl cwda fczs bgle
+      RELAY_USERNAME: Coloca o email
+      RELAY_PASSWORD: Coloca a senha
   db:
     image: mariadb:latest
     restart: always
