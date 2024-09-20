@@ -255,7 +255,7 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Solicitação realizada com sucesso
+                    Solicitação realizada com sucesso, verifique o seu email
                 </p>
             </div>
             <div class="modal-footer">

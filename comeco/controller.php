@@ -620,8 +620,8 @@ if ($acao == 'novaSenha') {
                 $mail->isSMTP();                                          //Send using SMTP
                 $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
                 $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-                $mail->Username = 'emailGenerico';                     //SMTP username
-                $mail->Password = 'senhaLinda';                               //SMTP password
+                $mail->Username = 'enzorcc.mf3rs@gmail.com';                     //SMTP username
+                $mail->Password = 'ijrl cwda fczs bgle';                               //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
                 $mail->Port = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -637,7 +637,7 @@ if ($acao == 'novaSenha') {
                 if ($redefiniSenhaService->adicionar()) {
                     echo "<script> window.location.href = 'login.php?sucesso=solicitacaoFeita'</script>";
                     // header('location: login.php?sucesso=solicitacaoFeita');
-                    // die();
+                    die();
                 }
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
